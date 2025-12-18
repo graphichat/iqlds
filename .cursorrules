@@ -1,0 +1,224 @@
+# Cursor Rules for IQ LDS Project
+
+## Documentation Maintenance
+
+### Critical Rule: Always Update Documentation
+When making changes to patterns, design system, components, or layouts, **MUST** update the corresponding documentation:
+
+- **Pattern Changes**: Update `docs/page-layouts.md` or `docs/creating-pages.md`
+- **Design System Changes**: Update `docs/design-system.md` (colors, typography, spacing, etc.)
+- **Component Changes**: Update `docs/components.md` or `COMPONENTS.md`
+- **New Patterns**: Create new documentation or update existing docs
+
+### Documentation Update Checklist
+Before committing changes that affect UI/UX:
+- [ ] Updated relevant documentation files
+- [ ] Added code examples if introducing new patterns
+- [ ] Updated examples if patterns changed
+- [ ] Verified documentation accuracy
+
+## Design System
+
+### Design Tokens
+- Use CSS variables for theming (defined in `src/index.css`)
+- Follow the spacing scale: multiples of 4px (space-1 through space-16)
+- Use semantic color names: `primary`, `secondary`, `muted`, `destructive`
+- Maintain consistent border radius: `rounded-md` (6px) for most components
+
+### Color System
+- Base color: `neutral` (from components.json)
+- Use `cssVariables: true` for theme support
+- Dark mode: Automatically handled via CSS variables
+- Never hardcode colors - always use design tokens
+
+### Typography
+- Default font: System UI fonts
+- Font sizes: Use Tailwind scale (text-xs through text-4xl)
+- Font weights: `font-normal` (400), `font-medium` (500), `font-semibold` (600), `font-bold` (700)
+- Line heights: Use default Tailwind line heights
+
+### Spacing
+- Page padding: `py-8` or `py-12` for vertical spacing
+- Section spacing: `space-y-6` or `space-y-8` between sections
+- Container padding: `px-4` or `px-6` for horizontal padding
+- Gap: Use `gap-{size}` for flex/grid layouts
+
+## Component Usage
+
+### Component Library
+- Use shadcn/ui components from `@/components/ui`
+- Style: `radix-nova` (from components.json)
+- Icon library: `lucide` (from components.json)
+- Import path: `@/components/ui/{component-name}`
+
+### Component Patterns
+- Prefer composition over configuration
+- Use component variants when available
+- Extend components rather than creating new ones
+- Maintain accessibility (ARIA labels, semantic HTML)
+
+### Component File Structure
+- Components in `src/components/ui/`
+- Use TypeScript with `.tsx` extension
+- Export all component parts (e.g., Card, CardHeader, CardContent)
+
+## Page Creation
+
+### Page Structure
+- Place pages in appropriate routing directory
+- Use semantic HTML (`<main>`, `<section>`, `<article>`)
+- Include proper page structure:
+  ```tsx
+  <div className="container mx-auto py-8">
+    <h1>Page Title</h1>
+    {/* Content */}
+  </div>
+  ```
+
+### Layout Patterns
+- **Container Layout**: Use `container mx-auto` for centered content
+- **Full-Width**: Use `w-full` for full-width layouts
+- **Grid**: Use `grid` with responsive columns
+- **Flex**: Use `flex` for flexible arrangements
+- **Sidebar**: Use Sidebar component for navigation layouts
+
+### Responsive Design
+- Mobile-first approach
+- Use Tailwind breakpoints: `sm`, `md`, `lg`, `xl`, `2xl`
+- Test on multiple screen sizes
+- Ensure touch targets are at least 44x44px
+
+## Code Style
+
+### TypeScript
+- Use TypeScript for all components
+- Define proper types and interfaces
+- Use `React.ComponentProps` for component prop types
+- Avoid `any` types
+
+### React Patterns
+- Use functional components with hooks
+- Prefer named exports for components
+- Use `cn()` utility for className merging
+- Handle loading and error states
+
+### File Naming
+- Components: `kebab-case.tsx` (e.g., `button-group.tsx`)
+- Pages: `PascalCase.tsx` (e.g., `HomePage.tsx`)
+- Utilities: `kebab-case.ts` (e.g., `format-date.ts`)
+
+### Import Organization
+```tsx
+// 1. React imports
+import * as React from "react"
+
+// 2. Third-party imports
+import { Component } from "library"
+
+// 3. Internal imports - UI components
+import { Button } from "@/components/ui/button"
+
+// 4. Internal imports - Utilities
+import { cn } from "@/lib/utils"
+
+// 5. Internal imports - Types
+import type { ComponentProps } from "@/types"
+```
+
+## Path Aliases
+Use the configured path aliases from `components.json`:
+- `@/components` - Components directory
+- `@/components/ui` - UI components
+- `@/lib` - Utility functions
+- `@/lib/utils` - Utility functions (cn, etc.)
+- `@/hooks` - Custom React hooks
+
+## Accessibility
+
+### Requirements
+- All interactive elements must be keyboard accessible
+- Use semantic HTML elements
+- Include ARIA labels where needed
+- Ensure color contrast meets WCAG AA standards
+- Test with screen readers
+
+### ARIA Patterns
+- Use `aria-label` for icon-only buttons
+- Use `aria-describedby` for form field descriptions
+- Use `role` attributes when semantic HTML isn't sufficient
+- Manage focus states properly
+
+## Performance
+
+### Best Practices
+- Lazy load heavy components
+- Optimize images (use next/image if available)
+- Minimize bundle size
+- Use React.memo for expensive components
+- Avoid unnecessary re-renders
+
+## Testing
+
+### Component Testing
+- Test component rendering
+- Test user interactions
+- Test accessibility
+- Test responsive behavior
+
+## Git Workflow
+
+### Commit Messages
+When committing documentation updates:
+- Format: `docs: {description}` for documentation changes
+- Format: `feat: {description}` for new features with docs
+- Format: `fix: {description}` for bug fixes with docs
+
+### Documentation Changes
+- Always update docs in the same commit as code changes
+- Include examples when adding new patterns
+- Update related documentation files
+- Verify links and references
+
+## Design Decisions
+
+### When to Update Documentation
+Update documentation when:
+- Adding new layout patterns
+- Changing design tokens (colors, spacing, typography)
+- Introducing new component patterns
+- Modifying existing patterns
+- Adding new design guidelines
+- Changing accessibility requirements
+
+### Documentation Files
+- `docs/README.md` - Documentation index
+- `docs/creating-pages.md` - Page creation guide
+- `docs/page-layouts.md` - Layout patterns
+- `docs/components.md` - Component usage
+- `docs/design-system.md` - Design tokens and guidelines
+- `COMPONENTS.md` - Component installation list
+
+## Reminders
+
+### Before Making UI Changes
+1. Check existing patterns in documentation
+2. Review design system guidelines
+3. Ensure consistency with existing code
+4. Plan documentation updates
+
+### After Making UI Changes
+1. Update relevant documentation
+2. Add/update code examples
+3. Verify documentation accuracy
+4. Update related documentation files
+5. Check for broken links or references
+
+## Project-Specific Notes
+
+- Style: `radix-nova` (shadcn/ui)
+- Icon Library: `hugeicons`
+- Base Color: `neutral`
+- CSS Variables: Enabled
+- TypeScript: Enabled
+- React Server Components: Disabled (RSC: false)
+
