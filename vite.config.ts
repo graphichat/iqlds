@@ -14,4 +14,10 @@ export default defineConfig({
   server: {
     port: 5178,
   },
+  build: {
+    outDir: "dist",
+    assetsDir: "assets",
+    sourcemap: false,
+  },
+  publicDir: "public",
 })
