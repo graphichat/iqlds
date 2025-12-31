@@ -10,7 +10,9 @@
 export { LoginPage } from "./LoginPage"
 export { SignupPage } from "./SignupPage"
 export { PasswordResetPage } from "./PasswordResetPage"
-export { DefaultPageWithSidebar } from "./DefaultPageWithSidebar"
+export { NotFoundPage } from "./NotFoundPage"
+export { ComponentsPage } from "./ComponentsPage"
 export { PageWithTable, PageWithTableExample } from "./PageWithTable"
+
 
 

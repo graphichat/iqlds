@@ -1,5 +1,6 @@
 import * as React from "react"
-import { DefaultPageWithSidebar } from "./DefaultPageWithSidebar"
+import { PageShell } from "@/components/layouts/page-shell"
+import { PageHeader } from "@/components/blocks/page-header"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -22,7 +23,6 @@ import {
 import { Switch } from "@/components/ui/switch"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
-import { Home, BarChart3, File, Settings, FileText, User, Bell, Shield } from "lucide-react"
 
 function ProfileForm() {
   const [formData, setFormData] = React.useState({
@@ -313,17 +313,19 @@ function SubscriptionForm() {
 
 export function FormsPage() {
   return (
-    <DefaultPageWithSidebar
-      pageTitle="Account Settings"
-      pageDescription="Manage your account settings and preferences"
-    >
-      <div className="mx-auto max-w-4xl space-y-6">
-        <ProfileForm />
-        <div className="grid gap-6 md:grid-cols-2">
-          <NotificationSettings />
-          <SubscriptionForm />
+    <PageShell>
+      <PageHeader title="Account Settings" />
+      <div className="flex-1 overflow-auto">
+        <div className="container mx-auto py-6 px-4">
+          <div className="mx-auto max-w-4xl space-y-6">
+            <ProfileForm />
+            <div className="grid gap-6 md:grid-cols-2">
+              <NotificationSettings />
+              <SubscriptionForm />
+            </div>
+          </div>
         </div>
       </div>
-    </DefaultPageWithSidebar>
+    </PageShell>
   )
 }

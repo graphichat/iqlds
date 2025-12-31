@@ -1,7 +1,9 @@
 import * as React from "react"
-import { TrendingUp, TrendingDown, Users, DollarSign, ShoppingCart, Activity, Eye, MousePointerClick } from "lucide-react"
+import { Users, DollarSign, Eye, MousePointerClick, TrendingUp } from "lucide-react"
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, XAxis, Line, LineChart } from "recharts"
-import { DefaultPageWithSidebar } from "./DefaultPageWithSidebar"
+import { PageShell } from "@/components/layouts/page-shell"
+import { PageHeaderWithTabs } from "@/components/patterns/page-header-with-tabs"
+import { MetricCard } from "@/components/blocks/metric-card"
 import {
   Card,
   CardContent,
@@ -27,8 +29,6 @@ import {
 } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Home, BarChart3, File, Settings, TrendingUp as TrendingUpIcon } from "lucide-react"
 
 // Revenue Analytics Data
 const revenueData = [
@@ -364,66 +364,33 @@ function UserActivityChart() {
   )
 }
 
-function MetricCard({ 
-  title, 
-  value, 
-  change, 
-  trend, 
-  icon: Icon,
-  description 
-}: { 
-  title: string
-  value: string
-  change: string
-  trend: "up" | "down"
-  icon: React.ComponentType<{ className?: string }>
-  description?: string
-}) {
-  return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        <Icon className="h-4 w-4 text-muted-foreground" />
-      </CardHeader>
-      <CardContent>
-        <div className="text-2xl font-bold">{value}</div>
-        <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
-          {trend === "up" ? (
-            <TrendingUp className="h-3 w-3 text-green-500" />
-          ) : (
-            <TrendingDown className="h-3 w-3 text-red-500" />
-          )}
-          <span>{change}</span>
-          <span>from last month</span>
-        </div>
-        {description && (
-          <p className="text-xs text-muted-foreground mt-2">{description}</p>
-        )}
-      </CardContent>
-    </Card>
-  )
-}
 
 export function ChartsPage() {
+  const [activeTab, setActiveTab] = React.useState("overview")
+
   return (
-    <DefaultPageWithSidebar
-      pageTitle="Analytics Dashboard"
-      pageDescription="Comprehensive analytics and performance metrics"
-      pageTag="Live"
-      pageActions={
-        <>
-          <Button variant="outline">Export Report</Button>
-          <Button>Schedule Report</Button>
-        </>
-      }
-      pageTabs={[
-        { value: "overview", label: "Overview" },
-        { value: "revenue", label: "Revenue" },
-        { value: "traffic", label: "Traffic" },
-        { value: "users", label: "Users" },
-      ]}
-    >
-      <div className="space-y-6">
+    <PageShell>
+      <PageHeaderWithTabs
+        title="Analytics Dashboard"
+        actions={
+          <>
+            <Badge variant="secondary" className="mr-2">Live</Badge>
+            <Button variant="outline">Export Report</Button>
+            <Button>Schedule Report</Button>
+          </>
+        }
+        tabs={[
+          { value: "overview", label: "Overview" },
+          { value: "revenue", label: "Revenue" },
+          { value: "traffic", label: "Traffic" },
+          { value: "users", label: "Users" },
+        ]}
+        value={activeTab}
+        onValueChange={setActiveTab}
+      />
+      <div className="flex-1 overflow-auto">
+        <div className="container mx-auto py-6 px-4">
+          <div className="space-y-6">
         {/* Key Metrics */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <MetricCard
@@ -433,6 +400,7 @@ export function ChartsPage() {
             trend="up"
             icon={DollarSign}
             description="Last 30 days"
+            variant="compact"
           />
           <MetricCard
             title="Active Users"
@@ -441,6 +409,7 @@ export function ChartsPage() {
             trend="up"
             icon={Users}
             description="Currently online"
+            variant="compact"
           />
           <MetricCard
             title="Page Views"
@@ -449,6 +418,7 @@ export function ChartsPage() {
             trend="up"
             icon={Eye}
             description="Total views this month"
+            variant="compact"
           />
           <MetricCard
             title="Conversion Rate"
@@ -457,6 +427,7 @@ export function ChartsPage() {
             trend="up"
             icon={MousePointerClick}
             description="Click-through rate"
+            variant="compact"
           />
         </div>
 
@@ -469,7 +440,9 @@ export function ChartsPage() {
         </div>
 
         <TrafficSourcesChart />
+          </div>
+        </div>
       </div>
-    </DefaultPageWithSidebar>
+    </PageShell>
   )
 }

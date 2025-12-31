@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Lock, Mail, User } from "lucide-react"
+import { Lock, Mail, User, Sparkles } from "lucide-react"
 import { ICON_STROKE_WIDTH } from "@/lib/constants"
 
 /**
@@ -52,7 +52,7 @@ export function SignupPage({
   showLoginLink = true,
   loginLink = "/login",
   logo,
-  logoText = "IQ LDS",
+  logoText = "IQLine Inc.",
 }: SignupPageProps) {
   const [name, setName] = React.useState("")
   const [email, setEmail] = React.useState("")
@@ -89,29 +89,21 @@ export function SignupPage({
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted py-12 px-6">
-      <div className="w-full max-w-md space-y-8">
-        {/* Logo and Back Link */}
-        <div className="flex flex-col items-center space-y-6">
-          <Link 
-            to="/" 
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors self-start"
-          >
-            ← Back to Home
-          </Link>
-          
-          {/* Logo Area */}
-          <div className="flex flex-col items-center space-y-4">
+    <div className="flex min-h-svh w-full items-center justify-center bg-muted p-6 md:p-10">
+      <div className="w-full max-w-sm space-y-6">
+        {/* Logo Area */}
+        {(logo || logoText) && (
+          <div className="flex items-center justify-center gap-2">
             {logo || (
-              <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-                <span className="text-2xl font-bold">IQ</span>
+              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                <Sparkles strokeWidth={ICON_STROKE_WIDTH} className="size-4" />
               </div>
             )}
             {logoText && (
-              <h1 className="text-2xl font-semibold text-foreground">{logoText}</h1>
+              <span className="text-lg font-semibold">{logoText}</span>
             )}
           </div>
-        </div>
+        )}
 
         {/* Signup Card */}
         <Card>
@@ -240,6 +232,16 @@ export function SignupPage({
             </CardContent>
           </form>
         </Card>
+
+        {/* Back to Home Link */}
+        <div className="text-center">
+          <Link 
+            to="/" 
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            ← Back to Home
+          </Link>
+        </div>
       </div>
     </div>
   )

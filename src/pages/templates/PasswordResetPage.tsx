@@ -1,5 +1,6 @@
 import * as React from "react"
 import { Link } from "react-router-dom"
+import { PasswordResetForm } from "@/components/blocks/password-reset-form"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -8,9 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Mail, ArrowLeft } from "lucide-react"
+import { ArrowLeft, Sparkles } from "lucide-react"
 import { ICON_STROKE_WIDTH } from "@/lib/constants"
 
 /**
@@ -45,22 +44,22 @@ export function PasswordResetPage({
   showLoginLink = true,
   loginLink = "/login",
   logo,
-  logoText = "IQ LDS",
+  logoText = "IQLine Inc.",
 }: PasswordResetPageProps) {
   const [email, setEmail] = React.useState("")
   const [isLoading, setIsLoading] = React.useState(false)
   const [isSubmitted, setIsSubmitted] = React.useState(false)
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleReset = async (resetEmail: string) => {
     setIsLoading(true)
+    setEmail(resetEmail)
     
     try {
       if (onReset) {
-        await onReset(email)
+        await onReset(resetEmail)
       } else {
         // Default behavior - replace with your reset logic
-        console.log("Password reset requested for:", email)
+        console.log("Password reset requested for:", resetEmail)
       }
       setIsSubmitted(true)
     } finally {
@@ -70,138 +69,108 @@ export function PasswordResetPage({
 
   if (isSubmitted) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-muted py-12 px-6">
-        <div className="w-full max-w-md space-y-8">
-          {/* Logo and Back Link */}
-          <div className="flex flex-col items-center space-y-6">
-            <Link 
-              to="/" 
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors self-start"
-            >
-              ← Back to Home
-            </Link>
-            
-            {/* Logo Area */}
-            <div className="flex flex-col items-center space-y-4">
+      <div className="flex min-h-svh w-full items-center justify-center bg-muted p-6 md:p-10">
+        <div className="w-full max-w-sm space-y-6">
+          {/* Logo Area */}
+          {(logo || logoText) && (
+            <div className="flex items-center justify-center gap-2">
               {logo || (
-                <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-                  <span className="text-2xl font-bold">IQ</span>
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                  <Sparkles strokeWidth={ICON_STROKE_WIDTH} className="size-4" />
                 </div>
               )}
               {logoText && (
-                <h1 className="text-2xl font-semibold text-foreground">{logoText}</h1>
+                <span className="text-lg font-semibold">{logoText}</span>
               )}
             </div>
-          </div>
+          )}
 
           {/* Success Card */}
-          <Card>
-            <CardHeader className="space-y-2 text-center">
-              <CardTitle className="text-2xl font-semibold">Check your email</CardTitle>
+          <Card className="w-full max-w-sm">
+            <CardHeader>
+              <CardTitle>Check your email</CardTitle>
               <CardDescription>
                 We've sent a password reset link to {email}
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="rounded-lg bg-muted p-4 text-center text-sm">
-                <p className="text-muted-foreground">
-                  If an account exists with this email, you will receive a password reset link.
-                  Please check your inbox and follow the instructions.
-                </p>
-              </div>
-              {showLoginLink && (
-                <Button variant="outline" className="w-full" asChild>
-                  <Link to={loginLink}>
-                    <ArrowLeft strokeWidth={ICON_STROKE_WIDTH} className="mr-2 size-4" />
-                    Back to login
-                  </Link>
+            <CardContent>
+              <div className="grid gap-4">
+                <div className="rounded-lg bg-muted p-4 text-center text-sm">
+                  <p className="text-muted-foreground">
+                    If an account exists with this email, you will receive a password reset link.
+                    Please check your inbox and follow the instructions.
+                  </p>
+                </div>
+                {showLoginLink && (
+                  <Button variant="outline" className="w-full" asChild>
+                    <Link to={loginLink}>
+                      <ArrowLeft strokeWidth={ICON_STROKE_WIDTH} className="mr-2 h-4 w-4" />
+                      Back to login
+                    </Link>
+                  </Button>
+                )}
+                <Button
+                  variant="ghost"
+                  className="w-full"
+                  onClick={() => {
+                    setIsSubmitted(false)
+                    setEmail("")
+                  }}
+                >
+                  Resend email
                 </Button>
-              )}
-              <Button
-                variant="ghost"
-                className="w-full"
-                onClick={() => {
-                  setIsSubmitted(false)
-                  setEmail("")
-                }}
-              >
-                Resend email
-              </Button>
+              </div>
             </CardContent>
           </Card>
+
+          {/* Back to Home Link */}
+          <div className="text-center">
+            <Link 
+              to="/" 
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              ← Back to Home
+            </Link>
+          </div>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted py-12 px-6">
-      <div className="w-full max-w-md space-y-8">
-        {/* Logo and Back Link */}
-        <div className="flex flex-col items-center space-y-6">
-          <Link 
-            to="/" 
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors self-start"
-          >
-            ← Back to Home
-          </Link>
-          
-          {/* Logo Area */}
-          <div className="flex flex-col items-center space-y-4">
+    <div className="flex min-h-svh w-full items-center justify-center bg-muted p-6 md:p-10">
+      <div className="w-full max-w-sm space-y-6">
+        {/* Logo Area */}
+        {(logo || logoText) && (
+          <div className="flex items-center justify-center gap-2">
             {logo || (
-              <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-                <span className="text-2xl font-bold">IQ</span>
+              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                <Sparkles strokeWidth={ICON_STROKE_WIDTH} className="size-4" />
               </div>
             )}
             {logoText && (
-              <h1 className="text-2xl font-semibold text-foreground">{logoText}</h1>
+              <span className="text-lg font-semibold">{logoText}</span>
             )}
           </div>
-        </div>
+        )}
 
-        {/* Password Reset Card */}
-        <Card>
-          <CardHeader className="space-y-2 text-center">
-            <CardTitle className="text-2xl font-semibold">Reset password</CardTitle>
-            <CardDescription>
-              Enter your email address and we'll send you a link to reset your password
-            </CardDescription>
-          </CardHeader>
-          <form onSubmit={handleSubmit}>
-            <CardContent className="space-y-6">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <div className="relative">
-                  <Mail
-                    strokeWidth={ICON_STROKE_WIDTH}
-                    className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground pointer-events-none"
-                  />
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="name@example.com"
-                    className="pl-9"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    disabled={isLoading}
-                  />
-                </div>
-              </div>
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Sending..." : "Send reset link"}
-              </Button>
-              {showLoginLink && (
-                <Button variant="ghost" className="w-full" asChild>
-                  <Link to={loginLink}>
-                    <ArrowLeft strokeWidth={ICON_STROKE_WIDTH} className="mr-2 size-4" />
-                    Back to login
-                  </Link>
-                </Button>
-              )}
-            </CardContent>
-          </form>
-        </Card>
+        {/* Password Reset Form */}
+        <PasswordResetForm
+          onReset={handleReset}
+          showLoginLink={showLoginLink}
+          loginLink={loginLink}
+          isLoading={isLoading}
+        />
+
+        {/* Back to Home Link */}
+        <div className="text-center">
+          <Link 
+            to="/" 
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            ← Back to Home
+          </Link>
+        </div>
       </div>
     </div>
   )

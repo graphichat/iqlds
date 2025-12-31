@@ -1,5 +1,6 @@
 import * as React from "react"
-import { DefaultPageWithSidebar } from "./DefaultPageWithSidebar"
+import { PageShell } from "@/components/layouts/page-shell"
+import { PageHeaderWithBack } from "@/components/patterns/page-header-with-back"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -27,7 +28,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ChevronDown, Plus, Filter, X } from "lucide-react"
 import { ICON_STROKE_WIDTH } from "@/lib/constants"
-import { TrayCard, type Tray, type WellStatus } from "@/components/tray-card"
+import { TrayCard, type Tray, type Well, type WellStatus } from "@/components/tray-card"
 
 // Sample Data
 const generateTrays = (): Tray[] => {
@@ -287,31 +288,30 @@ export function TraysPage() {
   }
 
   return (
-    <DefaultPageWithSidebar
-      pageTitle="Trays Management"
-      pageDescription="Track and manage samples within various trays"
-      pageBackButton={{
-        href: "/",
-        label: "Back",
-      }}
-      pageActions={
-        <>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline">
-                <Filter strokeWidth={ICON_STROKE_WIDTH} className="mr-2 h-4 w-4" />
-                Actions
-                <ChevronDown strokeWidth={ICON_STROKE_WIDTH} className="ml-2 h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Export Data</DropdownMenuItem>
-              <DropdownMenuItem>Print Report</DropdownMenuItem>
-              <DropdownMenuItem>Bulk Update</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
+    <PageShell>
+      <PageHeaderWithBack
+        title="Trays Management"
+        backButton={{
+          href: "/",
+        }}
+        actions={
+          <>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">
+                  <Filter strokeWidth={ICON_STROKE_WIDTH} className="mr-2 h-4 w-4" />
+                  Actions
+                  <ChevronDown strokeWidth={ICON_STROKE_WIDTH} className="ml-2 h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Export Data</DropdownMenuItem>
+                <DropdownMenuItem>Print Report</DropdownMenuItem>
+                <DropdownMenuItem>Bulk Update</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Settings</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <Button>
@@ -320,8 +320,10 @@ export function TraysPage() {
           </Button>
         </>
       }
-    >
-      <div className="space-y-6">
+      />
+      <div className="flex-1 overflow-auto">
+        <div className="container mx-auto py-6 px-4">
+          <div className="space-y-6">
         {/* Filters Section */}
         <Card>
           <CardContent className="space-y-4 pt-4">
@@ -451,7 +453,9 @@ export function TraysPage() {
             />
           ))}
         </div>
+          </div>
+        </div>
       </div>
-    </DefaultPageWithSidebar>
+    </PageShell>
   )
 }

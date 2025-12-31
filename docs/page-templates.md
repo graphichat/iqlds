@@ -225,3 +225,4 @@ When creating new templates:
 See `src/pages/templates/` for complete template implementations and examples.
 
 
+

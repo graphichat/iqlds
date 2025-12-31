@@ -4,8 +4,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { User, Lock, PanelLeftOpen, File, ArrowRight, Home, BarChart3, Settings, CreditCard, FileText, TrendingUp, Sparkles, Grid3x3 } from "lucide-react"
-import { DefaultPageWithSidebar } from "@/pages/templates/DefaultPageWithSidebar"
+import { User, Lock, File, ArrowRight, BarChart3, Settings, CreditCard, TrendingUp, Sparkles, Grid3x3, Package } from "lucide-react"
+import { PageShell } from "@/components/layouts/page-shell"
+import { PageHeader } from "@/components/blocks/page-header"
 import { ICON_STROKE_WIDTH } from "@/lib/constants"
 
 /**
@@ -101,6 +102,14 @@ const pages: PageLink[] = [
     category: "data",
     featured: true,
   },
+  {
+    title: "Components",
+    description: "Browse all UI components, blocks, layouts, and patterns in the design system",
+    icon: Package,
+    href: "/components",
+    category: "layout",
+    featured: true,
+  },
 ]
 
 const categories = {
@@ -116,7 +125,6 @@ function PageCard({ page }: { page: PageLink }) {
         <div className="flex items-start justify-between mb-2">
           <div className="rounded-lg bg-primary/10 p-3 group-hover:bg-primary/20 transition-colors">
             <page.icon
-              strokeWidth={ICON_STROKE_WIDTH}
               className="size-5 text-primary"
             />
           </div>
@@ -282,21 +290,18 @@ function HomePageContent() {
 
 export function HomePage() {
   return (
-    <DefaultPageWithSidebar
-      pageTitle="Page Examples"
-      pageDescription="Browse and explore comprehensive page examples and templates"
-      pageTag="Examples"
-      sidebarItems={[
-        { label: "Home", icon: Home, href: "/" },
-        { label: "Dashboard", icon: BarChart3, href: "/dashboard" },
-        { label: "Analytics", icon: TrendingUp, href: "/charts" },
-        { label: "Forms", icon: FileText, href: "/forms" },
-        { label: "Cards", icon: CreditCard, href: "/cards" },
-        { label: "Table Example", icon: File, href: "/table" },
-        { label: "Settings", icon: Settings, href: "/settings" },
-      ]}
-    >
-      <HomePageContent />
-    </DefaultPageWithSidebar>
+    <PageShell>
+      <PageHeader
+        title="Page Examples"
+        actions={
+          <Badge variant="secondary">Examples</Badge>
+        }
+      />
+      <div className="flex-1 overflow-auto">
+        <div className="container mx-auto py-6 px-4">
+          <HomePageContent />
+        </div>
+      </div>
+    </PageShell>
   )
 }

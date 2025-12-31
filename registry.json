@@ -1,0 +1,941 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "iqline-design-system",
+  "homepage": "https://github.com/graphichat/iqlds",
+  "description": "Canonical layout system components for Vite + React + shadcn applications",
+  "items": [
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "A vertically stacked set of interactive headings that each reveal a section of content",
+      "files": [
+        {
+          "path": "src/components/ui/accordion.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "description": "A modal dialog that interrupts the user with important content and expects a response",
+      "files": [
+        {
+          "path": "src/components/ui/alert-dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Displays a callout for user attention",
+      "files": [
+        {
+          "path": "src/components/ui/alert.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect Ratio",
+      "description": "Displays content within a desired ratio",
+      "files": [
+        {
+          "path": "src/components/ui/aspect-ratio.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "An image element with a fallback for representing the user",
+      "files": [
+        {
+          "path": "src/components/ui/avatar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Displays a badge or a component that looks like a badge",
+      "files": [
+        {
+          "path": "src/components/ui/badge.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "Displays the path to the current resource using a hierarchy of links",
+      "files": [
+        {
+          "path": "src/components/ui/breadcrumb.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button Group",
+      "description": "Groups buttons together",
+      "files": [
+        {
+          "path": "src/components/ui/button-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Displays a button or a component that looks like a button",
+      "files": [
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "A date field component that allows users to enter and edit date",
+      "files": [
+        {
+          "path": "src/components/ui/calendar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Displays a card with header, content, and footer",
+      "files": [
+        {
+          "path": "src/components/ui/card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "Carousel",
+      "description": "A carousel with motion and swipe built using Embla",
+      "files": [
+        {
+          "path": "src/components/ui/carousel.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "chart",
+      "type": "registry:ui",
+      "title": "Chart",
+      "description": "Recharts wrapper for building charts",
+      "files": [
+        {
+          "path": "src/components/ui/chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "A control that allows the user to toggle between checked and not checked",
+      "files": [
+        {
+          "path": "src/components/ui/checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "An interactive component which expands/collapses a panel",
+      "files": [
+        {
+          "path": "src/components/ui/collapsible.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "Autocomplete input and command palette with a list of suggestions",
+      "files": [
+        {
+          "path": "src/components/ui/combobox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "Fast, composable, unstyled command menu for React",
+      "files": [
+        {
+          "path": "src/components/ui/command.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    { 
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "description": "Displays a menu to the user — such as a set of actions or functions — triggered by a button",
+      "files": [
+        {
+          "path": "src/components/ui/context-menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "A window overlaid on either the primary window or another dialog window",
+      "files": [
+        {
+          "path": "src/components/ui/dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "A drawer component for mobile",
+      "files": [
+        {
+          "path": "src/components/ui/drawer.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "Displays a menu to the user — such as a set of actions or functions — triggered by a button",
+      "files": [
+        {
+          "path": "src/components/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "An empty state component",
+      "files": [
+        {
+          "path": "src/components/ui/empty.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "A form field component",
+      "files": [
+        {
+          "path": "src/components/ui/field.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover Card",
+      "description": "For sighted users to preview content available behind a link",
+      "files": [
+        {
+          "path": "src/components/ui/hover-card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input Group",
+      "description": "Groups inputs together",
+      "files": [
+        {
+          "path": "src/components/ui/input-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input OTP",
+      "description": "Accessible one-time password component with copy paste functionality",
+      "files": [
+        {
+          "path": "src/components/ui/input-otp.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Displays a form input field or a component that looks like an input field",
+      "files": [
+        {
+          "path": "src/components/ui/input.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "description": "A generic item component",
+      "files": [
+        {
+          "path": "src/components/ui/item.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "Displays keyboard keys or a combination of keys",
+      "files": [
+        {
+          "path": "src/components/ui/kbd.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "Renders an accessible label associated with controls",
+      "files": [
+        {
+          "path": "src/components/ui/label.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menubar",
+      "description": "A visually persistent menu common in desktop applications",
+      "files": [
+        {
+          "path": "src/components/ui/menubar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "native-select",
+      "type": "registry:ui",
+      "title": "Native Select",
+      "description": "Displays a native HTML select component",
+      "files": [
+        {
+          "path": "src/components/ui/native-select.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu",
+      "type": "registry:ui",
+      "title": "Navigation Menu",
+      "description": "A collection of links for navigating websites",
+      "files": [
+        {
+          "path": "src/components/ui/navigation-menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Pagination with page navigation",
+      "files": [
+        {
+          "path": "src/components/ui/pagination.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Displays rich content in a portal, triggered by a button",
+      "files": [
+        {
+          "path": "src/components/ui/popover.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Displays an indicator showing the completion progress of a task",
+      "files": [
+        {
+          "path": "src/components/ui/progress.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time",
+      "files": [
+        {
+          "path": "src/components/ui/radio-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "Resizable",
+      "description": "Accessible resizable panel groups and layouts with keyboard support",
+      "files": [
+        {
+          "path": "src/components/ui/resizable.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll Area",
+      "description": "Augments native scroll functionality for custom, cross-browser styling",
+      "files": [
+        {
+          "path": "src/components/ui/scroll-area.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Displays a list of options for the user to pick from—triggered by a button",
+      "files": [
+        {
+          "path": "src/components/ui/select.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "Visually or semantically separates content",
+      "files": [
+        {
+          "path": "src/components/ui/separator.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Extends the Dialog component to display content that complements the main content of the screen",
+      "files": [
+        {
+          "path": "src/components/ui/sheet.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "A sidebar component with collapsible support",
+      "files": [
+        {
+          "path": "src/components/ui/sidebar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Use to show a placeholder while content is loading",
+      "files": [
+        {
+          "path": "src/components/ui/skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "An input where the user selects a value from within a given range",
+      "files": [
+        {
+          "path": "src/components/ui/slider.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sonner",
+      "type": "registry:ui",
+      "title": "Sonner",
+      "description": "An opinionated toast component for React",
+      "files": [
+        {
+          "path": "src/components/ui/sonner.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "A loading spinner component",
+      "files": [
+        {
+          "path": "src/components/ui/spinner.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "A control that allows the user to toggle between checked and not checked",
+      "files": [
+        {
+          "path": "src/components/ui/switch.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "Powerful table and datagrid built with TanStack Table",
+      "files": [
+        {
+          "path": "src/components/ui/table.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "A set of layered sections of content—known as tab panels—that are displayed one at a time",
+      "files": [
+        {
+          "path": "src/components/ui/tabs.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Displays a form textarea or a component that looks like a textarea",
+      "files": [
+        {
+          "path": "src/components/ui/textarea.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "description": "A set of two-state buttons that can be toggled on or off",
+      "files": [
+        {
+          "path": "src/components/ui/toggle-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "A two-state button that can be either on or off",
+      "files": [
+        {
+          "path": "src/components/ui/toggle.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it",
+      "files": [
+        {
+          "path": "src/components/ui/tooltip.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "global-header",
+      "type": "registry:block",
+      "title": "Global Header",
+      "description": "Application-wide header with breadcrumbs, user menu, and notifications",
+      "files": [
+        {
+          "path": "src/components/blocks/global-header.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "@/components/ui/breadcrumb",
+        "@/components/ui/dropdown-menu",
+        "@/components/ui/button",
+        "@/components/ui/avatar",
+        "@/components/ui/separator",
+        "@/lib/navigation"
+      ]
+    },
+    {
+      "name": "global-sidebar",
+      "type": "registry:block",
+      "title": "Global Sidebar",
+      "description": "Application-wide left navigation sidebar with collapsible support",
+      "files": [
+        {
+          "path": "src/components/blocks/global-sidebar.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "@/components/ui/sidebar",
+        "@/components/ui/avatar",
+        "@/lib/sidebar-config"
+      ]
+    },
+    {
+      "name": "global-footer",
+      "type": "registry:block",
+      "title": "Global Footer",
+      "description": "Optional application-wide footer component",
+      "files": [
+        {
+          "path": "src/components/blocks/global-footer.tsx",
+          "type": "registry:block"
+        }
+      ]
+    },
+    {
+      "name": "page-header",
+      "type": "registry:block",
+      "title": "Page Header",
+      "description": "Page-level header with title, leading elements, and actions. Features sticky positioning and scroll detection.",
+      "files": [
+        {
+          "path": "src/components/blocks/page-header.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "@/lib/utils"
+      ]
+    },
+    {
+      "name": "page-tabs",
+      "type": "registry:block",
+      "title": "Page Tabs",
+      "description": "Tabs component for page-level navigation with controlled state support",
+      "files": [
+        {
+          "path": "src/components/blocks/page-tabs.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "@/components/ui/tabs"
+      ]
+    },
+    {
+      "name": "back-button",
+      "type": "registry:block",
+      "title": "Back Button",
+      "description": "Navigation back button supporting href, onClick, or browser history",
+      "files": [
+        {
+          "path": "src/components/blocks/back-button.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "@/components/ui/button",
+        "react-router-dom"
+      ]
+    },
+    {
+      "name": "login-form",
+      "type": "registry:block",
+      "title": "Login Form",
+      "description": "Reusable login form component with email/password fields, forgot password link, and signup link",
+      "files": [
+        {
+          "path": "src/components/blocks/login-form.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "@/components/ui/card",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/label",
+        "@/components/ui/separator",
+        "react-router-dom"
+      ]
+    },
+    {
+      "name": "password-reset-form",
+      "type": "registry:block",
+      "title": "Password Reset Form",
+      "description": "Reusable password reset form component with email input and back to login link",
+      "files": [
+        {
+          "path": "src/components/blocks/password-reset-form.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "@/components/ui/card",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/label",
+        "react-router-dom"
+      ]
+    },
+    {
+      "name": "data-table",
+      "type": "registry:block",
+      "title": "Data Table",
+      "description": "Comprehensive data table component with search, filters, pagination, column visibility, and row selection",
+      "files": [
+        {
+          "path": "src/components/blocks/data-table.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "@tanstack/react-table",
+        "@/components/ui/table",
+        "@/components/ui/button",
+        "@/components/ui/input",
+        "@/components/ui/select",
+        "@/components/ui/dropdown-menu"
+      ]
+    },
+    {
+      "name": "metric-card",
+      "type": "registry:block",
+      "title": "Metric Card",
+      "description": "Reusable metric card component for displaying key performance indicators with trend indicators and optional descriptions",
+      "files": [
+        {
+          "path": "src/components/blocks/metric-card.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "@/components/ui/card",
+        "@/components/ui/badge"
+      ]
+    },
+    {
+      "name": "app-shell",
+      "type": "registry:layout",
+      "title": "App Shell",
+      "description": "Main application shell with sidebar, header, footer, and outlet for routes",
+      "files": [
+        {
+          "path": "src/components/layouts/app-shell.tsx",
+          "type": "registry:layout"
+        }
+      ],
+      "dependencies": [
+        "@/components/blocks/global-header",
+        "@/components/blocks/global-sidebar",
+        "@/components/blocks/global-footer",
+        "@/components/ui/sidebar",
+        "react-router-dom"
+      ]
+    },
+    {
+      "name": "page-shell",
+      "type": "registry:layout",
+      "title": "Page Shell",
+      "description": "Base page container providing consistent spacing and vertical flow",
+      "files": [
+        {
+          "path": "src/components/layouts/page-shell.tsx",
+          "type": "registry:layout"
+        }
+      ]
+    },
+    {
+      "name": "split-layout",
+      "type": "registry:layout",
+      "title": "Split Layout",
+      "description": "Configurable split pane layout (defaults to 70/30, customizable)",
+      "files": [
+        {
+          "path": "src/components/layouts/split-layout.tsx",
+          "type": "registry:layout"
+        }
+      ]
+    },
+    {
+      "name": "nested-shell",
+      "type": "registry:layout",
+      "title": "Nested Shell",
+      "description": "Second-level sidebar layout with scrollable sidebar, optional header/footer, and configurable sidebar width",
+      "files": [
+        {
+          "path": "src/components/layouts/nested-shell.tsx",
+          "type": "registry:layout"
+        }
+      ]
+    },
+    {
+      "name": "page-with-properties",
+      "type": "registry:layout",
+      "title": "Page With Properties",
+      "description": "Layout with main content and right-side properties panel",
+      "files": [
+        {
+          "path": "src/components/layouts/page-with-properties.tsx",
+          "type": "registry:layout"
+        }
+      ]
+    },
+    {
+      "name": "page-header-with-tabs",
+      "type": "registry:pattern",
+      "title": "Page Header With Tabs",
+      "description": "Composition pattern combining page header and tabs",
+      "files": [
+        {
+          "path": "src/components/patterns/page-header-with-tabs.tsx",
+          "type": "registry:pattern"
+        }
+      ],
+      "dependencies": [
+        "@/components/blocks/page-header",
+        "@/components/blocks/page-tabs"
+      ]
+    },
+    {
+      "name": "page-header-with-back",
+      "type": "registry:pattern",
+      "title": "Page Header With Back",
+      "description": "Composition pattern combining page header with back button",
+      "files": [
+        {
+          "path": "src/components/patterns/page-header-with-back.tsx",
+          "type": "registry:pattern"
+        }
+      ],
+      "dependencies": [
+        "@/components/blocks/page-header",
+        "@/components/blocks/back-button"
+      ]
+    },
+    {
+      "name": "not-found-page",
+      "type": "registry:page",
+      "title": "Not Found Page",
+      "description": "Reusable 404 error page template with customizable navigation options and SVG illustration",
+      "files": [
+        {
+          "path": "src/pages/templates/NotFoundPage.tsx",
+          "type": "registry:page"
+        }
+      ],
+      "dependencies": [
+        "@/components/ui/button",
+        "react-router-dom"
+      ]
+    }
+  ]
+}

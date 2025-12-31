@@ -20,16 +20,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { SidebarTrigger } from "@/components/ui/sidebar"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Bell, Settings, User, LogOut } from "lucide-react"
+import { generateBreadcrumbs, type BreadcrumbItem as BreadcrumbItemType } from "@/lib/navigation"
 
-interface BreadcrumbItemType {
-  label: string
-  href?: string
-}
-
-interface HeaderProps {
+interface GlobalHeaderProps {
   breadcrumbs?: BreadcrumbItemType[]
   onLogout?: () => void
   userName?: string
@@ -37,58 +32,33 @@ interface HeaderProps {
   userAvatar?: string
 }
 
-export function Header({
+export function GlobalHeader({
   breadcrumbs,
   onLogout,
   userName = "John Doe",
   userEmail = "john@example.com",
   userAvatar,
-}: HeaderProps) {
+}: GlobalHeaderProps) {
   const location = useLocation()
 
   // Generate breadcrumbs from route if not provided
   const getBreadcrumbs = React.useMemo(() => {
-    if (breadcrumbs) return breadcrumbs
-
-    const pathSegments = location.pathname.split("/").filter(Boolean)
-    const items: BreadcrumbItemType[] = [
-      { label: "Home", href: "/" },
-    ]
-
-    if (pathSegments.length === 0) {
-      return [{ label: "Home" }]
-    }
-
-    let currentPath = ""
-    pathSegments.forEach((segment, index) => {
-      currentPath += `/${segment}`
-      const isLast = index === pathSegments.length - 1
-      items.push({
-        label: segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, " "),
-        href: isLast ? undefined : currentPath,
-      })
-    })
-
-    return items
+    return generateBreadcrumbs(location.pathname, breadcrumbs)
   }, [breadcrumbs, location.pathname])
 
   const handleLogout = () => {
     if (onLogout) {
       onLogout()
     } else {
-      // Default logout behavior
       console.log("Logout clicked")
-      // Add your logout logic here
     }
   }
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-muted backdrop-blur supports-[backdrop-filter]:bg-muted">
-      <div className="container flex h-9 items-center gap-4 px-4">
-        {/* Left Side - Sidebar Trigger & Breadcrumbs */}
+    <header className="sticky top-0 z-40 w-full border-b bg-white dark:bg-background backdrop-blur supports-[backdrop-filter]:bg-white dark:supports-[backdrop-filter]:bg-background">
+      <div className="w-full flex h-10 items-center gap-4 px-4">
+        {/* Left Side - Breadcrumbs */}
         <div className="flex items-center gap-4 flex-1 min-w-0">
-          <SidebarTrigger className="-ml-1" />
-          <Separator orientation="vertical" className="h-full" />
           <Breadcrumb className="hidden md:flex">
             <BreadcrumbList>
               {getBreadcrumbs.map((item, index) => {
@@ -180,3 +150,4 @@ export function Header({
     </header>
   )
 }
+

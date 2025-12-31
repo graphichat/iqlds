@@ -1,28 +1,10 @@
 import * as React from "react"
-import {
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-  type ColumnDef,
-  type ColumnFiltersState,
-  type SortingState,
-  type VisibilityState,
-} from "@tanstack/react-table"
-import { DefaultPageWithSidebar } from "./DefaultPageWithSidebar"
+import { type ColumnDef } from "@tanstack/react-table"
+import { PageShell } from "@/components/layouts/page-shell"
+import { PageHeaderWithTabs } from "@/components/patterns/page-header-with-tabs"
+import { DataTable } from "@/components/blocks/data-table"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import {
   Table,
@@ -32,17 +14,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { ArrowUpDown, ChevronDown, MoreHorizontal, Plus, Search, Download, Filter } from "lucide-react"
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Badge } from "@/components/ui/badge"
+import { ArrowUpDown, MoreHorizontal, Plus, Download, Search } from "lucide-react"
 import { ICON_STROKE_WIDTH } from "@/lib/constants"
-import { Home, BarChart3, File, Settings } from "lucide-react"
 
 // Customer Management Data Type
 export type Customer = {
@@ -342,263 +324,75 @@ export const columns: ColumnDef<Customer>[] = [
 ]
 
 export function PageWithTableExample() {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
-  const [statusFilter, setStatusFilter] = React.useState<string[]>([])
-  const [roleFilter, setRoleFilter] = React.useState<string[]>([])
-
-  const table = useReactTable({
-    data: customersData,
-    columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection,
-    },
-  })
-
-  React.useEffect(() => {
-    if (statusFilter.length > 0) {
-      table.getColumn("status")?.setFilterValue(statusFilter)
-    } else {
-      table.getColumn("status")?.setFilterValue(undefined)
-    }
-  }, [statusFilter, table])
-
-  React.useEffect(() => {
-    if (roleFilter.length > 0) {
-      table.getColumn("role")?.setFilterValue(roleFilter)
-    } else {
-      table.getColumn("role")?.setFilterValue(undefined)
-    }
-  }, [roleFilter, table])
+  const [activeTab, setActiveTab] = React.useState("all")
 
   return (
-    <DefaultPageWithSidebar
-      pageTitle="Customer Management"
-      pageDescription="Manage your customers, their accounts, and revenue"
-      pageActions={
-        <>
-          <Button variant="outline">
-            <Download strokeWidth={ICON_STROKE_WIDTH} className="mr-2 h-4 w-4" />
-            Export
-          </Button>
-          <Button>
-            <Plus strokeWidth={ICON_STROKE_WIDTH} className="mr-2 h-4 w-4" />
-            Add Customer
-          </Button>
-        </>
-      }
-      pageTabs={[
-        { value: "all", label: "All Customers" },
-        { value: "active", label: "Active" },
-        { value: "pending", label: "Pending" },
-      ]}
-    >
-      <div className="space-y-4">
-        {/* Filters and Search */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-1 items-center gap-2">
-            <div className="relative flex-1 max-w-sm">
-              <Search
-                strokeWidth={ICON_STROKE_WIDTH}
-                className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground pointer-events-none"
-              />
-              <Input
-                placeholder="Search customers..."
-                value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-                onChange={(event) =>
-                  table.getColumn("email")?.setFilterValue(event.target.value)
-                }
-                className="pl-9"
-              />
-            </div>
-            <Select
-              value={statusFilter.length === 0 ? "all" : statusFilter[0]}
-              onValueChange={(value) => {
-                if (value === "all") {
-                  setStatusFilter([])
-                } else {
-                  setStatusFilter([value])
-                }
-              }}
-            >
-              <SelectTrigger className="w-[140px]">
-                <Filter className="mr-2 h-4 w-4" />
-                <SelectValue placeholder="Status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
-                <SelectItem value="inactive">Inactive</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select
-              value={roleFilter.length === 0 ? "all" : roleFilter[0]}
-              onValueChange={(value) => {
-                if (value === "all") {
-                  setRoleFilter([])
-                } else {
-                  setRoleFilter([value])
-                }
-              }}
-            >
-              <SelectTrigger className="w-[140px]">
-                <SelectValue placeholder="Role" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Roles</SelectItem>
-                <SelectItem value="Admin">Admin</SelectItem>
-                <SelectItem value="User">User</SelectItem>
-                <SelectItem value="Viewer">Viewer</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline">
-                Columns <ChevronDown className="ml-2 h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {table
-                .getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => {
-                  return (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) =>
-                        column.toggleVisibility(!!value)
-                      }
-                    >
-                      {column.id}
-                    </DropdownMenuCheckboxItem>
-                  )
-                })}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-
-        {/* Table */}
-        <div className="overflow-hidden rounded-md border">
-          <Table>
-            <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableHead key={header.id}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                      </TableHead>
-                    )
-                  })}
-                </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
-                    No results.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-
-        {/* Pagination and Selection Info */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="text-sm text-muted-foreground">
-            {table.getFilteredSelectedRowModel().rows.length} of{" "}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2 text-sm">
-              <span>Rows per page</span>
-              <Select
-                value={`${table.getState().pagination.pageSize}`}
-                onValueChange={(value) => {
-                  table.setPageSize(Number(value))
-                }}
-              >
-                <SelectTrigger className="h-8 w-[70px]">
-                  <SelectValue placeholder={table.getState().pagination.pageSize} />
-                </SelectTrigger>
-                <SelectContent side="top">
-                  {[10, 20, 30, 40, 50].map((pageSize) => (
-                    <SelectItem key={pageSize} value={`${pageSize}`}>
-                      {pageSize}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex items-center gap-2 text-sm font-medium">
-              Page {table.getState().pagination.pageIndex + 1} of{" "}
-              {table.getPageCount()}
-            </div>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}
-              >
-                Previous
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}
-              >
-                Next
-              </Button>
-            </div>
-          </div>
+    <PageShell>
+      <PageHeaderWithTabs
+        title="Customer Management"
+        actions={
+          <>
+            <Button variant="outline">
+              <Download strokeWidth={ICON_STROKE_WIDTH} className="mr-2 h-4 w-4" />
+              Export
+            </Button>
+            <Button>
+              <Plus strokeWidth={ICON_STROKE_WIDTH} className="mr-2 h-4 w-4" />
+              Add Customer
+            </Button>
+          </>
+        }
+        tabs={[
+          { value: "all", label: "All Customers" },
+          { value: "active", label: "Active" },
+          { value: "pending", label: "Pending" },
+        ]}
+        value={activeTab}
+        onValueChange={setActiveTab}
+      />
+      <div className="flex-1 overflow-auto">
+        <div className="container mx-auto py-6 px-4">
+          <DataTable
+            data={customersData}
+            columns={columns}
+            searchPlaceholder="Search customers..."
+            searchColumn="email"
+            filters={[
+              {
+                key: "status",
+                label: "Status",
+                options: [
+                  { value: "active", label: "Active" },
+                  { value: "pending", label: "Pending" },
+                  { value: "inactive", label: "Inactive" },
+                ],
+              },
+              {
+                key: "role",
+                label: "Role",
+                options: [
+                  { value: "Admin", label: "Admin" },
+                  { value: "User", label: "User" },
+                  { value: "Viewer", label: "Viewer" },
+                ],
+              },
+            ]}
+            actions={
+              <>
+                <Button variant="outline">
+                  <Download strokeWidth={ICON_STROKE_WIDTH} className="mr-2 h-4 w-4" />
+                  Export
+                </Button>
+                <Button>
+                  <Plus strokeWidth={ICON_STROKE_WIDTH} className="mr-2 h-4 w-4" />
+                  Add Customer
+                </Button>
+              </>
+            }
+          />
         </div>
       </div>
-    </DefaultPageWithSidebar>
+    </PageShell>
   )
 }
 

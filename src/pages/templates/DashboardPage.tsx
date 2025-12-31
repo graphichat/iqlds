@@ -1,7 +1,11 @@
 import * as React from "react"
-import { TrendingUp, TrendingDown, DollarSign, Users, ShoppingCart, Activity } from "lucide-react"
+import { DollarSign, Users, ShoppingCart, Activity } from "lucide-react"
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
-import { DefaultPageWithSidebar } from "./DefaultPageWithSidebar"
+import { PageShell } from "@/components/layouts/page-shell"
+import { PageHeaderWithTabs } from "@/components/patterns/page-header-with-tabs"
+import { MetricCard } from "@/components/blocks/metric-card"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import {
   Card,
   CardContent,
@@ -25,7 +29,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
 import {
   Table,
   TableBody,
@@ -34,9 +37,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Home, BarChart3, File, Settings, TrendingUp as TrendingUpIcon } from "lucide-react"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 
 // Chart Data
 const chartData = [
@@ -126,57 +127,6 @@ const recentProjects = [
     dueDate: "2024-05-10",
   },
 ]
-
-function MetricCard({
-  title,
-  value,
-  change,
-  trend,
-  icon: Icon,
-  description,
-}: {
-  title: string
-  value: string
-  change: string
-  trend: "up" | "down"
-  icon: React.ComponentType<{ className?: string }>
-  description: string
-}) {
-  return (
-    <Card>
-      <CardHeader>
-        <CardDescription>{title}</CardDescription>
-        <CardTitle className="text-2xl font-semibold tabular-nums">
-          {value}
-        </CardTitle>
-        <div className="flex items-center gap-2">
-          <Badge variant="outline" className="gap-1">
-            {trend === "up" ? (
-              <TrendingUp className="h-3 w-3" />
-            ) : (
-              <TrendingDown className="h-3 w-3" />
-            )}
-            {change}
-          </Badge>
-        </div>
-      </CardHeader>
-      <CardFooter className="flex-col items-start gap-1.5 text-sm">
-        <div className="flex gap-2 font-medium">
-          {trend === "up" ? (
-            <>
-              Trending up this month <TrendingUp className="size-4" />
-            </>
-          ) : (
-            <>
-              Down this period <TrendingDown className="size-4" />
-            </>
-          )}
-        </div>
-        <div className="text-muted-foreground">{description}</div>
-      </CardFooter>
-    </Card>
-  )
-}
 
 function RevenueChart() {
   const [timeRange, setTimeRange] = React.useState("30d")
@@ -360,67 +310,75 @@ function RecentProjects() {
 }
 
 export function DashboardPage() {
+  const [activeTab, setActiveTab] = React.useState("overview")
+
   return (
-    <DefaultPageWithSidebar
-      pageTitle="Dashboard"
-      pageDescription="Overview of your business performance"
-      pageTag="Live"
-      pageActions={
-        <>
-          <Button variant="outline">Export Report</Button>
-          <Button>New Project</Button>
-        </>
-      }
-      pageTabs={[
-        { value: "overview", label: "Overview" },
-        { value: "analytics", label: "Analytics" },
-        { value: "reports", label: "Reports" },
-      ]}
-    >
-      <div className="space-y-6">
-        {/* Key Metrics */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <MetricCard
-            title="Total Revenue"
-            value="$124,580"
-            change="+12.5%"
-            trend="up"
-            icon={DollarSign}
-            description="Revenue for the last 30 days"
-          />
-          <MetricCard
-            title="Active Users"
-            value="8,234"
-            change="+8.2%"
-            trend="up"
-            icon={Users}
-            description="Users active in the last week"
-          />
-          <MetricCard
-            title="Orders"
-            value="1,456"
-            change="-3.1%"
-            trend="down"
-            icon={ShoppingCart}
-            description="Orders placed this month"
-          />
-          <MetricCard
-            title="Conversion Rate"
-            value="3.24%"
-            change="+0.8%"
-            trend="up"
-            icon={Activity}
-            description="Overall conversion performance"
-          />
+    <PageShell>
+      <PageHeaderWithTabs
+        title="Dashboard"
+        actions={
+          <>
+            <Badge variant="secondary" className="mr-2">Live</Badge>
+            <Button variant="outline">Export Report</Button>
+            <Button>New Project</Button>
+          </>
+        }
+        tabs={[
+          { value: "overview", label: "Overview" },
+          { value: "analytics", label: "Analytics" },
+          { value: "reports", label: "Reports" },
+        ]}
+        value={activeTab}
+        onValueChange={setActiveTab}
+      />
+      <div className="flex-1 overflow-auto">
+        <div className="container mx-auto py-6 px-4">
+          <div className="space-y-6">
+            {/* Key Metrics */}
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <MetricCard
+                title="Total Revenue"
+                value="$124,580"
+                change="+12.5%"
+                trend="up"
+                icon={DollarSign}
+                description="Revenue for the last 30 days"
+              />
+              <MetricCard
+                title="Active Users"
+                value="8,234"
+                change="+8.2%"
+                trend="up"
+                icon={Users}
+                description="Users active in the last week"
+              />
+              <MetricCard
+                title="Orders"
+                value="1,456"
+                change="-3.1%"
+                trend="down"
+                icon={ShoppingCart}
+                description="Orders placed this month"
+              />
+              <MetricCard
+                title="Conversion Rate"
+                value="3.24%"
+                change="+0.8%"
+                trend="up"
+                icon={Activity}
+                description="Overall conversion performance"
+              />
+            </div>
+
+            {/* Revenue Chart */}
+            <RevenueChart />
+
+            {/* Recent Projects */}
+            <RecentProjects />
+          </div>
         </div>
-
-        {/* Revenue Chart */}
-        <RevenueChart />
-
-        {/* Recent Projects */}
-        <RecentProjects />
       </div>
-    </DefaultPageWithSidebar>
+    </PageShell>
   )
 }
 

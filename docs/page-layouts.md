@@ -132,3 +132,4 @@ The application uses Tailwind's default breakpoints:
 ```
 
 
+

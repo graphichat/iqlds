@@ -1,5 +1,6 @@
 import * as React from "react"
-import { DefaultPageWithSidebar } from "./DefaultPageWithSidebar"
+import { PageShell } from "@/components/layouts/page-shell"
+import { PageHeader } from "@/components/blocks/page-header"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -14,19 +15,8 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Check, Star, Zap, Shield, Globe } from "lucide-react"
-import { Home, BarChart3, File, Settings, CreditCard } from "lucide-react"
-
-const features = [
-  { name: "Unlimited Projects", included: true },
-  { name: "Team Collaboration", included: true },
-  { name: "Advanced Analytics", included: true },
-  { name: "Priority Support", included: true },
-  { name: "API Access", included: true },
-  { name: "Custom Integrations", included: false },
-]
 
 function PricingCard({ 
   name, 
@@ -142,11 +132,11 @@ function TestimonialCard({
 
 export function CardsPage() {
   return (
-    <DefaultPageWithSidebar
-      pageTitle="Product Showcase"
-      pageDescription="Explore our products, features, and pricing plans"
-    >
-      <div className="space-y-8">
+    <PageShell>
+      <PageHeader title="Product Showcase" />
+      <div className="flex-1 overflow-auto">
+        <div className="container mx-auto py-6 px-4">
+          <div className="space-y-8">
         {/* Features Section */}
         <div>
           <h2 className="text-2xl font-semibold mb-4">Key Features</h2>
@@ -253,7 +243,9 @@ export function CardsPage() {
             />
           </div>
         </div>
+          </div>
+        </div>
       </div>
-    </DefaultPageWithSidebar>
+    </PageShell>
   )
 }

@@ -1,5 +1,6 @@
 import * as React from "react"
-import { DefaultPageWithSidebar } from "./DefaultPageWithSidebar"
+import { PageShell } from "@/components/layouts/page-shell"
+import { PageHeader } from "@/components/blocks/page-header"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -15,18 +16,11 @@ import { Switch } from "@/components/ui/switch"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar"
-import { Home, BarChart3, File, Settings, Shield, Bell, CreditCard, User } from "lucide-react"
+import { Shield, Bell, CreditCard, User } from "lucide-react"
 
 function SecuritySettings() {
   const [twoFactorEnabled, setTwoFactorEnabled] = React.useState(true)
@@ -249,19 +243,21 @@ function NotificationPreferences() {
 
 export function SettingsPage() {
   return (
-    <DefaultPageWithSidebar
-      pageTitle="Settings"
-      pageDescription="Manage your account settings, security, and preferences"
-    >
-      <div className="mx-auto max-w-4xl space-y-6">
-        <AccountOverview />
-        <div className="grid gap-6 md:grid-cols-2">
-          <SecuritySettings />
-          <BillingInfo />
+    <PageShell>
+      <PageHeader title="Settings" actions={<Button>Save</Button>} />
+      <div className="flex-1 overflow-auto">
+        <div className="container mx-auto py-6 px-4">
+          <div className="mx-auto max-w-4xl space-y-6">
+            <AccountOverview />
+            <div className="grid gap-6 md:grid-cols-2">
+              <SecuritySettings />
+              <BillingInfo />
+            </div>
+            <NotificationPreferences />
+          </div>
         </div>
-        <NotificationPreferences />
       </div>
-    </DefaultPageWithSidebar>
+    </PageShell>
   )
 }
 

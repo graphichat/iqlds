@@ -1,4 +1,3 @@
-import * as React from "react"
 import {
   Card,
   CardContent,
@@ -140,4 +139,5 @@ export function TrayCard({ tray, selectedWells, onWellSelect }: TrayCardProps) {
     </Card>
   )
 }
+
 
