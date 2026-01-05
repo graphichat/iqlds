@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "back-button",
+  "title": "Back Button",
+  "description": "Navigation back button supporting href, onClick, or browser history",
+  "dependencies": [
+    "@/components/ui/button",
+    "react-router-dom"
+  ],
+  "files": [
+    {
+      "path": "src/components/blocks/back-button.tsx",
+      "content": "import { useNavigate } from \"react-router-dom\"\nimport { Button } from \"@/components/ui/button\"\nimport { ArrowLeft } from \"lucide-react\"\n\ninterface BackButtonProps {\n  label?: string\n  href?: string\n  onClick?: () => void\n  className?: string\n}\n\nexport function BackButton({ label, href, onClick, className }: BackButtonProps) {\n  const navigate = useNavigate()\n\n  const handleClick = () => {\n    if (onClick) {\n      onClick()\n    } else if (href) {\n      navigate(href)\n    } else {\n      navigate(-1)\n    }\n  }\n\n  return (\n    <Button\n      variant=\"ghost\"\n      size=\"sm\"\n      className={`h-8 w-8 p-0 ${className || \"\"}`}\n      onClick={handleClick}\n    >\n      <ArrowLeft className=\"h-4 w-4\" />\n      {label && <span className=\"ml-2\">{label}</span>}\n    </Button>\n  )\n}\n\n",
+      "type": "registry:block"
+    }
+  ],
+  "type": "registry:block"
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "split-layout",
+  "title": "Split Layout",
+  "description": "Configurable split pane layout (defaults to 70/30, customizable)",
+  "files": [
+    {
+      "path": "src/components/layouts/split-layout.tsx",
+      "content": "interface SplitLayoutProps {\n  left: React.ReactNode\n  right: React.ReactNode\n  leftWidth?: string\n  rightWidth?: string\n}\n\nexport function SplitLayout({ left, right, leftWidth = \"70%\", rightWidth = \"30%\" }: SplitLayoutProps) {\n  return (\n    <div className=\"flex h-full\">\n      <div className=\"border-r\" style={{ width: leftWidth }}>\n        {left}\n      </div>\n      <div style={{ width: rightWidth }}>\n        {right}\n      </div>\n    </div>\n  )\n}\n\n",
+      "type": "registry:component"
+    }
+  ],
+  "type": "registry:component"
+}

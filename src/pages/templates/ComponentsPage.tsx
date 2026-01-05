@@ -16,11 +16,16 @@ interface RegistryItem {
   type: string
   title: string
   description: string
-  files?: Array<{ path: string; type: string }>
+  files?: Array<{ path: string; type: string; target?: string }>
   dependencies?: string[]
+  cssVars?: {
+    light?: Record<string, string>
+    dark?: Record<string, string>
+    theme?: Record<string, string>
+  }
 }
 
-type ComponentType = "registry:ui" | "registry:block" | "registry:layout" | "registry:pattern" | "registry:page"
+type ComponentType = "registry:ui" | "registry:block" | "registry:layout" | "registry:pattern" | "registry:page" | "registry:component" | "registry:theme"
 
 const typeConfig: Record<ComponentType, { label: string; icon: React.ComponentType<{ className?: string }>; color: string }> = {
   "registry:ui": {
@@ -48,6 +53,16 @@ const typeConfig: Record<ComponentType, { label: string; icon: React.ComponentTy
     icon: FileText,
     color: "bg-pink-500/10 text-pink-500",
   },
+  "registry:component": {
+    label: "Components",
+    icon: Package,
+    color: "bg-indigo-500/10 text-indigo-500",
+  },
+  "registry:theme": {
+    label: "Themes",
+    icon: Package,
+    color: "bg-yellow-500/10 text-yellow-500",
+  },
 }
 
 function ComponentsSidebar({ items, selectedComponent, onSelect }: {
@@ -62,6 +77,8 @@ function ComponentsSidebar({ items, selectedComponent, onSelect }: {
       "registry:layout": [],
       "registry:pattern": [],
       "registry:page": [],
+      "registry:component": [],
+      "registry:theme": [],
     }
     
     items.forEach((item) => {
@@ -128,30 +145,52 @@ function ComponentPreview({ component }: { component: RegistryItem }) {
         let Component: React.ComponentType<any> | null = null
 
         if (component.type === "registry:ui") {
-          const module = await import(`@/components/ui/${component.name}`)
+          const module = await import(/* @vite-ignore */ `@/components/ui/${component.name}`)
           const componentName = component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
           Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
         } else if (component.type === "registry:block") {
-          const module = await import(`@/components/blocks/${component.name}`)
+          const module = await import(/* @vite-ignore */ `@/components/blocks/${component.name}`)
           const componentName = component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
           Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
         } else if (component.type === "registry:layout") {
-          const module = await import(`@/components/layouts/${component.name}`)
+          const module = await import(/* @vite-ignore */ `@/components/layouts/${component.name}`)
           const componentName = component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
           Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
         } else if (component.type === "registry:pattern") {
-          const module = await import(`@/components/patterns/${component.name}`)
+          const module = await import(/* @vite-ignore */ `@/components/patterns/${component.name}`)
           const componentName = component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
           Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
+        } else if (component.type === "registry:component") {
+          // Handle components that were previously layouts or patterns
+          // Try layouts first, then patterns
+          try {
+            const layoutModule = await import(/* @vite-ignore */ `@/components/layouts/${component.name}`)
+            const componentName = component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
+            Component = layoutModule[componentName] || layoutModule.default || Object.values(layoutModule)[0] as React.ComponentType<any>
+            if (!Component) throw new Error("Not found in layouts")
+          } catch {
+            try {
+              const patternModule = await import(/* @vite-ignore */ `@/components/patterns/${component.name}`)
+              const componentName = component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
+              Component = patternModule[componentName] || patternModule.default || Object.values(patternModule)[0] as React.ComponentType<any>
+            } catch {
+              // Component not found in layouts or patterns
+            }
+          }
         } else if (component.type === "registry:page") {
-          const module = await import(`@/pages/templates/${component.name.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")}`)
+          const module = await import(/* @vite-ignore */ `@/pages/templates/${component.name.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")}`)
           const componentName = component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
           Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
+        } else if (component.type === "registry:theme") {
+          // Themes don't have React components, they have CSS variables
+          // Set PreviewComponent to a special marker to indicate theme
+          setPreviewComponent(null)
+          return
         }
 
         if (Component) {
           setPreviewComponent(() => Component)
-        } else {
+        } else if (component.type !== "registry:theme") {
           setError("Component not found")
         }
       } catch (err) {
@@ -168,6 +207,79 @@ function ComponentPreview({ component }: { component: RegistryItem }) {
       <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive">
         <p className="font-medium">Preview unavailable</p>
         <p className="text-muted-foreground mt-1">{error}</p>
+      </div>
+    )
+  }
+
+  // Handle theme preview (themes have CSS variables, not React components)
+  if (component.type === "registry:theme" && component.cssVars) {
+    return (
+      <div className="space-y-4">
+        <div className="grid gap-4 md:grid-cols-2">
+          {/* Light Theme Preview */}
+          {component.cssVars.light && (
+            <div className="rounded-lg border p-4 space-y-3">
+              <h4 className="font-semibold text-sm">Light Theme</h4>
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <div className="h-8 w-8 rounded border" style={{ backgroundColor: component.cssVars.light.background }} />
+                  <div className="text-xs">
+                    <div className="font-medium">Background</div>
+                    <div className="text-muted-foreground font-mono">{component.cssVars.light.background}</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="h-8 w-8 rounded border" style={{ backgroundColor: component.cssVars.light.primary }} />
+                  <div className="text-xs">
+                    <div className="font-medium">Primary</div>
+                    <div className="text-muted-foreground font-mono">{component.cssVars.light.primary}</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="h-8 w-8 rounded border" style={{ backgroundColor: component.cssVars.light.secondary }} />
+                  <div className="text-xs">
+                    <div className="font-medium">Secondary</div>
+                    <div className="text-muted-foreground font-mono">{component.cssVars.light.secondary}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          {/* Dark Theme Preview */}
+          {component.cssVars.dark && (
+            <div className="rounded-lg border bg-muted p-4 space-y-3">
+              <h4 className="font-semibold text-sm">Dark Theme</h4>
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <div className="h-8 w-8 rounded border" style={{ backgroundColor: component.cssVars.dark.background }} />
+                  <div className="text-xs">
+                    <div className="font-medium">Background</div>
+                    <div className="text-muted-foreground font-mono">{component.cssVars.dark.background}</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="h-8 w-8 rounded border" style={{ backgroundColor: component.cssVars.dark.primary }} />
+                  <div className="text-xs">
+                    <div className="font-medium">Primary</div>
+                    <div className="text-muted-foreground font-mono">{component.cssVars.dark.primary}</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="h-8 w-8 rounded border" style={{ backgroundColor: component.cssVars.dark.secondary }} />
+                  <div className="text-xs">
+                    <div className="font-medium">Secondary</div>
+                    <div className="text-muted-foreground font-mono">{component.cssVars.dark.secondary}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+        <div className="rounded-lg border p-4">
+          <p className="text-sm text-muted-foreground">
+            This theme includes CSS variables for both light and dark modes. Install it using the shadcn CLI.
+          </p>
+        </div>
       </div>
     )
   }
@@ -260,6 +372,33 @@ function ComponentPreviewRenderer({ component: Component, componentName, compone
       }
     }
 
+    if (componentType === "registry:component" || componentType === "registry:layout") {
+      if (componentName === "app-shell") {
+        return { children: React.createElement("div", { className: "p-4" }, "App Content") }
+      }
+      if (componentName === "page-shell") {
+        return { children: React.createElement("div", { className: "p-4" }, "Page Content") }
+      }
+      if (componentName === "split-layout") {
+        return { left: React.createElement("div", { className: "p-4" }, "Left Pane"), right: React.createElement("div", { className: "p-4" }, "Right Pane") }
+      }
+      if (componentName === "nested-shell") {
+        return { sidebar: React.createElement("div", { className: "p-4" }, "Nested Sidebar"), content: React.createElement("div", { className: "p-4" }, "Nested Content") }
+      }
+      if (componentName === "page-with-properties") {
+        return { content: React.createElement("div", { className: "p-4" }, "Main Content"), properties: React.createElement("div", { className: "p-4" }, "Properties Panel") }
+      }
+    }
+
+    if (componentType === "registry:component" || componentType === "registry:pattern") {
+      if (componentName === "page-header-with-tabs") {
+        return { title: "Pattern Page", tabs: [{ value: "overview", label: "Overview" }] }
+      }
+      if (componentName === "page-header-with-back") {
+        return { title: "Pattern Page" }
+      }
+    }
+
     return {}
   }, [componentName, componentType])
 
@@ -302,7 +441,7 @@ function ComponentViewer({ component }: { component: RegistryItem | null }) {
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-2">
               <div className="flex items-center gap-3">
-                <div className={`rounded-lg p-2 ${componentTypeConfig.color}`}>
+                <div className={`rounded-lg p-2 ${componentTypeConfig?.color || "bg-gray-500/10 text-gray-500"}`}>
                   <Icon className="h-5 w-5" />
                 </div>
                 <div>
@@ -410,6 +549,16 @@ function ComponentViewer({ component }: { component: RegistryItem | null }) {
                       {`import { ${component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")} } from "@/pages/templates/${component.name.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")}"`}
                     </>
                   )}
+                  {component.type === "registry:component" && (
+                    <>
+                      {`import { ${component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")} } from "@/components/layouts/${component.name}"`}
+                    </>
+                  )}
+                  {component.type === "registry:theme" && (
+                    <>
+                      {`npx shadcn@latest add --registry @iqlds ${component.name}`}
+                    </>
+                  )}
                 </code>
               </pre>
             </div>
@@ -434,6 +583,8 @@ export function ComponentsPage() {
           "registry:layout",
           "registry:pattern",
           "registry:page",
+          "registry:component",
+          "registry:theme",
         ]
         return typeOrder.indexOf(a.type as ComponentType) - typeOrder.indexOf(b.type as ComponentType)
       }
