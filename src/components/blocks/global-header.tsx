@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -40,6 +40,7 @@ export function GlobalHeader({
   userAvatar,
 }: GlobalHeaderProps) {
   const location = useLocation()
+  const navigate = useNavigate()
 
   // Generate breadcrumbs from route if not provided
   const getBreadcrumbs = React.useMemo(() => {
@@ -50,7 +51,8 @@ export function GlobalHeader({
     if (onLogout) {
       onLogout()
     } else {
-      console.log("Logout clicked")
+      // Default logout behavior - navigate to login
+      navigate("/login")
     }
   }
 

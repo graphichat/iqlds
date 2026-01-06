@@ -16,8 +16,10 @@ import {
 } from "@/components/ui/sidebar"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ICON_STROKE_WIDTH } from "@/lib/constants"
-import { User, Sparkles } from "lucide-react"
+import { User } from "lucide-react"
 import { SIDEBAR_ITEMS } from "@/lib/sidebar-config"
+import LogoIcon from "@/assets/Logo.svg?react"
+import LogoFull from "@/assets/LogoFull.svg?react"
 
 interface GlobalSidebarProps {
   sidebarHeader?: React.ReactNode
@@ -29,15 +31,16 @@ function SidebarHeaderContent() {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <SidebarMenuButton size="lg" asChild>
-          <div className="flex items-center gap-2">
-            <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-              <Sparkles strokeWidth={ICON_STROKE_WIDTH} className="size-4" />
-            </div>
-            <div className="grid flex-1 text-left text-sm leading-tight">
-              <span className="truncate font-semibold">IQLine Inc.</span>
-            </div>
-          </div>
+        <SidebarMenuButton size="lg">
+          {/* Logo icon - always 36px (w-9 h-9) */}
+<div className="flex items-center justify-center shrink-0 w-9 h-9">
+  <LogoIcon className="h-full w-full" />
+</div>
+
+{/* Logo full - hidden when collapsed */}
+<span className="group-data-[collapsible=icon]:hidden flex items-center h-full">
+  <LogoFull className="h-full w-auto text-foreground" />
+</span>
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>

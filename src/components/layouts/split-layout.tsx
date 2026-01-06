@@ -18,3 +18,4 @@ export function SplitLayout({ left, right, leftWidth = "70%", rightWidth = "30%"
   )
 }
 
+

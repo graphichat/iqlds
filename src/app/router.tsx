@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom"
+import { createBrowserRouter, Navigate } from "react-router-dom"
 import { AppShell } from "@/components/layouts/app-shell"
 import { StarterPage } from "@/pages/StarterPage"
 import { LoginPage } from "@/pages/templates/LoginPage"
@@ -24,6 +24,10 @@ export const router = createBrowserRouter([
   {
     path: "/password-reset",
     element: <PasswordResetPage />,
+  },
+  {
+    path: "/forgot-password",
+    element: <Navigate to="/password-reset" replace />,
   },
   {
     path: "*",
