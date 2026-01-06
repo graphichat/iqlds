@@ -1,5 +1,6 @@
 import { PageHeader } from "@/components/blocks/page-header"
 import { BackButton } from "@/components/blocks/back-button"
+import { cn } from "@/lib/utils"
 
 interface PageHeaderWithBackProps {
   title: string
@@ -10,15 +11,17 @@ interface PageHeaderWithBackProps {
     onClick?: () => void
   }
   className?: string
+  noBorder?: boolean
 }
 
-export function PageHeaderWithBack({ title, actions, backButton, className }: PageHeaderWithBackProps) {
+export function PageHeaderWithBack({ title, actions, backButton, className, noBorder }: PageHeaderWithBackProps) {
   return (
-    <div className={className}>
+    <div className={cn(className, noBorder && "!border-b-0")}>
       <PageHeader
         title={title}
         leading={<BackButton {...backButton} />}
         actions={actions}
+        noBorder={noBorder}
       />
     </div>
   )

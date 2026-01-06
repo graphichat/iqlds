@@ -5,9 +5,10 @@ interface PageHeaderProps {
   title: string
   leading?: React.ReactNode
   actions?: React.ReactNode
+  noBorder?: boolean
 }
 
-export function PageHeader({ title, leading, actions }: PageHeaderProps) {
+export function PageHeader({ title, leading, actions, noBorder }: PageHeaderProps) {
   const [isScrolled, setIsScrolled] = React.useState(false)
   const headerRef = React.useRef<HTMLDivElement>(null)
 
@@ -38,7 +39,7 @@ export function PageHeader({ title, leading, actions }: PageHeaderProps) {
       ref={headerRef}
       className={cn(
         "sticky top-0 z-30 flex h-14 items-center justify-between bg-background px-6 transition-all",
-        isScrolled && "border-b"
+        isScrolled && !noBorder && "border-b"
       )}
     >
       <div className="flex items-center gap-2">

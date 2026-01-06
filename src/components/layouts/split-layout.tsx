@@ -1,3 +1,5 @@
+import * as React from "react"
+
 interface SplitLayoutProps {
   left: React.ReactNode
   right: React.ReactNode

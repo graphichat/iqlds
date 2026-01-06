@@ -13,6 +13,7 @@ import { CardsPage } from "@/pages/templates/CardsPage"
 import { SettingsPage } from "@/pages/templates/SettingsPage"
 import { TraysPage } from "@/pages/templates/TraysPage"
 import { ComponentsPage } from "@/pages/templates/ComponentsPage"
+import { LayoutsPage } from "@/pages/templates/LayoutsPage"
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
       { path: "/settings", element: <SettingsPage /> },
       { path: "/trays", element: <TraysPage /> },
       { path: "/components", element: <ComponentsPage /> },
+      { path: "/layouts", element: <LayoutsPage /> },
     ],
   },
   {

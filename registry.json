@@ -854,39 +854,38 @@
       ]
     },
     {
-      "name": "split-layout",
+      "name": "two-column-layout",
       "type": "registry:layout",
-      "title": "Split Layout",
-      "description": "Configurable split pane layout (defaults to 70/30, customizable)",
+      "title": "Two Column Layout",
+      "description": "Unified two-column layout supporting resizable or fixed widths, with optional headers, footers, and scrollable sections. Supports all two-column layout patterns including split panes, content with properties panels, and sidebar layouts.",
       "files": [
         {
-          "path": "src/components/layouts/split-layout.tsx",
+          "path": "src/components/layouts/two-column-layout.tsx",
           "type": "registry:layout"
         }
+      ],
+      "dependencies": [
+        "react-resizable-panels",
+        "@/components/ui/resizable",
+        "@/components/ui/scroll-area",
+        "@/components/ui/separator"
       ]
     },
     {
-      "name": "nested-shell",
+      "name": "three-column-layout",
       "type": "registry:layout",
-      "title": "Nested Shell",
-      "description": "Second-level sidebar layout with scrollable sidebar, optional header/footer, and configurable sidebar width",
+      "title": "Three Column Layout",
+      "description": "Resizable three-column layout with left sidebar, main content area, and right properties panel. Supports dynamic resizing with configurable default and minimum widths.",
       "files": [
         {
-          "path": "src/components/layouts/nested-shell.tsx",
+          "path": "src/components/layouts/three-column-layout.tsx",
           "type": "registry:layout"
         }
-      ]
-    },
-    {
-      "name": "page-with-properties",
-      "type": "registry:layout",
-      "title": "Page With Properties",
-      "description": "Layout with main content and right-side properties panel",
-      "files": [
-        {
-          "path": "src/components/layouts/page-with-properties.tsx",
-          "type": "registry:layout"
-        }
+      ],
+      "dependencies": [
+        "react-resizable-panels",
+        "@/components/ui/resizable",
+        "@/components/ui/scroll-area"
       ]
     },
     {

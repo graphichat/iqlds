@@ -2,7 +2,7 @@ import * as React from "react"
 import { useSearchParams } from "react-router-dom"
 import { PageShell } from "@/components/layouts/page-shell"
 import { PageHeaderWithBack } from "@/components/patterns/page-header-with-back"
-import { NestedShell } from "@/components/layouts/nested-shell"
+import { TwoColumnLayout } from "@/components/layouts/two-column-layout"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Badge } from "@/components/ui/badge"
@@ -128,23 +128,24 @@ function ComponentPreview({ component }: { component: RegistryItem }) {
         let Component: React.ComponentType<any> | null = null
 
         if (component.type === "registry:ui") {
-          const module = await import(`@/components/ui/${component.name}`)
+          const module = await import(`@/components/ui/${component.name}.tsx`)
           const componentName = component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
           Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
         } else if (component.type === "registry:block") {
-          const module = await import(`@/components/blocks/${component.name}`)
+          const module = await import(`@/components/blocks/${component.name}.tsx`)
           const componentName = component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
           Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
         } else if (component.type === "registry:layout") {
-          const module = await import(`@/components/layouts/${component.name}`)
+          const module = await import(`@/components/layouts/${component.name}.tsx`)
           const componentName = component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
           Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
         } else if (component.type === "registry:pattern") {
-          const module = await import(`@/components/patterns/${component.name}`)
+          const module = await import(`@/components/patterns/${component.name}.tsx`)
           const componentName = component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
           Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
         } else if (component.type === "registry:page") {
-          const module = await import(`@/pages/templates/${component.name.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")}`)
+          // @ts-ignore - Dynamic import from same directory requires vite-ignore
+          const module = await import(/* @vite-ignore */ `@/pages/templates/${component.name.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")}.tsx`)
           const componentName = component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
           Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
         }
@@ -467,16 +468,22 @@ export function ComponentsPage() {
         className="border-b"
       />
       <div className="flex-1 overflow-hidden">
-        <NestedShell
-          sidebar={
+        <TwoColumnLayout
+          left={
             <ComponentsSidebar
               items={items}
               selectedComponent={selectedComponent}
               onSelect={handleSelectComponent}
             />
           }
-          content={<ComponentViewer component={selectedItem} />}
-          sidebarWidth="320px"
+          right={<ComponentViewer component={selectedItem} />}
+          resizable={false}
+          leftWidth="320px"
+          rightWidth="auto"
+          scrollable={false}
+          noPadding={true}
+          showSeparator={false}
+          leftClassName="bg-muted/50"
         />
       </div>
     </PageShell>

@@ -12,6 +12,7 @@ export { SignupPage } from "./SignupPage"
 export { PasswordResetPage } from "./PasswordResetPage"
 export { NotFoundPage } from "./NotFoundPage"
 export { ComponentsPage } from "./ComponentsPage"
+export { LayoutsPage } from "./LayoutsPage"
 export { PageWithTable, PageWithTableExample } from "./PageWithTable"
 
 

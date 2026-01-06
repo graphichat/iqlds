@@ -25,7 +25,7 @@ export function PageHeaderWithTabs({
 }: PageHeaderWithTabsProps) {
   return (
     <>
-      <PageHeader title={title} leading={leading} actions={actions} />
+      <PageHeader title={title} leading={leading} actions={actions} noBorder />
       <PageTabs
         tabs={tabs}
         defaultValue={defaultValue}
