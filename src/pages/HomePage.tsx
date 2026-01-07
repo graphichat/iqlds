@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { User, Lock, File, ArrowRight, BarChart3, Settings, CreditCard, TrendingUp, Sparkles, Grid3x3, Package, Layout } from "lucide-react"
+import { User, Lock, File, ArrowRight, BarChart3, Settings, CreditCard, TrendingUp, Sparkles, Grid3x3, Package, Layout, Palette } from "lucide-react"
 import { PageShell } from "@/components/layouts/page-shell"
 import { PageHeader } from "@/components/blocks/page-header"
 import { ICON_STROKE_WIDTH } from "@/lib/constants"
@@ -115,6 +115,14 @@ const pages: PageLink[] = [
     description: "Explore different layout patterns with sidebars, split views, and multi-column designs",
     icon: Layout,
     href: "/layouts",
+    category: "layout",
+    featured: true,
+  },
+  {
+    title: "Themes",
+    description: "Browse and preview available color themes with installation instructions",
+    icon: Palette,
+    href: "/themes",
     category: "layout",
     featured: true,
   },

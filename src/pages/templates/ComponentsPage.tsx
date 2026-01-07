@@ -8,7 +8,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Code, Package, Layout, Blocks, FileText, Eye } from "lucide-react"
+import { Code, Package, Layout, Blocks, FileText, Eye, Copy, Check } from "lucide-react"
 import registryData from "../../../registry.json"
 
 interface RegistryItem {
@@ -115,6 +115,60 @@ function ComponentsSidebar({ items, selectedComponent, onSelect }: {
   )
 }
 
+// Helper function to determine component directory from file path
+function getComponentDirectory(component: RegistryItem): { directory: string; importPath: string } {
+  const filePath = component.files?.[0]?.path || ""
+  
+  if (filePath.includes("/components/ui/")) {
+    return { directory: "ui", importPath: `@/components/ui/${component.name}` }
+  }
+  if (filePath.includes("/components/blocks/")) {
+    return { directory: "blocks", importPath: `@/components/blocks/${component.name}` }
+  }
+  if (filePath.includes("/components/layouts/")) {
+    return { directory: "layouts", importPath: `@/components/layouts/${component.name}` }
+  }
+  if (filePath.includes("/components/patterns/")) {
+    return { directory: "patterns", importPath: `@/components/patterns/${component.name}` }
+  }
+  if (filePath.includes("/pages/templates/")) {
+    const pageName = component.name.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
+    return { directory: "pages", importPath: `@/pages/templates/${pageName}` }
+  }
+  
+  // Default to UI components
+  return { directory: "ui", importPath: `@/components/ui/${component.name}` }
+}
+
+function CopyCodeButton({ code }: { code: string }) {
+  const [copied, setCopied] = React.useState(false)
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(code)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch (err) {
+      console.error("Failed to copy:", err)
+    }
+  }
+
+  return (
+    <Button
+      variant="ghost"
+      size="sm"
+      onClick={copyToClipboard}
+      className="h-7 w-7 p-0"
+    >
+      {copied ? (
+        <Check className="h-3.5 w-3.5 text-green-600" />
+      ) : (
+        <Copy className="h-3.5 w-3.5" />
+      )}
+    </Button>
+  )
+}
+
 function ComponentPreview({ component }: { component: RegistryItem }) {
   const [PreviewComponent, setPreviewComponent] = React.useState<React.ComponentType<any> | null>(null)
   const [error, setError] = React.useState<string | null>(null)
@@ -126,27 +180,17 @@ function ComponentPreview({ component }: { component: RegistryItem }) {
     const loadComponent = async () => {
       try {
         let Component: React.ComponentType<any> | null = null
+        const { importPath, directory } = getComponentDirectory(component)
+        const componentName = component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
 
-        if (component.type === "registry:ui") {
-          const module = await import(`@/components/ui/${component.name}.tsx`)
-          const componentName = component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
+        if (directory === "pages") {
+          // Special handling for page components
+          const pageName = component.name.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
+          const module = await import(/* @vite-ignore */ `@/pages/templates/${pageName}.tsx`)
           Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
-        } else if (component.type === "registry:block") {
-          const module = await import(`@/components/blocks/${component.name}.tsx`)
-          const componentName = component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
-          Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
-        } else if (component.type === "registry:layout") {
-          const module = await import(`@/components/layouts/${component.name}.tsx`)
-          const componentName = component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
-          Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
-        } else if (component.type === "registry:pattern") {
-          const module = await import(`@/components/patterns/${component.name}.tsx`)
-          const componentName = component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
-          Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
-        } else if (component.type === "registry:page") {
-          // @ts-ignore - Dynamic import from same directory requires vite-ignore
-          const module = await import(/* @vite-ignore */ `@/pages/templates/${component.name.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")}.tsx`)
-          const componentName = component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
+        } else {
+          // For all other components, use the import path
+          const module = await import(`${importPath}.tsx`)
           Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
         }
 
@@ -380,39 +424,37 @@ function ComponentViewer({ component }: { component: RegistryItem | null }) {
         <Card>
           <CardHeader>
             <CardTitle>Usage</CardTitle>
-            <CardDescription>How to import and use this component</CardDescription>
+            <CardDescription>How to install and use this component</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="rounded-md bg-muted p-4">
-              <pre className="text-sm">
-                <code>
-                  {component.type === "registry:ui" && (
-                    <>
-                      {`import { ${component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")} } from "@/components/ui/${component.name}"`}
-                    </>
-                  )}
-                  {component.type === "registry:block" && (
-                    <>
-                      {`import { ${component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")} } from "@/components/blocks/${component.name}"`}
-                    </>
-                  )}
-                  {component.type === "registry:layout" && (
-                    <>
-                      {`import { ${component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")} } from "@/components/layouts/${component.name}"`}
-                    </>
-                  )}
-                  {component.type === "registry:pattern" && (
-                    <>
-                      {`import { ${component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")} } from "@/components/patterns/${component.name}"`}
-                    </>
-                  )}
-                  {component.type === "registry:page" && (
-                    <>
-                      {`import { ${component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")} } from "@/pages/templates/${component.name.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")}"`}
-                    </>
-                  )}
-                </code>
-              </pre>
+          <CardContent className="space-y-4">
+            {/* Installation */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <h4 className="text-sm font-semibold">Installation</h4>
+                <CopyCodeButton 
+                  code={`npx shadcn@latest add ${component.name} --registry @iqlds`}
+                />
+              </div>
+              <div className="rounded-md bg-muted p-4 relative">
+                <pre className="text-sm overflow-x-auto">
+                  <code>{`npx shadcn@latest add ${component.name} --registry @iqlds`}</code>
+                </pre>
+              </div>
+            </div>
+
+            {/* Import */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <h4 className="text-sm font-semibold">Import</h4>
+                <CopyCodeButton 
+                  code={`import { ${component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")} } from "${getComponentDirectory(component).importPath}"`}
+                />
+              </div>
+              <div className="rounded-md bg-muted p-4 relative">
+                <pre className="text-sm overflow-x-auto">
+                  <code>{`import { ${component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")} } from "${getComponentDirectory(component).importPath}"`}</code>
+                </pre>
+              </div>
             </div>
           </CardContent>
         </Card>

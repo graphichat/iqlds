@@ -935,6 +935,20 @@
         "@/components/ui/button",
         "react-router-dom"
       ]
+    },
+    {
+      "name": "theme-radix-nova",
+      "type": "registry:theme",
+      "title": "Radix Nova Theme",
+      "description": "Radix Nova style theme with neutral base color. Features modern OKLCH color space for better color consistency and accessibility.",
+      "files": [
+        {
+          "path": "src/styles/radix-nova.css",
+          "type": "registry:theme"
+        }
+      ],
+      "cssVariables": true,
+      "baseColor": "neutral"
     }
   ]
 }
