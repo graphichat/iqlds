@@ -19,7 +19,6 @@ import { ICON_STROKE_WIDTH } from "@/lib/constants"
 import { User } from "lucide-react"
 import { SIDEBAR_ITEMS } from "@/lib/sidebar-config"
 import LogoIcon from "@/assets/Logo.svg?react"
-import LogoFull from "@/assets/LogoFull.svg?react"
 
 interface GlobalSidebarProps {
   sidebarHeader?: React.ReactNode
@@ -31,16 +30,17 @@ function SidebarHeaderContent() {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <SidebarMenuButton size="lg">
-          {/* Logo icon - always 36px (w-9 h-9) */}
-<div className="flex items-center justify-center shrink-0 w-9 h-9">
-  <LogoIcon className="h-full w-full" />
-</div>
-
-{/* Logo full - hidden when collapsed */}
-<span className="group-data-[collapsible=icon]:hidden flex items-center h-full">
-  <LogoFull className="h-full w-auto text-foreground" />
-</span>
+        <SidebarMenuButton 
+          size="lg" 
+          asChild
+          className="!overflow-visible [&_svg]:!h-7 [&_svg]:!w-auto"
+        >
+          <div className="flex items-center h-7 gap-2 justify-start group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:gap-0">
+            <LogoIcon className="h-7 w-auto shrink-0" />
+            <span className="text-sm font-semibold whitespace-nowrap transition-[opacity,max-width] duration-200 ease-linear opacity-100 max-w-[200px] group-data-[collapsible=icon]:opacity-0 group-data-[collapsible=icon]:max-w-0 group-data-[collapsible=icon]:overflow-hidden group-data-[collapsible=icon]:hidden">
+              IQLine Inc
+            </span>
+          </div>
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>
