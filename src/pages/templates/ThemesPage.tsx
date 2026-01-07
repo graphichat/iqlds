@@ -50,11 +50,9 @@ function CopyCodeButton({ code }: { code: string }) {
 function ColorSwatch({ 
   name, 
   colorVar,
-  isDark = false 
 }: { 
   name: string
   colorVar: string
-  isDark?: boolean 
 }) {
   const [hovered, setHovered] = React.useState(false)
   
@@ -100,7 +98,7 @@ function ColorSwatch({
   )
 }
 
-function ThemeColorPreview({ theme }: { theme: ThemeItem }) {
+function ThemeColorPreview() {
   // Extract colors from the theme CSS file path
   // For now, we'll use a predefined structure based on standard theme colors
   const colorGroups = [
@@ -204,7 +202,6 @@ function ThemeColorPreview({ theme }: { theme: ThemeItem }) {
                         key={color.name}
                         name={color.name}
                         colorVar={color.var}
-                        isDark={true}
                       />
                     ))}
                   </div>
@@ -250,7 +247,7 @@ function ThemeDetails({ theme }: { theme: ThemeItem }) {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ThemeColorPreview theme={theme} />
+          <ThemeColorPreview />
         </CardContent>
       </Card>
 
