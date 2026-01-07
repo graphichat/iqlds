@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "page-shell",
+  "title": "Page Shell",
+  "description": "Base page container providing consistent spacing and vertical flow",
+  "files": [
+    {
+      "path": "src/components/layouts/page-shell.tsx",
+      "content": "import * as React from \"react\"\n\nexport function PageShell({ children }: { children: React.ReactNode }) {\n  return (\n    <div className=\"flex h-full flex-col\">\n      {children}\n    </div>\n  )\n}\n\n",
+      "type": "registry:block"
+    }
+  ],
+  "type": "registry:block"
+}

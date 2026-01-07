@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "page-header-with-back",
+  "title": "Page Header With Back",
+  "description": "Composition pattern combining page header with back button",
+  "dependencies": [
+    "@/components/blocks/page-header",
+    "@/components/blocks/back-button"
+  ],
+  "files": [
+    {
+      "path": "src/components/patterns/page-header-with-back.tsx",
+      "content": "import { PageHeader } from \"@/components/blocks/page-header\"\nimport { BackButton } from \"@/components/blocks/back-button\"\nimport { cn } from \"@/lib/utils\"\n\ninterface PageHeaderWithBackProps {\n  title: string\n  actions?: React.ReactNode\n  backButton?: {\n    label?: string\n    href?: string\n    onClick?: () => void\n  }\n  className?: string\n  noBorder?: boolean\n}\n\nexport function PageHeaderWithBack({ title, actions, backButton, className, noBorder }: PageHeaderWithBackProps) {\n  return (\n    <div className={cn(className, noBorder && \"!border-b-0\")}>\n      <PageHeader\n        title={title}\n        leading={<BackButton {...backButton} />}\n        actions={actions}\n        noBorder={noBorder}\n      />\n    </div>\n  )\n}\n\n",
+      "type": "registry:block"
+    }
+  ],
+  "type": "registry:block"
+}

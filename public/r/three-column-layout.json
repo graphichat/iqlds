@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "three-column-layout",
+  "title": "Three Column Layout",
+  "description": "Resizable three-column layout with left sidebar, main content area, and right properties panel. Supports dynamic resizing with configurable default and minimum widths.",
+  "dependencies": [
+    "react-resizable-panels",
+    "@/components/ui/resizable",
+    "@/components/ui/scroll-area"
+  ],
+  "files": [
+    {
+      "path": "src/components/layouts/three-column-layout.tsx",
+      "content": "import * as React from \"react\"\nimport * as ResizablePrimitive from \"react-resizable-panels\"\nimport { ScrollArea } from \"@/components/ui/scroll-area\"\nimport { ResizablePanel, ResizableHandle } from \"@/components/ui/resizable\"\nimport { cn } from \"@/lib/utils\"\n\ninterface ThreeColumnLayoutProps {\n  left: React.ReactNode\n  content: React.ReactNode\n  right: React.ReactNode\n  resizable?: boolean\n  defaultLeftWidth?: number\n  defaultContentWidth?: number\n  defaultRightWidth?: number\n  minLeftWidth?: number\n  minContentWidth?: number\n  minRightWidth?: number\n  leftWidth?: string\n  rightWidth?: string\n  className?: string\n}\n\nexport function ThreeColumnLayout({\n  left,\n  content,\n  right,\n  resizable = true,\n  defaultLeftWidth = 20,\n  defaultContentWidth = 60,\n  defaultRightWidth = 20,\n  minLeftWidth = 15,\n  minContentWidth = 30,\n  minRightWidth = 15,\n  leftWidth = \"240px\",\n  rightWidth = \"320px\",\n  className,\n}: ThreeColumnLayoutProps) {\n  const leftSection = (\n    <aside className=\"flex h-full flex-col border-r bg-muted/50\">\n      <ScrollArea className=\"flex-1\">\n        <div className=\"p-4\">{left}</div>\n      </ScrollArea>\n    </aside>\n  )\n\n  const contentSection = (\n    <main className=\"flex h-full flex-col overflow-auto bg-background\">\n      <ScrollArea className=\"flex-1\">\n        <div className=\"p-4\">{content}</div>\n      </ScrollArea>\n    </main>\n  )\n\n  const rightSection = (\n    <aside className=\"flex h-full flex-col border-l bg-muted/50\">\n      <ScrollArea className=\"flex-1\">\n        <div className=\"p-4\">{right}</div>\n      </ScrollArea>\n    </aside>\n  )\n\n  if (!resizable) {\n    return (\n      <div className={cn(\"flex h-full\", className)}>\n        <div style={{ width: leftWidth }}>{leftSection}</div>\n        <div className=\"flex-1\">{contentSection}</div>\n        <div style={{ width: rightWidth }}>{rightSection}</div>\n      </div>\n    )\n  }\n\n  return (\n    <ResizablePrimitive.Group\n      {...({ direction: \"horizontal\" } as any)}\n      className={cn(\"flex h-full w-full\", className)}\n    >\n      {/* Left Section */}\n      <ResizablePanel defaultSize={defaultLeftWidth} minSize={minLeftWidth}>\n        {leftSection}\n      </ResizablePanel>\n\n      <ResizableHandle className=\"hover:bg-border/50 transition-colors cursor-col-resize\" />\n\n      {/* Content Section */}\n      <ResizablePanel defaultSize={defaultContentWidth} minSize={minContentWidth}>\n        {contentSection}\n      </ResizablePanel>\n\n      <ResizableHandle className=\"hover:bg-border/50 transition-colors cursor-col-resize\" />\n\n      {/* Right Section (Properties) */}\n      <ResizablePanel defaultSize={defaultRightWidth} minSize={minRightWidth}>\n        {rightSection}\n      </ResizablePanel>\n    </ResizablePrimitive.Group>\n  )\n}\n\n",
+      "type": "registry:block"
+    }
+  ],
+  "type": "registry:block"
+}

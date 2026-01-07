@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "page-header-with-tabs",
+  "title": "Page Header With Tabs",
+  "description": "Composition pattern combining page header and tabs",
+  "dependencies": [
+    "@/components/blocks/page-header",
+    "@/components/blocks/page-tabs"
+  ],
+  "files": [
+    {
+      "path": "src/components/patterns/page-header-with-tabs.tsx",
+      "content": "import { PageHeader } from \"@/components/blocks/page-header\"\nimport { PageTabs } from \"@/components/blocks/page-tabs\"\n\ninterface PageHeaderWithTabsProps {\n  title: string\n  leading?: React.ReactNode\n  actions?: React.ReactNode\n  tabs: Array<{\n    value: string\n    label: string\n  }>\n  defaultValue?: string\n  value?: string\n  onValueChange?: (value: string) => void\n}\n\nexport function PageHeaderWithTabs({\n  title,\n  leading,\n  actions,\n  tabs,\n  defaultValue,\n  value,\n  onValueChange,\n}: PageHeaderWithTabsProps) {\n  return (\n    <>\n      <PageHeader title={title} leading={leading} actions={actions} noBorder />\n      <PageTabs\n        tabs={tabs}\n        defaultValue={defaultValue}\n        value={value}\n        onValueChange={onValueChange}\n      />\n    </>\n  )\n}\n\n",
+      "type": "registry:block"
+    }
+  ],
+  "type": "registry:block"
+}

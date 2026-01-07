@@ -13,7 +13,7 @@ This folder contains documentation for UI-related topics including page creation
 
 ## Quick Links
 
-- [Component List](../COMPONENTS.md) - Complete list of shadcn/ui components
+- [Component List](./COMPONENTS.md) - Complete list of all available components (shadcn/ui primitives, custom blocks, layouts, patterns, and specialized components)
 
 ## Contributing
 
