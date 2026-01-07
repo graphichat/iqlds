@@ -9,6 +9,7 @@ This folder contains documentation for UI-related topics including page creation
 - [Page Layouts](./page-layouts.md) - Documentation on page layout patterns
 - [Components](./components.md) - Component usage and patterns
 - [Design System](./design-system.md) - Design tokens, colors, typography, and spacing
+- [PDF Builder](./PDFBuilder.md) - PDF generation for reports, certificates, and invoices
 
 ## Quick Links
 
