@@ -81,6 +81,8 @@ on:
 jobs:
   sync-template:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     
     steps:
       - name: Checkout main branch
@@ -97,16 +99,23 @@ jobs:
       - name: Sync to template branch
         run: |
           # Fetch all branches
-          git fetch origin template:template || git checkout --orphan template
+          git fetch origin --all
           
-          # Switch to template branch
-          git checkout template
-          
-          # Remove all tracked files (we'll selectively restore from main)
-          git rm -rf . 2>/dev/null || true
+          # Check if template branch exists remotely
+          if git ls-remote --heads origin template | grep -q template; then
+            echo "Template branch exists, checking out..."
+            git checkout -b template origin/template 2>/dev/null || git checkout template
+            # Remove all tracked files
+            git rm -rf . 2>/dev/null || true
+          else
+            echo "Template branch does not exist, creating orphan branch..."
+            git checkout --orphan template
+            # Remove all files from staging
+            git rm -rf . 2>/dev/null || true
+          fi
           
           # === CORE CONFIG FILES ===
-          git checkout main -- \
+          git checkout origin/main -- \
             package.json \
             components.json \
             tsconfig.json \
@@ -120,56 +129,56 @@ jobs:
             2>/dev/null || true
           
           # === DOCUMENTATION ===
-          git checkout main -- docs/ 2>/dev/null || true
-          git checkout main -- TEMPLATE_README.md 2>/dev/null || true
+          git checkout origin/main -- docs/ 2>/dev/null || true
+          git checkout origin/main -- TEMPLATE_README.md 2>/dev/null || true
           
           # === SOURCE CODE ===
           # All UI components
-          git checkout main -- src/components/ui/ 2>/dev/null || true
+          git checkout origin/main -- src/components/ui/ 2>/dev/null || true
           
           # All blocks
-          git checkout main -- src/components/blocks/ 2>/dev/null || true
+          git checkout origin/main -- src/components/blocks/ 2>/dev/null || true
           
           # All layouts
-          git checkout main -- src/components/layouts/ 2>/dev/null || true
+          git checkout origin/main -- src/components/layouts/ 2>/dev/null || true
           
           # All patterns
-          git checkout main -- src/components/patterns/ 2>/dev/null || true
+          git checkout origin/main -- src/components/patterns/ 2>/dev/null || true
           
           # Standalone components
-          git checkout main -- src/components/theme-toggle.tsx 2>/dev/null || true
-          git checkout main -- src/components/logo.tsx 2>/dev/null || true
-          git checkout main -- src/components/tray-card.tsx 2>/dev/null || true
+          git checkout origin/main -- src/components/theme-toggle.tsx 2>/dev/null || true
+          git checkout origin/main -- src/components/logo.tsx 2>/dev/null || true
+          git checkout origin/main -- src/components/tray-card.tsx 2>/dev/null || true
           
           # Lib utilities
-          git checkout main -- src/lib/ 2>/dev/null || true
+          git checkout origin/main -- src/lib/ 2>/dev/null || true
           
           # Hooks
-          git checkout main -- src/hooks/ 2>/dev/null || true
+          git checkout origin/main -- src/hooks/ 2>/dev/null || true
           
           # App core (router, App.tsx, main.tsx)
-          git checkout main -- src/app/ 2>/dev/null || true
-          git checkout main -- src/main.tsx 2>/dev/null || true
-          git checkout main -- src/vite-env.d.ts 2>/dev/null || true
+          git checkout origin/main -- src/app/ 2>/dev/null || true
+          git checkout origin/main -- src/main.tsx 2>/dev/null || true
+          git checkout origin/main -- src/vite-env.d.ts 2>/dev/null || true
           
           # Styles
-          git checkout main -- src/index.css 2>/dev/null || true
-          git checkout main -- src/styles/ 2>/dev/null || true
+          git checkout origin/main -- src/index.css 2>/dev/null || true
+          git checkout origin/main -- src/styles/ 2>/dev/null || true
           
           # Assets
-          git checkout main -- src/assets/ 2>/dev/null || true
+          git checkout origin/main -- src/assets/ 2>/dev/null || true
           
           # === ESSENTIAL PAGES ONLY ===
           # Create pages directory structure
           mkdir -p src/pages/templates
           
           # Checkout essential pages
-          git checkout main -- src/pages/templates/LoginPage.tsx 2>/dev/null || true
-          git checkout main -- src/pages/templates/SignupPage.tsx 2>/dev/null || true
-          git checkout main -- src/pages/templates/PasswordResetPage.tsx 2>/dev/null || true
-          git checkout main -- src/pages/templates/NotFoundPage.tsx 2>/dev/null || true
-          git checkout main -- src/pages/templates/README.md 2>/dev/null || true
-          git checkout main -- src/pages/StarterPage.tsx 2>/dev/null || true
+          git checkout origin/main -- src/pages/templates/LoginPage.tsx 2>/dev/null || true
+          git checkout origin/main -- src/pages/templates/SignupPage.tsx 2>/dev/null || true
+          git checkout origin/main -- src/pages/templates/PasswordResetPage.tsx 2>/dev/null || true
+          git checkout origin/main -- src/pages/templates/NotFoundPage.tsx 2>/dev/null || true
+          git checkout origin/main -- src/pages/templates/README.md 2>/dev/null || true
+          git checkout origin/main -- src/pages/StarterPage.tsx 2>/dev/null || true
           
           # === CREATE TEMPLATE-SPECIFIC FILES ===
           
@@ -233,11 +242,18 @@ jobs:
           git add -A
           
           # Check if there are changes to commit
-          if git diff --staged --quiet; then
+          if [ -z "$(git status --porcelain)" ]; then
             echo "No changes to sync"
           else
-            git commit -m "Sync from main branch [skip ci]"
-            git push origin template
+            # Check if this is the first commit (orphan branch)
+            if ! git rev-parse --verify HEAD >/dev/null 2>&1; then
+              git commit -m "Initial template branch sync from main [skip ci]"
+            else
+              git commit -m "Sync from main branch [skip ci]"
+            fi
+            
+            # Push to template branch
+            git push origin template || git push -u origin template
             echo "Template branch synced successfully!"
           fi
 
