@@ -190,7 +190,7 @@ function ComponentPreview({ component }: { component: RegistryItem }) {
           Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
         } else {
           // For all other components, use the import path
-          const module = await import(`${importPath}.tsx`)
+          const module = await import(/* @vite-ignore */ `${importPath}.tsx`)
           Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
         }
 
@@ -338,6 +338,7 @@ function ComponentViewer({ component }: { component: RegistryItem | null }) {
 
   const componentTypeConfig = typeConfig[component.type as ComponentType]
   const Icon = componentTypeConfig?.icon || Package
+  const colorClass = componentTypeConfig?.color || "bg-gray-500/10 text-gray-500"
 
   return (
     <ScrollArea className="h-full">
@@ -347,7 +348,7 @@ function ComponentViewer({ component }: { component: RegistryItem | null }) {
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-2">
               <div className="flex items-center gap-3">
-                <div className={`rounded-lg p-2 ${componentTypeConfig.color}`}>
+                <div className={`rounded-lg p-2 ${colorClass}`}>
                   <Icon className="h-5 w-5" />
                 </div>
                 <div>
@@ -468,20 +469,22 @@ export function ComponentsPage() {
   const selectedComponent = searchParams.get("component")
 
   const items = React.useMemo(() => {
-    return (registryData.items as RegistryItem[]).sort((a, b) => {
-      // Sort by type first, then by title
-      if (a.type !== b.type) {
-        const typeOrder: ComponentType[] = [
-          "registry:ui",
-          "registry:block",
-          "registry:layout",
-          "registry:pattern",
-          "registry:page",
-        ]
-        return typeOrder.indexOf(a.type as ComponentType) - typeOrder.indexOf(b.type as ComponentType)
-      }
-      return a.title.localeCompare(b.title)
-    })
+    return (registryData.items as RegistryItem[])
+      .filter((item) => item.type !== "registry:theme") // Exclude themes - they have their own page
+      .sort((a, b) => {
+        // Sort by type first, then by title
+        if (a.type !== b.type) {
+          const typeOrder: ComponentType[] = [
+            "registry:ui",
+            "registry:block",
+            "registry:layout",
+            "registry:pattern",
+            "registry:page",
+          ]
+          return typeOrder.indexOf(a.type as ComponentType) - typeOrder.indexOf(b.type as ComponentType)
+        }
+        return a.title.localeCompare(b.title)
+      })
   }, [])
 
   const selectedItem = React.useMemo(() => {

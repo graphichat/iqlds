@@ -376,3 +376,4 @@ npx shadcn@latest add my-component --registry ./public/r
 - [Design System](./design-system.md) - Design tokens and styling
 - [shadcn Registry Docs](https://ui.shadcn.com/docs/registry) - Official documentation
 
+
