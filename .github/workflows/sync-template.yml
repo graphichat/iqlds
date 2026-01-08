@@ -1,0 +1,265 @@
+# Sync Template Branch
+# 
+# This workflow automatically syncs the template branch with specific files from main.
+# The template branch is intended as a clean starting point for new projects.
+#
+# Files synced to template:
+# - All UI components (src/components/ui/)
+# - All blocks (src/components/blocks/)
+# - All layouts (src/components/layouts/)
+# - All patterns (src/components/patterns/)
+# - Essential pages only (Login, Signup, PasswordReset, NotFound, Starter)
+# - Core configs (package.json, tsconfig, etc.)
+# - Documentation (docs/)
+# - Lib utilities (src/lib/)
+# - Styles (src/index.css, src/styles/)
+#
+# Files NOT synced (main-only):
+# - Demo/example pages (Dashboard, Charts, Forms, etc.)
+# - Registry files (registry.json, public/r/)
+# - HomePage.tsx (main showcase)
+# - ComponentsPage, ThemesPage (registry viewers)
+# - .cursor/ folder
+# - dist/ folder
+
+name: Sync Template Branch
+
+on:
+  push:
+    branches: [main]
+    paths:
+      # UI Components
+      - 'src/components/ui/**'
+      # Blocks
+      - 'src/components/blocks/**'
+      # Layouts
+      - 'src/components/layouts/**'
+      # Patterns
+      - 'src/components/patterns/**'
+      # Essential pages
+      - 'src/pages/templates/LoginPage.tsx'
+      - 'src/pages/templates/SignupPage.tsx'
+      - 'src/pages/templates/PasswordResetPage.tsx'
+      - 'src/pages/templates/NotFoundPage.tsx'
+      - 'src/pages/StarterPage.tsx'
+      - 'src/pages/templates/README.md'
+      - 'src/pages/templates/index.ts'
+      # Lib utilities
+      - 'src/lib/**'
+      # Hooks
+      - 'src/hooks/**'
+      # App core
+      - 'src/app/**'
+      - 'src/main.tsx'
+      - 'src/vite-env.d.ts'
+      # Styles
+      - 'src/index.css'
+      - 'src/styles/**'
+      # Assets
+      - 'src/assets/**'
+      # Standalone components
+      - 'src/components/theme-toggle.tsx'
+      - 'src/components/logo.tsx'
+      # Documentation
+      - 'docs/**'
+      - 'TEMPLATE_README.md'
+      # Config files
+      - 'package.json'
+      - 'components.json'
+      - 'tsconfig.json'
+      - 'tsconfig.app.json'
+      - 'tsconfig.node.json'
+      - 'vite.config.ts'
+      - 'eslint.config.js'
+      - 'index.html'
+      - '.gitignore'
+      - '.cursorrules'
+  
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  sync-template:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      - name: Sync to template branch
+        run: |
+          # Fetch all branches
+          git fetch origin template:template || git checkout --orphan template
+          
+          # Switch to template branch
+          git checkout template
+          
+          # Remove all tracked files (we'll selectively restore from main)
+          git rm -rf . 2>/dev/null || true
+          
+          # === CORE CONFIG FILES ===
+          git checkout main -- \
+            package.json \
+            components.json \
+            tsconfig.json \
+            tsconfig.app.json \
+            tsconfig.node.json \
+            vite.config.ts \
+            eslint.config.js \
+            index.html \
+            .gitignore \
+            .cursorrules \
+            2>/dev/null || true
+          
+          # === DOCUMENTATION ===
+          git checkout main -- docs/ 2>/dev/null || true
+          git checkout main -- TEMPLATE_README.md 2>/dev/null || true
+          
+          # === SOURCE CODE ===
+          # All UI components
+          git checkout main -- src/components/ui/ 2>/dev/null || true
+          
+          # All blocks
+          git checkout main -- src/components/blocks/ 2>/dev/null || true
+          
+          # All layouts
+          git checkout main -- src/components/layouts/ 2>/dev/null || true
+          
+          # All patterns
+          git checkout main -- src/components/patterns/ 2>/dev/null || true
+          
+          # Standalone components
+          git checkout main -- src/components/theme-toggle.tsx 2>/dev/null || true
+          git checkout main -- src/components/logo.tsx 2>/dev/null || true
+          git checkout main -- src/components/tray-card.tsx 2>/dev/null || true
+          
+          # Lib utilities
+          git checkout main -- src/lib/ 2>/dev/null || true
+          
+          # Hooks
+          git checkout main -- src/hooks/ 2>/dev/null || true
+          
+          # App core (router, App.tsx, main.tsx)
+          git checkout main -- src/app/ 2>/dev/null || true
+          git checkout main -- src/main.tsx 2>/dev/null || true
+          git checkout main -- src/vite-env.d.ts 2>/dev/null || true
+          
+          # Styles
+          git checkout main -- src/index.css 2>/dev/null || true
+          git checkout main -- src/styles/ 2>/dev/null || true
+          
+          # Assets
+          git checkout main -- src/assets/ 2>/dev/null || true
+          
+          # === ESSENTIAL PAGES ONLY ===
+          # Create pages directory structure
+          mkdir -p src/pages/templates
+          
+          # Checkout essential pages
+          git checkout main -- src/pages/templates/LoginPage.tsx 2>/dev/null || true
+          git checkout main -- src/pages/templates/SignupPage.tsx 2>/dev/null || true
+          git checkout main -- src/pages/templates/PasswordResetPage.tsx 2>/dev/null || true
+          git checkout main -- src/pages/templates/NotFoundPage.tsx 2>/dev/null || true
+          git checkout main -- src/pages/templates/README.md 2>/dev/null || true
+          git checkout main -- src/pages/StarterPage.tsx 2>/dev/null || true
+          
+          # === CREATE TEMPLATE-SPECIFIC FILES ===
+          
+          # Create a clean index.ts for pages/templates
+          cat > src/pages/templates/index.ts << 'EOF'
+          export { LoginPage } from "./LoginPage"
+          export { SignupPage } from "./SignupPage"
+          export { PasswordResetPage } from "./PasswordResetPage"
+          export { NotFoundPage } from "./NotFoundPage"
+          EOF
+          
+          # Create a template-specific router
+          cat > src/app/router.tsx << 'EOF'
+          import { createBrowserRouter } from "react-router-dom"
+          import { AppShell } from "@/components/layouts/app-shell"
+          import { StarterPage } from "@/pages/StarterPage"
+          import { LoginPage } from "@/pages/templates/LoginPage"
+          import { SignupPage } from "@/pages/templates/SignupPage"
+          import { PasswordResetPage } from "@/pages/templates/PasswordResetPage"
+          import { NotFoundPage } from "@/pages/templates/NotFoundPage"
+          import { RouteErrorBoundary } from "@/components/blocks/route-error-boundary"
+          
+          export const router = createBrowserRouter([
+            {
+              element: <AppShell />,
+              errorElement: <RouteErrorBoundary />,
+              children: [
+                { path: "/", element: <StarterPage /> },
+                // Add your routes here
+              ],
+            },
+            {
+              path: "/login",
+              element: <LoginPage />,
+              errorElement: <RouteErrorBoundary />,
+            },
+            {
+              path: "/signup",
+              element: <SignupPage />,
+              errorElement: <RouteErrorBoundary />,
+            },
+            {
+              path: "/password-reset",
+              element: <PasswordResetPage />,
+              errorElement: <RouteErrorBoundary />,
+            },
+            {
+              path: "*",
+              element: <NotFoundPage homeButton={{ href: "/", label: "Go Home" }} />,
+              errorElement: <RouteErrorBoundary />,
+            },
+          ])
+          EOF
+          
+          # Rename TEMPLATE_README.md to README.md for template
+          if [ -f "TEMPLATE_README.md" ]; then
+            mv TEMPLATE_README.md README.md
+          fi
+          
+          # === COMMIT AND PUSH ===
+          git add -A
+          
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes to sync"
+          else
+            git commit -m "Sync from main branch [skip ci]"
+            git push origin template
+            echo "Template branch synced successfully!"
+          fi
+
+      - name: Summary
+        run: |
+          echo "## Template Sync Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Template branch has been synced with the following from main:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Included:" >> $GITHUB_STEP_SUMMARY
+          echo "- All UI components (\`src/components/ui/\`)" >> $GITHUB_STEP_SUMMARY
+          echo "- All blocks (\`src/components/blocks/\`)" >> $GITHUB_STEP_SUMMARY
+          echo "- All layouts (\`src/components/layouts/\`)" >> $GITHUB_STEP_SUMMARY
+          echo "- All patterns (\`src/components/patterns/\`)" >> $GITHUB_STEP_SUMMARY
+          echo "- Essential pages (Login, Signup, PasswordReset, NotFound, Starter)" >> $GITHUB_STEP_SUMMARY
+          echo "- Lib utilities and hooks" >> $GITHUB_STEP_SUMMARY
+          echo "- Styles and assets" >> $GITHUB_STEP_SUMMARY
+          echo "- Documentation" >> $GITHUB_STEP_SUMMARY
+          echo "- Config files" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Excluded:" >> $GITHUB_STEP_SUMMARY
+          echo "- Demo pages (Dashboard, Charts, Forms, Cards, etc.)" >> $GITHUB_STEP_SUMMARY
+          echo "- Registry files" >> $GITHUB_STEP_SUMMARY
+          echo "- HomePage.tsx" >> $GITHUB_STEP_SUMMARY
+
