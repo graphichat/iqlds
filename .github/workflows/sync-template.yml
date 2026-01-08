@@ -28,6 +28,8 @@ on:
   push:
     branches: [main]
     paths:
+      # Workflow file itself (so updates trigger sync)
+      - '.github/workflows/sync-template.yml'
       # UI Components
       - 'src/components/ui/**'
       # Blocks
