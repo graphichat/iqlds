@@ -8,7 +8,7 @@ This project uses [shadcn/ui](https://ui.shadcn.com/) components built on top of
 
 ## Available Components
 
-See [COMPONENTS.md](../COMPONENTS.md) for a complete list of available components and their installation status.
+See [COMPONENTS.md](./COMPONENTS.md) for a complete list of available components and their installation status.
 
 ## Using Components
 
@@ -148,7 +148,3 @@ Components can be customized by:
 - Using Tailwind classes for styling
 - Extending components with additional props
 - Creating wrapper components for common patterns
-
-
-
-

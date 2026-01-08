@@ -1,7 +1,8 @@
 import * as React from "react"
-import { useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { LoginForm } from "@/components/blocks/login-form"
-import { Logo } from "@/components/logo"
+import { Sparkles } from "lucide-react"
+import { ICON_STROKE_WIDTH } from "@/lib/constants"
 
 /**
  * Login Page Template
@@ -25,14 +26,10 @@ import { Logo } from "@/components/logo"
 interface LoginPageProps {
   onLogin?: (email: string, password: string) => void
   onGoogleLogin?: () => void
-  onFacebookLogin?: () => void
-  onGithubLogin?: () => void
   showSignupLink?: boolean
   signupLink?: string
   showForgotPassword?: boolean
   forgotPasswordLink?: string
-  showSocialLogin?: boolean
-  showRememberMe?: boolean
   logo?: React.ReactNode
   logoText?: string
 }
@@ -40,47 +37,50 @@ interface LoginPageProps {
 export function LoginPage({
   onLogin,
   onGoogleLogin,
-  onFacebookLogin,
-  onGithubLogin,
   showSignupLink = true,
   signupLink = "/signup",
   showForgotPassword = true,
-  forgotPasswordLink = "/password-reset",
-  showSocialLogin = true,
-  showRememberMe = true,
+  forgotPasswordLink = "/forgot-password",
   logo,
-  logoText = "",
+  logoText = "IQLine Inc.",
 }: LoginPageProps) {
-  const navigate = useNavigate()
-
-  const handleLogin = async (email: string, password: string) => {
-    if (onLogin) {
-      await onLogin(email, password)
-    } else {
-      // Default behavior - navigate to home after login
-      console.log("Login:", { email, password })
-      navigate("/")
-    }
-  }
-
-  const defaultLogo = logo || <Logo showText={true} size="lg" text={logoText} />
-
   return (
     <div className="flex min-h-svh w-full items-center justify-center bg-muted p-6 md:p-10">
-      <LoginForm
-        onLogin={handleLogin}
-        onGoogleLogin={onGoogleLogin}
-        onFacebookLogin={onFacebookLogin}
-        onGithubLogin={onGithubLogin}
-        showSignupLink={showSignupLink}
-        signupLink={signupLink}
-        showForgotPassword={showForgotPassword}
-        forgotPasswordLink={forgotPasswordLink}
-        showSocialLogin={showSocialLogin}
-        showRememberMe={showRememberMe}
-        logo={defaultLogo}
-        logoText={logoText}
-      />
+      <div className="w-full max-w-sm space-y-6">
+        {/* Logo Area */}
+        {(logo || logoText) && (
+          <div className="flex items-center justify-center gap-2">
+            {logo || (
+              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                <Sparkles strokeWidth={ICON_STROKE_WIDTH} className="size-4" />
+              </div>
+            )}
+            {logoText && (
+              <span className="text-lg font-semibold">{logoText}</span>
+            )}
+          </div>
+        )}
+
+        {/* Login Form */}
+        <LoginForm
+          onLogin={onLogin}
+          onGoogleLogin={onGoogleLogin}
+          showSignupLink={showSignupLink}
+          signupLink={signupLink}
+          showForgotPassword={showForgotPassword}
+          forgotPasswordLink={forgotPasswordLink}
+        />
+
+        {/* Back to Home Link */}
+        <div className="text-center">
+          <Link 
+            to="/" 
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            ← Back to Home
+          </Link>
+        </div>
+      </div>
     </div>
   )
 }

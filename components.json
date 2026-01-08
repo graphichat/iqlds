@@ -21,6 +21,6 @@
   "menuColor": "default",
   "menuAccent": "subtle",
   "registries": {
-    "@iqlds": "./registry.json"
+    "@iqlds": "https://iqlds.vercel.app/r/{name}.json"
   }
 }

@@ -9,9 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, Sparkles } from "lucide-react"
 import { ICON_STROKE_WIDTH } from "@/lib/constants"
-import { Logo } from "@/components/logo"
 
 /**
  * Password Reset Page Template
@@ -45,7 +44,7 @@ export function PasswordResetPage({
   showLoginLink = true,
   loginLink = "/login",
   logo,
-  logoText = "IQLine",
+  logoText = "IQLine Inc.",
 }: PasswordResetPageProps) {
   const [email, setEmail] = React.useState("")
   const [isLoading, setIsLoading] = React.useState(false)
@@ -143,8 +142,15 @@ export function PasswordResetPage({
       <div className="w-full max-w-sm space-y-6">
         {/* Logo Area */}
         {(logo || logoText) && (
-          <div className="flex items-center justify-center">
-            {logo || <Logo showText={true} size="lg" text={logoText} />}
+          <div className="flex items-center justify-center gap-2">
+            {logo || (
+              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                <Sparkles strokeWidth={ICON_STROKE_WIDTH} className="size-4" />
+              </div>
+            )}
+            {logoText && (
+              <span className="text-lg font-semibold">{logoText}</span>
+            )}
           </div>
         )}
 

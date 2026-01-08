@@ -131,6 +131,77 @@ The application uses Tailwind's default breakpoints:
 </div>
 ```
 
+## Layout Components
+
+The application provides several reusable layout components:
+
+### Two Column Layout
+
+A flexible two-column layout with optional headers, footers, and scrollable sections.
+
+```tsx
+import { TwoColumnLayout } from "@/components/layouts/two-column-layout"
+
+<TwoColumnLayout
+  left={<div>Left content</div>}
+  right={<div>Right content</div>}
+  leftWidth="50%"
+  rightWidth="50%"
+  leftHeader={<h2>Left Header</h2>}
+  rightHeader={<h2>Right Header</h2>}
+  leftFooter={<div>Left Footer</div>}
+  rightFooter={<div>Right Footer</div>}
+  showSeparator={true}
+/>
+```
+
+**Props:**
+- `left`: Content for the left section (required)
+- `right`: Content for the right section (required)
+- `leftWidth`: Width of the left section (default: "50%")
+- `rightWidth`: Width of the right section (default: "50%")
+- `leftHeader`: Optional header for the left section
+- `leftFooter`: Optional footer for the left section
+- `rightHeader`: Optional header for the right section
+- `rightFooter`: Optional footer for the right section
+- `showSeparator`: Whether to show separators between sections (default: true)
+- `className`: Additional CSS classes
+
+**Use when:**
+- You need equal or custom-width columns
+- Both sections need headers or footers
+- You need independent scrolling for each section
+- Creating comparison views or side-by-side content
+
+### Three Column Layout
+
+A three-column layout with left sidebar, main content area, and right properties panel.
+
+```tsx
+import { ThreeColumnLayout } from "@/components/layouts/three-column-layout"
+
+<ThreeColumnLayout
+  left={<div>Left sidebar content</div>}
+  content={<div>Main content</div>}
+  right={<div>Properties panel</div>}
+  leftWidth="240px"
+  rightWidth="320px"
+/>
+```
+
+**Props:**
+- `left`: Content for the left sidebar (required)
+- `content`: Main content area (required)
+- `right`: Content for the right properties panel (required)
+- `leftWidth`: Width of the left sidebar (default: "240px")
+- `rightWidth`: Width of the right properties panel (default: "320px")
+- `className`: Additional CSS classes
+
+**Use when:**
+- You need navigation sidebar + main content + properties panel
+- Creating editor interfaces with toolbars and properties
+- Building complex dashboards with multiple panels
+- Need three distinct content areas with independent scrolling
 
 
 

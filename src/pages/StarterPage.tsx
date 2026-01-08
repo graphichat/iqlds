@@ -1,176 +1,261 @@
+import * as React from "react"
+import { Link } from "react-router-dom"
 import { PageShell } from "@/components/layouts/page-shell"
 import { PageHeader } from "@/components/blocks/page-header"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { Sparkles, Package, Layout, Blocks } from "lucide-react"
+import { 
+  ArrowRight, 
+  Layout, 
+  Palette, 
+  Code2, 
+  FileText, 
+  Layers,
+  Sparkles,
+  BookOpen,
+  ExternalLink
+} from "lucide-react"
 import { ICON_STROKE_WIDTH } from "@/lib/constants"
 
-/**
- * Starter Page Template
- * 
- * A clean starter page showcasing the design system components, layouts, and patterns.
- * This page serves as a starting point for new projects built with this template.
- */
+const features = [
+  {
+    title: "UI Components",
+    description: "60+ accessible, customizable components built with Radix UI",
+    icon: Code2,
+    badge: "Ready to use",
+  },
+  {
+    title: "Layout System",
+    description: "Flexible layouts including app shell, split panes, and multi-column",
+    icon: Layout,
+    badge: "Composable",
+  },
+  {
+    title: "Theming",
+    description: "Light and dark modes with OKLCH color system",
+    icon: Palette,
+    badge: "Customizable",
+  },
+  {
+    title: "Patterns",
+    description: "Pre-built patterns for headers, tabs, and navigation",
+    icon: Layers,
+    badge: "Best practices",
+  },
+]
+
+const quickLinks = [
+  {
+    title: "Documentation",
+    description: "Learn how to use components and layouts",
+    href: "/docs",
+    icon: BookOpen,
+  },
+  {
+    title: "Components Guide",
+    description: "Browse available UI components",
+    href: "/components",
+    icon: Code2,
+  },
+  {
+    title: "Page Templates",
+    description: "Pre-built page templates to get started",
+    href: "/templates",
+    icon: FileText,
+  },
+]
+
 export function StarterPage() {
   return (
     <PageShell>
-      <PageHeader
-        title="Welcome to Your Project"
+      <PageHeader 
+        title="Welcome to Your Project" 
         actions={
-          <Badge variant="secondary">Starter Template</Badge>
+          <Button asChild>
+            <a href="https://ui.shadcn.com" target="_blank" rel="noopener noreferrer">
+              <ExternalLink strokeWidth={ICON_STROKE_WIDTH} className="mr-2 h-4 w-4" />
+              shadcn/ui Docs
+            </a>
+          </Button>
         }
       />
+      
       <div className="flex-1 overflow-auto">
-        <div className="container mx-auto py-8 px-4">
-          <div className="space-y-8">
-            {/* Hero Section */}
-            <div className="rounded-lg border bg-gradient-to-br from-primary/5 to-card p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="rounded-lg bg-primary/10 p-3">
-                  <Sparkles className="size-6 text-primary" strokeWidth={ICON_STROKE_WIDTH} />
-                </div>
-                <div>
-                  <h1 className="text-3xl font-bold">Get Started</h1>
-                  <p className="text-muted-foreground">
-                    Everything you need to build your application
-                  </p>
-                </div>
-              </div>
-              <p className="text-sm text-muted-foreground max-w-2xl">
-                This starter template includes all UI components, layouts, blocks, and patterns
-                from the design system. Start building your application by customizing this page
-                and adding your own routes and components.
+        <div className="container mx-auto max-w-6xl px-6 py-8 space-y-12">
+          
+          {/* Hero Section */}
+          <div className="text-center space-y-4">
+            <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
+              <Sparkles strokeWidth={ICON_STROKE_WIDTH} className="h-4 w-4" />
+              Ready to build
+            </div>
+            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+              Start Building Your App
+            </h1>
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+              This template includes everything you need to build a modern React application.
+              Edit this page at <code className="rounded bg-muted px-1.5 py-0.5 text-sm">src/pages/StarterPage.tsx</code>
+            </p>
+          </div>
+
+          {/* Features Grid */}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {features.map((feature) => {
+              const Icon = feature.icon
+              return (
+                <Card key={feature.title} className="relative overflow-hidden">
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center justify-between">
+                      <div className="rounded-lg bg-primary/10 p-2">
+                        <Icon strokeWidth={ICON_STROKE_WIDTH} className="h-5 w-5 text-primary" />
+                      </div>
+                      <Badge variant="secondary" className="text-xs">
+                        {feature.badge}
+                      </Badge>
+                    </div>
+                    <CardTitle className="text-lg">{feature.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription>{feature.description}</CardDescription>
+                  </CardContent>
+                </Card>
+              )
+            })}
+          </div>
+
+          {/* Getting Started Section */}
+          <div className="space-y-6">
+            <div className="text-center">
+              <h2 className="text-2xl font-bold">Getting Started</h2>
+              <p className="text-muted-foreground mt-2">
+                Follow these steps to customize your project
               </p>
             </div>
 
-            {/* Quick Start Guide */}
-            <div className="grid gap-6 md:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-3">
               <Card>
                 <CardHeader>
-                  <div className="flex items-center gap-2 mb-2">
-                    <Package className="size-5 text-primary" strokeWidth={ICON_STROKE_WIDTH} />
-                    <CardTitle>UI Components</CardTitle>
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold">
+                      1
+                    </div>
+                    <CardTitle className="text-base">Edit This Page</CardTitle>
                   </div>
-                  <CardDescription>
-                    Access all shadcn/ui components from <code className="text-xs">@/components/ui</code>
-                  </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    Buttons, cards, inputs, dialogs, and more - all styled and ready to use.
-                  </p>
+                  <CardDescription>
+                    Replace this starter page with your own content. Find it at{" "}
+                    <code className="text-xs bg-muted px-1 rounded">src/pages/StarterPage.tsx</code>
+                  </CardDescription>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader>
-                  <div className="flex items-center gap-2 mb-2">
-                    <Blocks className="size-5 text-primary" strokeWidth={ICON_STROKE_WIDTH} />
-                    <CardTitle>Blocks & Patterns</CardTitle>
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold">
+                      2
+                    </div>
+                    <CardTitle className="text-base">Configure Navigation</CardTitle>
                   </div>
-                  <CardDescription>
-                    Reusable blocks and patterns from <code className="text-xs">@/components/blocks</code>
-                  </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    Pre-built components like headers, forms, tables, and navigation patterns.
-                  </p>
+                  <CardDescription>
+                    Update sidebar items in{" "}
+                    <code className="text-xs bg-muted px-1 rounded">src/lib/sidebar-config.ts</code>{" "}
+                    and routes in{" "}
+                    <code className="text-xs bg-muted px-1 rounded">src/app/router.tsx</code>
+                  </CardDescription>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader>
-                  <div className="flex items-center gap-2 mb-2">
-                    <Layout className="size-5 text-primary" strokeWidth={ICON_STROKE_WIDTH} />
-                    <CardTitle>Layouts</CardTitle>
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold">
+                      3
+                    </div>
+                    <CardTitle className="text-base">Customize Theme</CardTitle>
                   </div>
-                  <CardDescription>
-                    Layout components from <code className="text-xs">@/components/layouts</code>
-                  </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    App shell, page layouts, nested shells, and split layouts for any use case.
-                  </p>
+                  <CardDescription>
+                    Modify colors and styles in{" "}
+                    <code className="text-xs bg-muted px-1 rounded">src/index.css</code>{" "}
+                    or create a custom theme
+                  </CardDescription>
                 </CardContent>
               </Card>
             </div>
+          </div>
 
-            <Separator />
+          {/* Resources Section */}
+          <div className="space-y-6">
+            <div className="text-center">
+              <h2 className="text-2xl font-bold">Resources</h2>
+              <p className="text-muted-foreground mt-2">
+                Learn more about the tools and libraries used in this template
+              </p>
+            </div>
 
-            {/* Next Steps */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Next Steps</CardTitle>
-                <CardDescription>Start building your application</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <h3 className="font-semibold">1. Customize This Page</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Edit <code className="text-xs bg-muted px-1 py-0.5 rounded">src/pages/StarterPage.tsx</code> to create your home page.
-                    </p>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <Button variant="outline" className="h-auto py-4 justify-start" asChild>
+                <a href="https://ui.shadcn.com" target="_blank" rel="noopener noreferrer">
+                  <div className="text-left">
+                    <div className="font-semibold">shadcn/ui</div>
+                    <div className="text-xs text-muted-foreground">Component library</div>
                   </div>
-                  <div className="space-y-2">
-                    <h3 className="font-semibold">2. Add Your Routes</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Update <code className="text-xs bg-muted px-1 py-0.5 rounded">src/app/router.tsx</code> to add your application routes.
-                    </p>
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="font-semibold">3. Use Components</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Import and use components from <code className="text-xs bg-muted px-1 py-0.5 rounded">@/components/ui</code>, 
-                      <code className="text-xs bg-muted px-1 py-0.5 rounded">@/components/blocks</code>, and 
-                      <code className="text-xs bg-muted px-1 py-0.5 rounded">@/components/layouts</code>.
-                    </p>
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="font-semibold">4. Customize Theme</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Switch themes using the theme toggle in the header, or create your own theme in the registry.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                  <ArrowRight strokeWidth={ICON_STROKE_WIDTH} className="ml-auto h-4 w-4" />
+                </a>
+              </Button>
 
-            {/* Features */}
-            <Card>
-              <CardHeader>
-                <CardTitle>What's Included</CardTitle>
-                <CardDescription>Everything you need to get started</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <h4 className="font-semibold text-sm">Design System</h4>
-                    <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
-                      <li>Complete shadcn/ui component library</li>
-                      <li>Theme support with light/dark modes</li>
-                      <li>Responsive design utilities</li>
-                      <li>Accessible components</li>
-                    </ul>
+              <Button variant="outline" className="h-auto py-4 justify-start" asChild>
+                <a href="https://tailwindcss.com" target="_blank" rel="noopener noreferrer">
+                  <div className="text-left">
+                    <div className="font-semibold">Tailwind CSS</div>
+                    <div className="text-xs text-muted-foreground">Styling framework</div>
                   </div>
-                  <div className="space-y-2">
-                    <h4 className="font-semibold text-sm">Layouts & Patterns</h4>
-                    <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
-                      <li>App shell with sidebar and header</li>
-                      <li>Page layouts and containers</li>
-                      <li>Navigation patterns</li>
-                      <li>Form and table blocks</li>
-                    </ul>
+                  <ArrowRight strokeWidth={ICON_STROKE_WIDTH} className="ml-auto h-4 w-4" />
+                </a>
+              </Button>
+
+              <Button variant="outline" className="h-auto py-4 justify-start" asChild>
+                <a href="https://reactrouter.com" target="_blank" rel="noopener noreferrer">
+                  <div className="text-left">
+                    <div className="font-semibold">React Router</div>
+                    <div className="text-xs text-muted-foreground">Navigation</div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                  <ArrowRight strokeWidth={ICON_STROKE_WIDTH} className="ml-auto h-4 w-4" />
+                </a>
+              </Button>
+
+              <Button variant="outline" className="h-auto py-4 justify-start" asChild>
+                <a href="https://vitejs.dev" target="_blank" rel="noopener noreferrer">
+                  <div className="text-left">
+                    <div className="font-semibold">Vite</div>
+                    <div className="text-xs text-muted-foreground">Build tool</div>
+                  </div>
+                  <ArrowRight strokeWidth={ICON_STROKE_WIDTH} className="ml-auto h-4 w-4" />
+                </a>
+              </Button>
+            </div>
+          </div>
+
+          {/* Footer Note */}
+          <div className="text-center text-sm text-muted-foreground border-t pt-8">
+            <p>
+              This is a starter template. Delete or modify any files to fit your needs.
+            </p>
+            <p className="mt-1">
+              Check out the <code className="bg-muted px-1 rounded">docs/</code> folder for more information.
+            </p>
           </div>
         </div>
       </div>
     </PageShell>
   )
 }
+
+export default StarterPage
 

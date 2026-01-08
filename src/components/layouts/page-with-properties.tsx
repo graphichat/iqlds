@@ -1,3 +1,5 @@
+import * as React from "react"
+
 interface PageWithPropertiesProps {
   content: React.ReactNode
   properties: React.ReactNode
@@ -18,5 +20,4 @@ export function PageWithProperties({
     </div>
   )
 }
-
 

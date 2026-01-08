@@ -1,3 +1,5 @@
+import * as React from "react"
+
 interface SplitLayoutProps {
   left: React.ReactNode
   right: React.ReactNode
@@ -17,5 +19,4 @@ export function SplitLayout({ left, right, leftWidth = "70%", rightWidth = "30%"
     </div>
   )
 }
-
 

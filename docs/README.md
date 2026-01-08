@@ -9,10 +9,12 @@ This folder contains documentation for UI-related topics including page creation
 - [Page Layouts](./page-layouts.md) - Documentation on page layout patterns
 - [Components](./components.md) - Component usage and patterns
 - [Design System](./design-system.md) - Design tokens, colors, typography, and spacing
+- [Registry](./registry.md) - Component registry setup, building, and publishing
+- [PDF Builder](./PDFBuilder.md) - PDF generation for reports, certificates, and invoices
 
 ## Quick Links
 
-- [Component List](../COMPONENTS.md) - Complete list of shadcn/ui components
+- [Component List](./COMPONENTS.md) - Complete list of all available components (shadcn/ui primitives, custom blocks, layouts, patterns, and specialized components)
 
 ## Contributing
 
