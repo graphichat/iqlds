@@ -3,7 +3,6 @@ import { PageShell } from "@/components/layouts/page-shell"
 import { PageHeaderWithTabs } from "@/components/patterns/page-header-with-tabs"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
 import { LoadingState } from "@/components/blocks/loading-state"
 import { LoadingOverlay } from "@/components/blocks/loading-overlay"
 import { SkeletonLoader } from "@/components/blocks/skeleton-loader"
@@ -14,7 +13,6 @@ import { EmptyState } from "@/components/blocks/empty-state"
 import { SlowApiHandler } from "@/components/blocks/slow-api-handler"
 import { TimeoutHandler } from "@/components/blocks/timeout-handler"
 import { Copy, Check } from "lucide-react"
-import { ICON_STROKE_WIDTH } from "@/lib/constants"
 
 function CopyCodeButton({ code }: { code: string }) {
   const [copied, setCopied] = React.useState(false)

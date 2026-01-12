@@ -6,7 +6,7 @@
   "files": [
     {
       "path": "src/components/blocks/global-footer.tsx",
-      "content": "export function GlobalFooter() {\n  return (\n    <footer className=\"border-t px-6 py-2\">\n      <div className=\"container mx-auto text-sm text-muted-foreground\">\n        <p>© {new Date().getFullYear()} IQLine Inc. All rights reserved.</p>\n      </div>\n    </footer>\n  )\n}\n\n",
+      "content": "export function GlobalFooter() {\n  return (\n    <footer className=\"border-t px-6 py-2\">\n      <div className=\"container mx-auto text-sm text-muted-foreground\">\n        <p>© {new Date().getFullYear()} IQLine Inc. All rights reserved.</p>\n      </div>\n    </footer>\n  )\n}\n\n\n",
       "type": "registry:block"
     }
   ],
