@@ -33,6 +33,7 @@ export function SlowApiHandler({
   const [isSlow, setIsSlow] = React.useState(false)
 
   React.useEffect(() => {
+    setIsSlow(false) // Reset when delay changes
     const timer = setTimeout(() => {
       setIsSlow(true)
       onSlowApi?.()

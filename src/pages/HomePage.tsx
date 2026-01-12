@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { User, Lock, File, ArrowRight, BarChart3, Settings, CreditCard, TrendingUp, Sparkles, Grid3x3, Package, Layout, Palette } from "lucide-react"
+import { User, Lock, File, ArrowRight, BarChart3, Settings, CreditCard, TrendingUp, Sparkles, Grid3x3, Package, Layout, Palette, AlertTriangle } from "lucide-react"
 import { PageShell } from "@/components/layouts/page-shell"
 import { PageHeader } from "@/components/blocks/page-header"
 import { ICON_STROKE_WIDTH } from "@/lib/constants"
@@ -123,6 +123,14 @@ const pages: PageLink[] = [
     description: "Browse and preview available color themes with installation instructions",
     icon: Palette,
     href: "/themes",
+    category: "layout",
+    featured: true,
+  },
+  {
+    title: "Edge Cases",
+    description: "Comprehensive examples of loading states, error handling, empty states, and slow API scenarios",
+    icon: AlertTriangle,
+    href: "/edge-cases",
     category: "layout",
     featured: true,
   },

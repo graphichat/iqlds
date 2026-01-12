@@ -90,13 +90,26 @@ export function EdgeCasesDemoPage() {
 
       <div className="flex-1 overflow-auto">
         <div className="container mx-auto max-w-6xl px-6 py-8 space-y-8">
+          {/* Intro Section - Show on all tabs */}
+          {activeTab === "loading" && (
+            <Card className="border-primary/20 bg-primary/5">
+              <CardHeader>
+                <CardTitle>Edge Cases & Error Handling</CardTitle>
+                <CardDescription>
+                  Comprehensive examples of loading states, error handling, empty states, and slow API scenarios.
+                  These components help create better user experiences by handling all edge cases gracefully.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          )}
+
           {/* Loading States Tab */}
           {activeTab === "loading" && (
             <div className="space-y-8">
               <div>
-                <h2 className="text-2xl font-bold mb-4">Loading States</h2>
+                <h2 className="text-2xl font-bold mb-2">Loading States</h2>
                 <p className="text-muted-foreground mb-6">
-                  Different loading indicators for various scenarios
+                  Different loading indicators for various scenarios. Choose the right variant based on your use case.
                 </p>
               </div>
 
@@ -168,26 +181,29 @@ export function EdgeCasesDemoPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <CardTitle>Loading Overlay</CardTitle>
-                      <CardDescription>Overlay loading for inline content</CardDescription>
+                      <CardDescription>Overlay loading for inline content, forms, and buttons</CardDescription>
                     </div>
-                    <CopyCodeButton code={`<LoadingOverlay isLoading={true} message="Saving...">\n  <YourContent />\n</LoadingOverlay>`} />
+                    <CopyCodeButton code={`<LoadingOverlay isLoading={isSubmitting} message="Saving...">\n  <YourContent />\n</LoadingOverlay>`} />
                   </div>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <Button onClick={simulateOverlay}>Simulate Overlay Loading</Button>
-                    <LoadingOverlay isLoading={overlayLoading} message="Processing...">
-                      <Card>
-                        <CardHeader>
-                          <CardTitle>Content Card</CardTitle>
-                          <CardDescription>This content is covered by overlay when loading</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-sm">Some content here...</p>
-                        </CardContent>
-                      </Card>
-                    </LoadingOverlay>
+                <CardContent className="space-y-4">
+                  <div className="rounded-md border p-4 bg-muted/30">
+                    <p className="text-sm text-muted-foreground mb-3">
+                      Perfect for form submissions, inline updates, and preventing user interaction during async operations.
+                    </p>
+                    <Button onClick={simulateOverlay} size="sm">Simulate Overlay Loading</Button>
                   </div>
+                  <LoadingOverlay isLoading={overlayLoading} message="Processing...">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Content Card</CardTitle>
+                        <CardDescription>This content is covered by overlay when loading</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-sm">Some content here...</p>
+                      </CardContent>
+                    </Card>
+                  </LoadingOverlay>
                 </CardContent>
               </Card>
             </div>
@@ -197,9 +213,10 @@ export function EdgeCasesDemoPage() {
           {activeTab === "errors" && (
             <div className="space-y-8">
               <div>
-                <h2 className="text-2xl font-bold mb-4">API Error States</h2>
+                <h2 className="text-2xl font-bold mb-2">API Error States</h2>
                 <p className="text-muted-foreground mb-6">
-                  Different error scenarios and how to handle them
+                  Comprehensive error handling for network issues, HTTP errors, and data failures.
+                  Each error type provides appropriate messaging and recovery options.
                 </p>
               </div>
 
@@ -339,9 +356,10 @@ export function EdgeCasesDemoPage() {
           {activeTab === "empty" && (
             <div className="space-y-8">
               <div>
-                <h2 className="text-2xl font-bold mb-4">Empty States</h2>
+                <h2 className="text-2xl font-bold mb-2">Empty States</h2>
                 <p className="text-muted-foreground mb-6">
-                  Different empty state scenarios
+                  Helpful empty states that guide users when there's no data to display.
+                  Includes actionable CTAs and clear messaging.
                 </p>
               </div>
 
@@ -413,20 +431,25 @@ export function EdgeCasesDemoPage() {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Slow API Handler</CardTitle>
-                  <CardDescription>
-                    Shows a message when API takes longer than threshold
-                  </CardDescription>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle>Slow API Handler</CardTitle>
+                      <CardDescription>
+                        Shows a message when API takes longer than threshold (2 seconds)
+                      </CardDescription>
+                    </div>
+                    <CopyCodeButton code={`<SlowApiHandler delay={3000} onSlowApi={() => showMessage()}>\n  <DataComponent />\n</SlowApiHandler>`} />
+                  </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="flex gap-2">
-                    <Button onClick={() => simulateSlowApi(1000)} variant="outline">
+                  <div className="flex flex-wrap gap-2">
+                    <Button onClick={() => simulateSlowApi(1000)} variant="outline" size="sm">
                       Fast API (1s)
                     </Button>
-                    <Button onClick={() => simulateSlowApi(3000)} variant="outline">
+                    <Button onClick={() => simulateSlowApi(3000)} variant="outline" size="sm">
                       Slow API (3s)
                     </Button>
-                    <Button onClick={() => simulateSlowApi(5000)} variant="outline">
+                    <Button onClick={() => simulateSlowApi(5000)} variant="outline" size="sm">
                       Very Slow (5s)
                     </Button>
                   </div>
@@ -456,12 +479,29 @@ export function EdgeCasesDemoPage() {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Timeout Handler</CardTitle>
-                  <CardDescription>
-                    Automatically shows timeout error after specified duration
-                  </CardDescription>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle>Timeout Handler</CardTitle>
+                      <CardDescription>
+                        Automatically shows timeout error after specified duration (3 seconds)
+                      </CardDescription>
+                    </div>
+                    <CopyCodeButton code={`<TimeoutHandler timeout={10000} onTimeout={() => handleTimeout()} onRetry={() => refetch()}>\n  <DataComponent />\n</TimeoutHandler>`} />
+                  </div>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="space-y-4">
+                  <div className="rounded-md border p-4 bg-muted/30">
+                    <p className="text-sm text-muted-foreground mb-2">
+                      This component will automatically show a timeout error after 3 seconds.
+                    </p>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => window.location.reload()}
+                    >
+                      Reset Demo
+                    </Button>
+                  </div>
                   <TimeoutHandler
                     timeout={3000}
                     onTimeout={() => console.log("Timeout occurred")}
@@ -474,13 +514,11 @@ export function EdgeCasesDemoPage() {
                       <CardHeader>
                         <CardTitle>Content with Timeout</CardTitle>
                         <CardDescription>
-                          This will timeout after 3 seconds. Click to reset.
+                          This will timeout after 3 seconds
                         </CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-sm text-muted-foreground">
-                          Content that may timeout...
-                        </p>
+                        <LoadingState message="Loading content..." />
                       </CardContent>
                     </Card>
                   </TimeoutHandler>
@@ -502,13 +540,17 @@ export function EdgeCasesDemoPage() {
               {/* Data Table Scenario */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Data Table with States</CardTitle>
-                  <CardDescription>
-                    Loading → Error → Success → Empty states
-                  </CardDescription>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle>Data Table with States</CardTitle>
+                      <CardDescription>
+                        Complete state management: Loading → Error → Success → Empty
+                      </CardDescription>
+                    </div>
+                  </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
                     <Button onClick={simulateLoading} variant="outline" size="sm">
                       Show Loading
                     </Button>
@@ -631,6 +673,56 @@ export function EdgeCasesDemoPage() {
               </Card>
             </div>
           )}
+
+          {/* Best Practices Summary */}
+          <Card className="border-primary/20 bg-primary/5">
+            <CardHeader>
+              <CardTitle>Best Practices</CardTitle>
+              <CardDescription>
+                Guidelines for implementing edge cases in your application
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-2">
+                  <h3 className="font-semibold text-sm">Loading States</h3>
+                  <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
+                    <li>Use skeleton loaders for content that maintains layout</li>
+                    <li>Show spinners for quick operations (&lt;2s)</li>
+                    <li>Provide clear loading messages</li>
+                    <li>Use overlays to prevent interaction during critical operations</li>
+                  </ul>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="font-semibold text-sm">Error Handling</h3>
+                  <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
+                    <li>Always provide a retry option</li>
+                    <li>Use appropriate error messages for each status code</li>
+                    <li>Offer alternative actions (e.g., login for 401 errors)</li>
+                    <li>Log errors for debugging while showing user-friendly messages</li>
+                  </ul>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="font-semibold text-sm">Empty States</h3>
+                  <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
+                    <li>Explain why the state is empty</li>
+                    <li>Provide actionable next steps</li>
+                    <li>Use appropriate icons and messaging</li>
+                    <li>Guide users toward creating content or adjusting filters</li>
+                  </ul>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="font-semibold text-sm">Slow APIs</h3>
+                  <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
+                    <li>Show progress indicators after 2-3 seconds</li>
+                    <li>Set reasonable timeout limits (10-30s)</li>
+                    <li>Provide cancellation options for long operations</li>
+                    <li>Cache responses to reduce API calls</li>
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </PageShell>
