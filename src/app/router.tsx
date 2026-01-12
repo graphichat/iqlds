@@ -5,6 +5,7 @@ import { LoginPage } from "@/pages/templates/LoginPage"
 import { SignupPage } from "@/pages/templates/SignupPage"
 import { PasswordResetPage } from "@/pages/templates/PasswordResetPage"
 import { NotFoundPage } from "@/pages/templates/NotFoundPage"
+import { EdgeCasesDemoPage } from "@/pages/templates/EdgeCasesDemoPage"
 import { RouteErrorBoundary } from "@/components/blocks/route-error-boundary"
 
 export const router = createBrowserRouter([
@@ -13,6 +14,7 @@ export const router = createBrowserRouter([
     errorElement: <RouteErrorBoundary />,
     children: [
       { path: "/", element: <StarterPage /> },
+      { path: "/edge-cases", element: <EdgeCasesDemoPage /> },
     ],
   },
   {
