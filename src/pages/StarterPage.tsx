@@ -1,5 +1,3 @@
-import * as React from "react"
-import { Link } from "react-router-dom"
 import { PageShell } from "@/components/layouts/page-shell"
 import { PageHeader } from "@/components/blocks/page-header"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,10 +8,8 @@ import {
   Layout, 
   Palette, 
   Code2, 
-  FileText, 
   Layers,
   Sparkles,
-  BookOpen,
   ExternalLink
 } from "lucide-react"
 import { ICON_STROKE_WIDTH } from "@/lib/constants"
@@ -42,27 +38,6 @@ const features = [
     description: "Pre-built patterns for headers, tabs, and navigation",
     icon: Layers,
     badge: "Best practices",
-  },
-]
-
-const quickLinks = [
-  {
-    title: "Documentation",
-    description: "Learn how to use components and layouts",
-    href: "/docs",
-    icon: BookOpen,
-  },
-  {
-    title: "Components Guide",
-    description: "Browse available UI components",
-    href: "/components",
-    icon: Code2,
-  },
-  {
-    title: "Page Templates",
-    description: "Pre-built page templates to get started",
-    href: "/templates",
-    icon: FileText,
   },
 ]
 
