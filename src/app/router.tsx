@@ -15,7 +15,7 @@ import { TraysPage } from "@/pages/templates/TraysPage"
 import { ComponentsPage } from "@/pages/templates/ComponentsPage"
 import { LayoutsPage } from "@/pages/templates/LayoutsPage"
 import { ThemesPage } from "@/pages/templates/ThemesPage"
-
+import { EdgeCasesDemoPage } from "@/pages/templates/EdgeCasesDemoPage"
 import { RouteErrorBoundary } from "@/components/blocks/route-error-boundary"
 
 export const router = createBrowserRouter([
@@ -34,6 +34,7 @@ export const router = createBrowserRouter([
       { path: "/components", element: <ComponentsPage /> },
       { path: "/layouts", element: <LayoutsPage /> },
       { path: "/themes", element: <ThemesPage /> },
+      { path: "/edge-cases", element: <EdgeCasesDemoPage /> },
     ],
   },
   {
