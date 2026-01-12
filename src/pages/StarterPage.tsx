@@ -1,3 +1,5 @@
+import * as React from "react"
+import { Link } from "react-router-dom"
 import { PageShell } from "@/components/layouts/page-shell"
 import { PageHeader } from "@/components/blocks/page-header"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -8,8 +10,10 @@ import {
   Layout, 
   Palette, 
   Code2, 
+  FileText, 
   Layers,
   Sparkles,
+  BookOpen,
   ExternalLink
 } from "lucide-react"
 import { ICON_STROKE_WIDTH } from "@/lib/constants"
@@ -41,6 +45,27 @@ const features = [
   },
 ]
 
+const quickLinks = [
+  {
+    title: "Documentation",
+    description: "Learn how to use components and layouts",
+    href: "/docs",
+    icon: BookOpen,
+  },
+  {
+    title: "Components Guide",
+    description: "Browse available UI components",
+    href: "/components",
+    icon: Code2,
+  },
+  {
+    title: "Page Templates",
+    description: "Pre-built page templates to get started",
+    href: "/templates",
+    icon: FileText,
+  },
+]
+
 export function StarterPage() {
   return (
     <PageShell>
@@ -48,9 +73,9 @@ export function StarterPage() {
         title="Welcome to Your Project" 
         actions={
           <Button asChild>
-            <a href="https://iqlds.vercel.app" target="_blank" rel="noopener noreferrer">
+            <a href="https://ui.shadcn.com" target="_blank" rel="noopener noreferrer">
               <ExternalLink strokeWidth={ICON_STROKE_WIDTH} className="mr-2 h-4 w-4" />
-              IQL Design System
+              shadcn/ui Docs
             </a>
           </Button>
         }
@@ -176,9 +201,9 @@ export function StarterPage() {
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <Button variant="outline" className="h-auto py-4 justify-start" asChild>
-                <a href="https://iqlds.vercel.app" target="_blank" rel="noopener noreferrer">
+                <a href="https://ui.shadcn.com" target="_blank" rel="noopener noreferrer">
                   <div className="text-left">
-                    <div className="font-semibold">IQL Design System</div>
+                    <div className="font-semibold">shadcn/ui</div>
                     <div className="text-xs text-muted-foreground">Component library</div>
                   </div>
                   <ArrowRight strokeWidth={ICON_STROKE_WIDTH} className="ml-auto h-4 w-4" />

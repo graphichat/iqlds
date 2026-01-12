@@ -1,4 +1,4 @@
-import { Home, BarChart3, File, Settings, TrendingUp, FileText, CreditCard, Grid3x3 } from "lucide-react"
+import { Home, BarChart3, File, Settings, TrendingUp, FileText, CreditCard, Grid3x3, AlertTriangle } from "lucide-react"
 
 export const SIDEBAR_ITEMS = [
   {
@@ -10,6 +10,11 @@ export const SIDEBAR_ITEMS = [
     label: "Dashboard",
     icon: BarChart3,
     href: "/dashboard",
+  },
+  {
+    label: "Edge Cases",
+    icon: AlertTriangle,
+    href: "/edge-cases",
   },
   {
     label: "Analytics",

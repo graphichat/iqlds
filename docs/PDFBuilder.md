@@ -25,7 +25,7 @@ The PDF Builder follows a **composition-first** architecture, allowing you to bu
 1. **Primitives over configuration** - Small building blocks compose into complex layouts
 2. **Design system integration** - Uses the same tokens (colors, typography, spacing) as the web UI
 3. **Type-safe templates** - Full TypeScript support with strict data schemas
-4. **Separation of concerns** - Templates define structure, data defines content.
+4. **Separation of concerns** - Templates define structure, data defines content
 
 ---
 
