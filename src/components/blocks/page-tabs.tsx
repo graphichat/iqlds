@@ -12,7 +12,7 @@ interface PageTabsProps {
 
 export function PageTabs({ tabs, defaultValue, value, onValueChange }: PageTabsProps) {
   return (
-    <div className="border-b px-6">
+    <div className="border-b" style={{ paddingLeft: "8px", paddingRight: "24px" }}>
       <Tabs value={value} defaultValue={defaultValue} onValueChange={onValueChange}>
         <TabsList variant="line" className="h-9">
           {tabs.map((tab) => (
