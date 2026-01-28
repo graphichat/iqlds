@@ -1,4 +1,3 @@
-import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { AlertCircle, RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"

@@ -1,7 +1,6 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
 import { Spinner } from "@/components/ui/spinner"
-import { ICON_STROKE_WIDTH } from "@/lib/constants"
 
 export interface LoadingOverlayProps {
   isLoading: boolean
@@ -40,10 +39,11 @@ export function LoadingOverlay({
             "absolute inset-0 z-50 flex flex-col items-center justify-center gap-2 bg-background/80 backdrop-blur-sm",
             overlayClassName
           )}
-          aria-label="Loading"
           role="status"
+          aria-live="polite"
+          aria-label={message || "Loading"}
         >
-          <Spinner className="h-6 w-6" />
+          <Spinner className="h-6 w-6" aria-hidden="true" />
           {message && <p className="text-sm text-muted-foreground">{message}</p>}
         </div>
       )}

@@ -122,11 +122,16 @@ export function ApiError({
         )}
       </CardContent>
       {onRetry && (
-        <CardFooter>
+        <CardFooter className="flex gap-2">
           <Button onClick={onRetry} className="gap-2">
             <RefreshCw className="h-4 w-4" strokeWidth={ICON_STROKE_WIDTH} />
             Try Again
           </Button>
+          {error.status === 401 && (
+            <Button variant="outline" onClick={() => window.location.href = "/login"} className="gap-2">
+              Go to Login
+            </Button>
+          )}
         </CardFooter>
       )}
     </Card>
