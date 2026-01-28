@@ -13,6 +13,10 @@ on:
       - 'src/pages/templates/SignupPage.tsx'
       - 'src/pages/templates/PasswordResetPage.tsx'
       - 'src/pages/templates/NotFoundPage.tsx'
+      - 'src/pages/templates/ServerErrorPage.tsx'
+      - 'src/pages/templates/MaintenancePage.tsx'
+      - 'src/pages/templates/LandingPage.tsx'
+      - 'src/pages/templates/DashboardHomePage.tsx'
       - 'src/pages/StarterPage.tsx'
       - 'src/pages/templates/README.md'
       - 'src/pages/templates/index.ts'
@@ -28,6 +32,9 @@ on:
       - 'src/components/logo.tsx'
       - 'src/components/tray-card.tsx'
       - 'docs/**'
+      - '.cursor/implementation/**'
+      - '.cursor/architectureGuidelines.md'
+      - '.cursor/projectStrucute.md'
       - 'TEMPLATE_README.md'
       - 'package.json'
       - 'components.json'
@@ -88,6 +95,12 @@ jobs:
           git checkout origin/main -- docs/ 2>/dev/null || true
           git checkout origin/main -- TEMPLATE_README.md 2>/dev/null || true
           
+          # === CURSOR IMPLEMENTATION DOCS ===
+          mkdir -p .cursor
+          git checkout origin/main -- .cursor/implementation/ 2>/dev/null || true
+          git checkout origin/main -- .cursor/architectureGuidelines.md 2>/dev/null || true
+          git checkout origin/main -- .cursor/projectStrucute.md 2>/dev/null || true
+          
           # === SOURCE CODE ===
           git checkout origin/main -- src/components/ui/
           git checkout origin/main -- src/components/blocks/
@@ -107,39 +120,83 @@ jobs:
           
           # === ESSENTIAL PAGES ONLY ===
           mkdir -p src/pages/templates
+          # Auth pages
           git checkout origin/main -- src/pages/templates/LoginPage.tsx 2>/dev/null || true
           git checkout origin/main -- src/pages/templates/SignupPage.tsx 2>/dev/null || true
           git checkout origin/main -- src/pages/templates/PasswordResetPage.tsx 2>/dev/null || true
+          # Error & Status pages
           git checkout origin/main -- src/pages/templates/NotFoundPage.tsx 2>/dev/null || true
+          git checkout origin/main -- src/pages/templates/ServerErrorPage.tsx 2>/dev/null || true
+          git checkout origin/main -- src/pages/templates/MaintenancePage.tsx 2>/dev/null || true
+          # Landing & Home pages
+          git checkout origin/main -- src/pages/templates/LandingPage.tsx 2>/dev/null || true
+          git checkout origin/main -- src/pages/templates/DashboardHomePage.tsx 2>/dev/null || true
+          # Starter & README
           git checkout origin/main -- src/pages/templates/README.md 2>/dev/null || true
           git checkout origin/main -- src/pages/StarterPage.tsx
           
           # === CREATE TEMPLATE-SPECIFIC FILES ===
           cat > src/pages/templates/index.ts << 'EOF'
+          // Authentication Pages
           export { LoginPage } from "./LoginPage"
           export { SignupPage } from "./SignupPage"
           export { PasswordResetPage } from "./PasswordResetPage"
+          
+          // Error & Status Pages
           export { NotFoundPage } from "./NotFoundPage"
+          export { ServerErrorPage } from "./ServerErrorPage"
+          export { MaintenancePage } from "./MaintenancePage"
+          
+          // Landing & Home Pages
+          export { LandingPage } from "./LandingPage"
+          export { DashboardHomePage } from "./DashboardHomePage"
           EOF
           
           cat > src/app/router.tsx << 'EOF'
           import { createBrowserRouter } from "react-router-dom"
           import { AppShell } from "@/components/layouts/app-shell"
           import { StarterPage } from "@/pages/StarterPage"
-          import { LoginPage } from "@/pages/templates/LoginPage"
-          import { SignupPage } from "@/pages/templates/SignupPage"
-          import { PasswordResetPage } from "@/pages/templates/PasswordResetPage"
-          import { NotFoundPage } from "@/pages/templates/NotFoundPage"
+          import { 
+            LoginPage, 
+            SignupPage, 
+            PasswordResetPage, 
+            NotFoundPage,
+            LandingPage,
+            DashboardHomePage,
+          } from "@/pages/templates"
           import { RouteErrorBoundary } from "@/components/blocks/route-error-boundary"
           
+          /**
+           * Application Router Configuration
+           * 
+           * This is a starter router with common routes. Customize for your app.
+           * 
+           * Route Types:
+           * 1. Public routes (no auth required): LandingPage, LoginPage, etc.
+           * 2. Protected routes (inside AppShell): Dashboard, Settings, etc.
+           * 3. Error routes: 404, 500, etc.
+           */
           export const router = createBrowserRouter([
+            // Public landing page (optional - remove if app is login-only)
+            {
+              path: "/welcome",
+              element: <LandingPage />,
+              errorElement: <RouteErrorBoundary />,
+            },
+            
+            // Protected routes (wrapped in AppShell with sidebar)
             {
               element: <AppShell />,
               errorElement: <RouteErrorBoundary />,
               children: [
+                // Replace StarterPage with DashboardHomePage after implementing auth
                 { path: "/", element: <StarterPage /> },
+                // Example: Role-based dashboard home
+                // { path: "/dashboard", element: <DashboardHomePage user={currentUser} /> },
               ],
             },
+            
+            // Authentication routes (standalone, no AppShell)
             {
               path: "/login",
               element: <LoginPage />,
@@ -155,6 +212,8 @@ jobs:
               element: <PasswordResetPage />,
               errorElement: <RouteErrorBoundary />,
             },
+            
+            // 404 catch-all
             {
               path: "*",
               element: <NotFoundPage homeButton={{ href: "/", label: "Go Home" }} />,
@@ -184,9 +243,13 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Included Files:" >> $GITHUB_STEP_SUMMARY
           echo "- All UI/blocks/layouts/patterns components" >> $GITHUB_STEP_SUMMARY
-          echo "- Essential pages (Login, Signup, PasswordReset, NotFound, Starter)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Auth pages**: Login, Signup, PasswordReset" >> $GITHUB_STEP_SUMMARY
+          echo "- **Error pages**: NotFound (404), ServerError (500), Maintenance" >> $GITHUB_STEP_SUMMARY
+          echo "- **Home pages**: LandingPage (public), DashboardHomePage (role-based), StarterPage" >> $GITHUB_STEP_SUMMARY
           echo "- Lib, hooks, styles, assets, docs" >> $GITHUB_STEP_SUMMARY
+          echo "- Implementation documentation (.cursor/implementation/)" >> $GITHUB_STEP_SUMMARY
+          echo "- Architecture guidelines (.cursor/)" >> $GITHUB_STEP_SUMMARY
           echo "- Config files" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Excluded:" >> $GITHUB_STEP_SUMMARY
-          echo "- Demo pages, registry files, HomePage" >> $GITHUB_STEP_SUMMARY
+          echo "- Demo pages (Charts, Forms, Cards, etc.), registry files" >> $GITHUB_STEP_SUMMARY

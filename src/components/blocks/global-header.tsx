@@ -21,6 +21,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Bell, Settings, User, LogOut } from "lucide-react"
 import { generateBreadcrumbs, type BreadcrumbItem as BreadcrumbItemType } from "@/lib/navigation"
 
@@ -55,10 +56,12 @@ export function GlobalHeader({
   }
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-white dark:bg-background backdrop-blur supports-[backdrop-filter]:bg-white dark:supports-[backdrop-filter]:bg-background">
+    <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="w-full flex h-10 items-center gap-4 px-4">
-        {/* Left Side - Breadcrumbs */}
-        <div className="flex items-center gap-4 flex-1 min-w-0">
+        {/* Left Side - Sidebar Trigger & Breadcrumbs */}
+        <div className="flex items-center gap-2 flex-1 min-w-0">
+          <SidebarTrigger className="-ml-1" />
+          <Separator orientation="vertical" className="mr-2 h-4" />
           <Breadcrumb className="hidden md:flex">
             <BreadcrumbList>
               {getBreadcrumbs.map((item, index) => {
