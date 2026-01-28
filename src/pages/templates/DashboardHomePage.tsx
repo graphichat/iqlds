@@ -213,8 +213,8 @@ export function DashboardHomePage({
     }
   }
 
-  const handleActionClick = (action: typeof actions[0]) => {
-    if (action.onClick) {
+  const handleActionClick = (action: QuickAction) => {
+    if ("onClick" in action && action.onClick) {
       action.onClick()
     } else if (action.href && onNavigate) {
       onNavigate(action.href)
@@ -242,16 +242,22 @@ export function DashboardHomePage({
           <section>
             <h2 className="text-lg font-semibold mb-4">Overview</h2>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              {metrics.map((metric) => (
-                <MetricCard
-                  key={metric.title}
-                  title={metric.title}
-                  value={metric.value}
-                  change={metric.change ?? ""}
-                  trend={metric.trend ?? "up"}
-                  icon={metric.icon}
-                />
-              ))}
+              {metrics.map((metric) => {
+                // Ensure required props are present
+                if (!metric.change || !metric.trend) {
+                  return null
+                }
+                return (
+                  <MetricCard
+                    key={metric.title}
+                    title={metric.title}
+                    value={metric.value}
+                    change={metric.change}
+                    trend={metric.trend}
+                    icon={metric.icon}
+                  />
+                )
+              })}
             </div>
           </section>
 

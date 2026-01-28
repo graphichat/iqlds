@@ -91,22 +91,36 @@ ease-in-out      // Slow start and end (most UI)
 
 ### Sidebar Collapse Animation
 
-The sidebar has built-in transitions:
+The sidebar has smooth, optimized transitions following shadcn best practices:
 
 ```tsx
-// In sidebar.tsx
-className="transition-[width] duration-200 ease-linear"
+// In sidebar.tsx - Sidebar gap (spacer)
+className="transition-[width] duration-200 ease-in-out will-change-[width]"
+
+// Sidebar container (actual sidebar)
+className="transition-[left,right,width] duration-200 ease-in-out will-change-[width,left,right]"
 
 // Collapsed state uses CSS variables
 group-data-[collapsible=icon]:w-(--sidebar-width-icon)
 ```
 
-The sidebar text fades out with:
+**Key improvements:**
+- Uses `ease-in-out` for smoother bidirectional transitions
+- Added `will-change` hints for better GPU acceleration
+- Consistent 200ms duration for predictable feel
+
+The sidebar text fades out smoothly:
 ```tsx
-className="transition-[opacity,max-width] duration-200 ease-linear 
+// In global-sidebar.tsx - Logo text
+className="transition-[opacity,max-width] duration-200 ease-in-out will-change-[opacity,max-width]
            group-data-[collapsible=icon]:opacity-0 
            group-data-[collapsible=icon]:max-w-0"
 ```
+
+**Transition details:**
+- Width transitions: 200ms ease-in-out (smooth expand/collapse)
+- Text fade: 200ms ease-in-out (logo text and labels)
+- Menu button transitions: 200ms ease-out (for padding/height changes)
 
 ### Dialog/Modal Animation
 

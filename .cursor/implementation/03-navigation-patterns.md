@@ -169,7 +169,12 @@ import { PageTabs } from "@/components/blocks/page-tabs"
 
 ### Tab Styling
 
-The `PageTabs` component uses line-style tabs:
+The `PageTabs` component uses line-style tabs with precise spacing:
+
+**Spacing:**
+- Left padding: 8px (exact alignment)
+- Right padding: 24px
+- Tab trigger padding: 16px (px-4)
 
 ```tsx
 // PageTabs uses TabsList with variant="line"

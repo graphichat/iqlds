@@ -37,7 +37,7 @@ function SidebarHeaderContent() {
         >
           <div className="flex items-center h-7 gap-2 justify-start group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:gap-0">
             <LogoIcon className="h-7 w-auto shrink-0" />
-            <span className="text-sm font-semibold whitespace-nowrap transition-[opacity,max-width] duration-200 ease-linear opacity-100 max-w-[200px] group-data-[collapsible=icon]:opacity-0 group-data-[collapsible=icon]:max-w-0 group-data-[collapsible=icon]:overflow-hidden group-data-[collapsible=icon]:hidden">
+            <span className="text-sm font-semibold whitespace-nowrap transition-[opacity,max-width] duration-200 ease-in-out opacity-100 max-w-[200px] group-data-[collapsible=icon]:opacity-0 group-data-[collapsible=icon]:max-w-0 group-data-[collapsible=icon]:overflow-hidden group-data-[collapsible=icon]:hidden will-change-[opacity,max-width]">
               IQLine Inc
             </span>
           </div>
