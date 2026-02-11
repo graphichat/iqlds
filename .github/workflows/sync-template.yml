@@ -31,7 +31,7 @@ on:
       - 'src/components/theme-toggle.tsx'
       - 'src/components/logo.tsx'
       - 'src/components/tray-card.tsx'
-      - 'docs/**'
+      - 'documentation/**'
       - '.cursor/implementation/**'
       - '.cursor/architectureGuidelines.md'
       - '.cursor/projectStrucute.md'
@@ -92,7 +92,7 @@ jobs:
             .cursorrules
           
           # === DOCUMENTATION ===
-          git checkout origin/main -- docs/ 2>/dev/null || true
+          git checkout origin/main -- documentation/ 2>/dev/null || true
           git checkout origin/main -- TEMPLATE_README.md 2>/dev/null || true
           
           # === CURSOR IMPLEMENTATION DOCS ===
@@ -246,9 +246,10 @@ jobs:
           echo "- **Auth pages**: Login, Signup, PasswordReset" >> $GITHUB_STEP_SUMMARY
           echo "- **Error pages**: NotFound (404), ServerError (500), Maintenance" >> $GITHUB_STEP_SUMMARY
           echo "- **Home pages**: LandingPage (public), DashboardHomePage (role-based), StarterPage" >> $GITHUB_STEP_SUMMARY
-          echo "- Lib, hooks, styles, assets, docs" >> $GITHUB_STEP_SUMMARY
-          echo "- Implementation documentation (.cursor/implementation/)" >> $GITHUB_STEP_SUMMARY
-          echo "- Architecture guidelines (.cursor/)" >> $GITHUB_STEP_SUMMARY
+          echo "- Lib, hooks, styles, assets" >> $GITHUB_STEP_SUMMARY
+          echo "- **Documentation**: Complete guides (documentation/)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Implementation docs**: Step-by-step guides (.cursor/implementation/)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Architecture guidelines**: Project structure patterns (.cursor/)" >> $GITHUB_STEP_SUMMARY
           echo "- Config files" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Excluded:" >> $GITHUB_STEP_SUMMARY
