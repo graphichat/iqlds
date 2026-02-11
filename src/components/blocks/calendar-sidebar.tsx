@@ -1,4 +1,3 @@
-import * as React from "react"
 import { Calendar } from "@/components/ui/calendar"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
@@ -31,16 +30,6 @@ export function CalendarSidebar({
 }: CalendarSidebarProps) {
   return (
     <div className={cn("flex flex-col h-full", className)}>
-      {/* Create button */}
-      <div className="p-4">
-        <Button className="w-full" size="lg">
-          <Plus className="h-4 w-4 mr-2" />
-          Create
-        </Button>
-      </div>
-
-      <Separator />
-
       {/* Mini calendar */}
       <div className="p-4">
         <Calendar

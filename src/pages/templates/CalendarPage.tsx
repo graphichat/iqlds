@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/blocks/page-header"
 import { CalendarLayout } from "@/components/layouts/calendar-layout"
 import { CalendarSidebar } from "@/components/blocks/calendar-sidebar"
 import { CalendarMonthView } from "@/components/blocks/calendar-month-view"
+import { CalendarWeekView } from "@/components/blocks/calendar-week-view"
 import { CalendarDayDetails } from "@/components/blocks/calendar-day-details"
 import { Button } from "@/components/ui/button"
 import {
@@ -12,7 +13,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { ChevronDown, Calendar, Settings } from "lucide-react"
+import { ChevronDown, Calendar, Settings, Plus } from "lucide-react"
 import { addDays, startOfMonth } from "date-fns"
 
 // Sample data
@@ -187,7 +188,6 @@ const sampleEvents = [
 
 export function CalendarPage() {
   const [selectedDate, setSelectedDate] = React.useState<Date>(new Date())
-  const [currentMonth, setCurrentMonth] = React.useState<Date>(new Date())
   const [accounts, setAccounts] = React.useState(sampleAccounts)
   const [viewMode, setViewMode] = React.useState<"month" | "week" | "day">("month")
 
@@ -245,6 +245,10 @@ export function CalendarPage() {
             <Button variant="ghost" size="icon">
               <Settings className="h-4 w-4" />
             </Button>
+            <Button onClick={handleCreateEvent} size="sm">
+              <Plus className="h-4 w-4 mr-2" />
+              Create
+            </Button>
           </div>
         }
       />
@@ -254,18 +258,31 @@ export function CalendarPage() {
           sidebar={
             <CalendarSidebar
               selectedDate={selectedDate}
-              onDateSelect={setSelectedDate}
+              onDateSelect={(date) => date && setSelectedDate(date)}
               accounts={accounts}
               onAccountToggle={handleAccountToggle}
             />
           }
           calendar={
-            <CalendarMonthView
-              selectedDate={selectedDate}
-              events={sampleEvents}
-              onDateSelect={setSelectedDate}
-              onMonthChange={setCurrentMonth}
-            />
+            viewMode === "month" ? (
+              <CalendarMonthView
+                selectedDate={selectedDate}
+                events={sampleEvents}
+                onDateSelect={setSelectedDate}
+              />
+            ) : viewMode === "week" ? (
+              <CalendarWeekView
+                selectedDate={selectedDate}
+                events={sampleEvents}
+                onDateSelect={setSelectedDate}
+              />
+            ) : (
+              <CalendarMonthView
+                selectedDate={selectedDate}
+                events={sampleEvents}
+                onDateSelect={setSelectedDate}
+              />
+            )
           }
           details={
             <CalendarDayDetails
