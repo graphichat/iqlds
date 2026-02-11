@@ -32,9 +32,7 @@ on:
       - 'src/components/logo.tsx'
       - 'src/components/tray-card.tsx'
       - 'documentation/**'
-      - '.cursor/implementation/**'
-      - '.cursor/architectureGuidelines.md'
-      - '.cursor/projectStrucute.md'
+      - '.cursor/README.md'
       - 'TEMPLATE_README.md'
       - 'package.json'
       - 'components.json'
@@ -94,12 +92,10 @@ jobs:
           # === DOCUMENTATION ===
           git checkout origin/main -- documentation/ 2>/dev/null || true
           git checkout origin/main -- TEMPLATE_README.md 2>/dev/null || true
-          
-          # === CURSOR IMPLEMENTATION DOCS ===
+
+          # === CURSOR REFERENCE ===
           mkdir -p .cursor
-          git checkout origin/main -- .cursor/implementation/ 2>/dev/null || true
-          git checkout origin/main -- .cursor/architectureGuidelines.md 2>/dev/null || true
-          git checkout origin/main -- .cursor/projectStrucute.md 2>/dev/null || true
+          git checkout origin/main -- .cursor/README.md 2>/dev/null || true
           
           # === SOURCE CODE ===
           git checkout origin/main -- src/components/ui/
@@ -247,10 +243,11 @@ jobs:
           echo "- **Error pages**: NotFound (404), ServerError (500), Maintenance" >> $GITHUB_STEP_SUMMARY
           echo "- **Home pages**: LandingPage (public), DashboardHomePage (role-based), StarterPage" >> $GITHUB_STEP_SUMMARY
           echo "- Lib, hooks, styles, assets" >> $GITHUB_STEP_SUMMARY
-          echo "- **Documentation**: Complete guides (documentation/)" >> $GITHUB_STEP_SUMMARY
-          echo "- **Implementation docs**: Step-by-step guides (.cursor/implementation/)" >> $GITHUB_STEP_SUMMARY
-          echo "- **Architecture guidelines**: Project structure patterns (.cursor/)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Documentation**: Complete guides including architecture, navigation, components (documentation/)" >> $GITHUB_STEP_SUMMARY
+          echo "- **AI Agent Reference**: Quick links to documentation (.cursor/README.md)" >> $GITHUB_STEP_SUMMARY
           echo "- Config files" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Excluded:" >> $GITHUB_STEP_SUMMARY
-          echo "- Demo pages (Charts, Forms, Cards, etc.), registry files" >> $GITHUB_STEP_SUMMARY
+          echo "- Demo pages (ComponentsPage, ChartsPage, FormsPage, CardsPage, etc.)" >> $GITHUB_STEP_SUMMARY
+          echo "- HomePage (main branch only)" >> $GITHUB_STEP_SUMMARY
+          echo "- Registry and build files" >> $GITHUB_STEP_SUMMARY
