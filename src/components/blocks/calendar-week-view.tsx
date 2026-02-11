@@ -145,20 +145,22 @@ export function CalendarWeekView({
                 key={day.toISOString()}
                 onClick={() => onDateSelect?.(day)}
                 className={cn(
-                  "bg-background p-2 text-center hover:bg-muted/50 transition-colors",
+                  "bg-background p-2 hover:bg-muted/50 transition-colors",
                   isSelected && "bg-accent"
                 )}
               >
-                <div className="text-xs text-muted-foreground">
-                  {format(day, "EEE")}
-                </div>
-                <div
-                  className={cn(
-                    "text-lg font-semibold inline-flex items-center justify-center w-8 h-8 rounded-full",
-                    isCurrentDay && "bg-primary text-primary-foreground"
-                  )}
-                >
-                  {format(day, "d")}
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-xs text-muted-foreground">
+                    {format(day, "EEE")}
+                  </span>
+                  <span
+                    className={cn(
+                      "text-sm font-semibold inline-flex items-center justify-center w-7 h-7 rounded-full",
+                      isCurrentDay && "bg-primary text-primary-foreground"
+                    )}
+                  >
+                    {format(day, "d")}
+                  </span>
                 </div>
               </button>
             )
@@ -168,7 +170,7 @@ export function CalendarWeekView({
         {/* All-day events section */}
         {allDayEvents.length > 0 && (
           <div className="border-b bg-muted/30">
-            <div className="grid grid-cols-[60px_repeat(7,1fr)] gap-px bg-border">
+            <div className="grid grid-cols-[60px_repeat(7,minmax(0,1fr))] gap-px bg-border">
               <div className="bg-background p-2 text-xs text-muted-foreground text-center">
                 All day
               </div>
@@ -180,7 +182,7 @@ export function CalendarWeekView({
                 return (
                   <div
                     key={day.toISOString()}
-                    className="bg-background p-1 min-h-[50px]"
+                    className="bg-background p-1 min-h-[50px] min-w-0"
                   >
                     <div className="space-y-1">
                       {dayAllDayEvents.map((event) => (
@@ -205,7 +207,7 @@ export function CalendarWeekView({
 
         {/* Time grid */}
         <ScrollArea className="flex-1">
-          <div className="grid grid-cols-[60px_repeat(7,1fr)] gap-px bg-border">
+          <div className="grid grid-cols-[60px_repeat(7,minmax(0,1fr))] gap-px bg-border">
             {TIME_SLOTS.map((time, timeIdx) => (
               <React.Fragment key={time}>
                 {/* Time label */}
@@ -229,7 +231,7 @@ export function CalendarWeekView({
                   return (
                     <div
                       key={`${day.toISOString()}-${time}`}
-                      className="bg-background min-h-[60px] p-1 relative border-b hover:bg-muted/30 transition-colors"
+                      className="bg-background min-h-[60px] min-w-0 p-1 relative border-b hover:bg-muted/30 transition-colors"
                     >
                       {slotEvents.map((event) => (
                         <div

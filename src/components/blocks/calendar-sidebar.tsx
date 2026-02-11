@@ -36,7 +36,7 @@ export function CalendarSidebar({
           mode="single"
           selected={selectedDate}
           onSelect={onDateSelect}
-          className="rounded-md border"
+          className="rounded-md"
         />
       </div>
 
