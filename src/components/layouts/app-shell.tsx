@@ -11,7 +11,6 @@ interface AppShellProps {
   userEmail?: string
   userAvatar?: string
   sidebarHeader?: React.ReactNode
-  sidebarFooter?: React.ReactNode
 }
 
 export function AppShell({
@@ -21,12 +20,11 @@ export function AppShell({
   userEmail,
   userAvatar,
   sidebarHeader,
-  sidebarFooter,
 }: AppShellProps) {
   return (
     <SidebarProvider>
       <div className="flex h-screen w-full">
-        <GlobalSidebar sidebarHeader={sidebarHeader} sidebarFooter={sidebarFooter} />
+        <GlobalSidebar sidebarHeader={sidebarHeader} />
 
         <SidebarInset className="flex h-full flex-col overflow-hidden">
           <GlobalHeader

@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react"
-import { Home, BarChart3, File, Settings, TrendingUp, FileText, CreditCard, Grid3x3, AlertTriangle } from "lucide-react"
+import { Home, BarChart3, File, Settings, TrendingUp, FileText, CreditCard, Grid3x3, AlertTriangle, Calendar } from "lucide-react"
 
 /**
  * Sidebar Navigation Item Type
@@ -81,6 +81,11 @@ export const SIDEBAR_ITEMS: SidebarItem[] = [
     label: "Trays",
     icon: Grid3x3,
     href: "/trays",
+  },
+  {
+    label: "Calendar",
+    icon: Calendar,
+    href: "/calendar",
   },
   {
     label: "Settings",
