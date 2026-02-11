@@ -23,6 +23,7 @@ const ComponentsPage = lazy(() => import("@/pages/templates/ComponentsPage").the
 const LayoutsPage = lazy(() => import("@/pages/templates/LayoutsPage").then(m => ({ default: m.LayoutsPage })))
 const ThemesPage = lazy(() => import("@/pages/templates/ThemesPage").then(m => ({ default: m.ThemesPage })))
 const EdgeCasesDemoPage = lazy(() => import("@/pages/templates/EdgeCasesDemoPage").then(m => ({ default: m.EdgeCasesDemoPage })))
+const CalendarPage = lazy(() => import("@/pages/templates/CalendarPage").then(m => ({ default: m.CalendarPage })))
 
 /**
  * Suspense wrapper for lazy-loaded pages
@@ -59,6 +60,7 @@ export const router = createBrowserRouter([
       { path: "/layouts", element: <LazyPage><LayoutsPage /></LazyPage> },
       { path: "/themes", element: <LazyPage><ThemesPage /></LazyPage> },
       { path: "/edge-cases", element: <LazyPage><EdgeCasesDemoPage /></LazyPage> },
+      { path: "/calendar", element: <LazyPage><CalendarPage /></LazyPage> },
     ],
   },
   {
