@@ -145,14 +145,14 @@ export function CalendarMonthView({
                     key={dayIdx}
                     onClick={() => handleDateClick(day)}
                     className={cn(
-                      "relative border-r border-b p-2 text-left hover:bg-muted/50 transition-colors min-h-[100px]",
+                      "relative border-r border-b p-2 text-left hover:bg-muted/50 transition-colors min-h-[100px] flex flex-col",
                       !isCurrentMonth && "bg-muted/20 text-muted-foreground",
                       isSelected && "bg-accent",
                       dayIdx === 0 && "border-l"
                     )}
                   >
                     {/* Date number at top-left */}
-                    <div className="flex items-start mb-1">
+                    <div className="mb-1">
                       <span
                         className={cn(
                           "inline-flex items-center justify-center w-6 h-6 rounded-full text-sm",
