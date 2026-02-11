@@ -118,7 +118,7 @@ export function CalendarMonthView({
       </div>
 
       {/* Weekday headers */}
-      <div className="grid grid-cols-7 px-4 pt-2">
+      <div className="grid grid-cols-7 border-b">
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
           <div
             key={day}
@@ -130,10 +130,10 @@ export function CalendarMonthView({
       </div>
 
       {/* Calendar grid */}
-      <div className="flex-1 overflow-auto p-4">
-        <div className="grid grid-rows-[repeat(auto-fill,minmax(100px,1fr))] min-h-full gap-px bg-border rounded-md overflow-hidden">
+      <div className="flex-1 overflow-auto">
+        <div className="grid grid-rows-[repeat(auto-fill,minmax(100px,1fr))] min-h-full">
           {weeks.map((week, weekIdx) => (
-            <div key={weekIdx} className="grid grid-cols-7 gap-px">
+            <div key={weekIdx} className="grid grid-cols-7">
               {week.map((day, dayIdx) => {
                 const dayEvents = getEventsForDate(day)
                 const isCurrentMonth = isSameMonth(day, currentMonth)
@@ -145,9 +145,10 @@ export function CalendarMonthView({
                     key={dayIdx}
                     onClick={() => handleDateClick(day)}
                     className={cn(
-                      "relative p-2 text-left hover:bg-muted/50 transition-colors min-h-[100px] bg-background",
+                      "relative border-r border-b p-2 text-left hover:bg-muted/50 transition-colors min-h-[100px]",
                       !isCurrentMonth && "bg-muted/20 text-muted-foreground",
-                      isSelected && "ring-2 ring-primary ring-inset"
+                      isSelected && "bg-accent",
+                      dayIdx === 0 && "border-l"
                     )}
                   >
                     {/* Date number at top-left */}
