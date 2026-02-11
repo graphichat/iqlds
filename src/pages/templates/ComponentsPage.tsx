@@ -180,17 +180,25 @@ function ComponentPreview({ component }: { component: RegistryItem }) {
     const loadComponent = async () => {
       try {
         let Component: React.ComponentType<any> | null = null
-        const { importPath, directory } = getComponentDirectory(component)
+        const { directory } = getComponentDirectory(component)
         const componentName = component.title.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
 
         if (directory === "pages") {
           // Special handling for page components
           const pageName = component.name.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
-          const module = await import(/* @vite-ignore */ `@/pages/templates/${pageName}.tsx`)
+          const module = await import(`../../pages/templates/${pageName}.tsx`)
           Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
-        } else {
-          // For all other components, use the import path
-          const module = await import(/* @vite-ignore */ `${importPath}.tsx`)
+        } else if (directory === "ui") {
+          const module = await import(`../../components/ui/${component.name}.tsx`)
+          Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
+        } else if (directory === "blocks") {
+          const module = await import(`../../components/blocks/${component.name}.tsx`)
+          Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
+        } else if (directory === "layouts") {
+          const module = await import(`../../components/layouts/${component.name}.tsx`)
+          Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
+        } else if (directory === "patterns") {
+          const module = await import(`../../components/patterns/${component.name}.tsx`)
           Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
         }
 
