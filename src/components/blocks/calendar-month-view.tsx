@@ -130,8 +130,8 @@ export function CalendarMonthView({
       </div>
 
       {/* Calendar grid */}
-      <div className="flex-1 overflow-auto">
-        <div className="grid grid-rows-[repeat(auto-fill,minmax(100px,1fr))] min-h-full">
+      <div className="flex-1 overflow-hidden">
+        <div className="h-full grid grid-rows-[repeat(auto-fit,minmax(0,1fr))]">
           {weeks.map((week, weekIdx) => (
             <div key={weekIdx} className="grid grid-cols-7">
               {week.map((day, dayIdx) => {
