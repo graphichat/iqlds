@@ -74,13 +74,6 @@ export function CalendarWeekView({
     onWeekChange?.(newWeek)
   }
 
-  const handleToday = () => {
-    const today = new Date()
-    setCurrentWeek(today)
-    onDateSelect?.(today)
-    onWeekChange?.(today)
-  }
-
   // Generate week days
   const weekStart = startOfWeek(currentWeek)
   const weekEnd = endOfWeek(currentWeek)
@@ -102,33 +95,28 @@ export function CalendarWeekView({
   return (
     <div className={cn("flex flex-col h-full", className)}>
       {/* Header */}
-      <div className="p-4 border-b flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <h2 className="text-xl font-semibold">
-            {format(weekStart, "MMM d")} - {format(weekEnd, "MMM d, yyyy")}
-          </h2>
-          <div className="flex items-center gap-1 ml-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handlePreviousWeek}
-              className="h-8 w-8"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleNextWeek}
-              className="h-8 w-8"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
+      <div className="flex items-center justify-between px-4 py-2 border-b">
+        <h2 className="text-lg font-semibold">
+          {format(weekStart, "MMM d")} - {format(weekEnd, "MMM d, yyyy")}
+        </h2>
+        <div className="flex items-center gap-1">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handlePreviousWeek}
+            className="h-8 w-8"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleNextWeek}
+            className="h-8 w-8"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
         </div>
-        <Button variant="outline" size="sm" onClick={handleToday}>
-          Today
-        </Button>
       </div>
 
       {/* Week view grid */}
