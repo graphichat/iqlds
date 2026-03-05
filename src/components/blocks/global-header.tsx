@@ -22,8 +22,10 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { Bell, Settings, User, LogOut } from "lucide-react"
-import { generateBreadcrumbs, type BreadcrumbItem as BreadcrumbItemType } from "@/lib/navigation"
+import { Settings, User, LogOut } from "lucide-react"
+import { generateBreadcrumbs, getRouteLabel, type BreadcrumbItem as BreadcrumbItemType } from "@/lib/navigation"
+import { NotificationPanel } from "@/components/blocks/notification-panel"
+import { CommandPaletteTrigger } from "@/components/blocks/command-palette"
 
 interface GlobalHeaderProps {
   breadcrumbs?: BreadcrumbItemType[]
@@ -31,6 +33,7 @@ interface GlobalHeaderProps {
   userName?: string
   userEmail?: string
   userAvatar?: string
+  onCommandPaletteOpen?: () => void
 }
 
 export function GlobalHeader({
@@ -39,29 +42,35 @@ export function GlobalHeader({
   userName = "John Doe",
   userEmail = "john@example.com",
   userAvatar,
+  onCommandPaletteOpen,
 }: GlobalHeaderProps) {
   const location = useLocation()
 
-  // Generate breadcrumbs from route if not provided
-  const getBreadcrumbs = React.useMemo(() => {
-    return generateBreadcrumbs(location.pathname, breadcrumbs)
-  }, [breadcrumbs, location.pathname])
+  const getBreadcrumbs = React.useMemo(
+    () => generateBreadcrumbs(location.pathname, breadcrumbs),
+    [breadcrumbs, location.pathname]
+  )
+
+  // Current page label for mobile
+  const currentPageLabel = React.useMemo(
+    () => getRouteLabel(location.pathname),
+    [location.pathname]
+  )
 
   const handleLogout = () => {
-    if (onLogout) {
-      onLogout()
-    } else {
-      console.log("Logout clicked")
-    }
+    if (onLogout) onLogout()
+    else console.log("Logout clicked")
   }
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="w-full flex h-10 items-center gap-4 px-4">
+      <div className="w-full flex h-10 items-center gap-2 px-4">
         {/* Left Side - Sidebar Trigger & Breadcrumbs */}
         <div className="flex items-center gap-2 flex-1 min-w-0">
           <SidebarTrigger className="-ml-1" />
-          <Separator orientation="vertical" className="mr-2 h-4" />
+          <Separator orientation="vertical" className="self-stretch" />
+
+          {/* Desktop breadcrumb */}
           <Breadcrumb className="hidden md:flex">
             <BreadcrumbList>
               {getBreadcrumbs.map((item, index) => {
@@ -83,28 +92,38 @@ export function GlobalHeader({
               })}
             </BreadcrumbList>
           </Breadcrumb>
+
+          {/* Mobile: show current page title only */}
+          <span className="md:hidden text-sm font-medium truncate">{currentPageLabel}</span>
         </div>
 
-        {/* Right Side - Icons & User Menu */}
-        <div className="flex items-center gap-2">
-          {/* Notification Icon */}
-          <Button variant="ghost" size="icon" aria-label="Notifications">
-            <Bell strokeWidth={ICON_STROKE_WIDTH} className="size-4" />
-          </Button>
+        {/* Right Side - Actions */}
+        <div className="flex items-center gap-1">
+          {onCommandPaletteOpen != null && (
+            <>
+              <CommandPaletteTrigger onClick={onCommandPaletteOpen} />
+              <Separator orientation="vertical" className="self-stretch mx-1" />
+            </>
+          )}
 
-          <Separator orientation="vertical" className="h-full" />
+          {/* Notifications */}
+          <NotificationPanel />
+
+          <Separator orientation="vertical" className="self-stretch mx-1" />
 
           {/* Theme Toggle */}
           <ThemeToggle />
 
-          <Separator orientation="vertical" className="h-full" />
+          <Separator orientation="vertical" className="self-stretch mx-1" />
 
-          {/* Settings Icon */}
-          <Button variant="ghost" size="icon" aria-label="Settings">
-            <Settings strokeWidth={ICON_STROKE_WIDTH} className="size-4" />
+          {/* Settings shortcut */}
+          <Button variant="ghost" size="icon" aria-label="Settings" asChild>
+            <Link to="/settings">
+              <Settings strokeWidth={ICON_STROKE_WIDTH} className="size-4" />
+            </Link>
           </Button>
 
-          <Separator orientation="vertical" className="h-full" />
+          <Separator orientation="vertical" className="self-stretch mx-1" />
 
           {/* User Menu */}
           <DropdownMenu>
@@ -112,8 +131,13 @@ export function GlobalHeader({
               <Button variant="ghost" className="flex items-center gap-2 h-9 px-2">
                 <Avatar className="size-7">
                   <AvatarImage src={userAvatar} alt={userName} />
-                  <AvatarFallback>
-                    <User strokeWidth={ICON_STROKE_WIDTH} className="size-4" />
+                  <AvatarFallback className="text-xs">
+                    {userName
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")
+                      .toUpperCase()
+                      .slice(0, 2)}
                   </AvatarFallback>
                 </Avatar>
                 <span className="hidden md:inline-block text-sm font-medium max-w-[120px] truncate">
@@ -142,9 +166,12 @@ export function GlobalHeader({
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleLogout} className="text-destructive focus:text-destructive">
-                <LogOut strokeWidth={ICON_STROKE_WIDTH} className="mr-2 size-4" />
-                <span>Logout</span>
+              <DropdownMenuItem
+                onClick={handleLogout}
+                className="text-destructive focus:text-destructive"
+              >
+                <LogOut strokeWidth={ICON_STROKE_WIDTH} className="size-4" />
+                <span>Log out</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -153,4 +180,3 @@ export function GlobalHeader({
     </header>
   )
 }
-

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Home, ArrowLeft } from "lucide-react"
 import { ICON_STROKE_WIDTH } from "@/lib/constants"
-import pageNotFoundSvg from "@/assets/page_not_found.svg"
+import pageNotFoundImage from "@/assets/page_not_found.png"
 
 /**
  * 404 Not Found Page Template
@@ -58,10 +58,10 @@ export function NotFoundPage({
   return (
     <div className="flex min-h-svh w-full items-center justify-center bg-muted p-6 md:p-10">
       <div className="w-full max-w-2xl space-y-8 text-center">
-        {/* SVG Illustration */}
+        {/* Illustration */}
         <div className="flex justify-center">
           <img
-            src={pageNotFoundSvg}
+            src={pageNotFoundImage}
             alt="Page not found"
             className="w-full max-w-md"
           />

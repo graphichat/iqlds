@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { User, Lock, File, ArrowRight, BarChart3, Settings, CreditCard, TrendingUp, Sparkles, Grid3x3, Package, Layout, Palette, AlertTriangle } from "lucide-react"
+import { User, Lock, File, ArrowRight, BarChart3, Settings, CreditCard, TrendingUp, Sparkles, Grid3x3, Package, Layout, Palette, AlertTriangle, BookOpen, ChevronRight } from "lucide-react"
 import { PageShell } from "@/components/layouts/page-shell"
 import { PageHeader } from "@/components/blocks/page-header"
 import { ICON_STROKE_WIDTH } from "@/lib/constants"
@@ -45,10 +45,10 @@ const pages: PageLink[] = [
     featured: true,
   },
   {
-    title: "Account Settings",
-    description: "User profile management, notifications, and subscription settings",
-    icon: Settings,
-    href: "/forms",
+    title: "Profile",
+    description: "User profile page with activity feed, project list, and key metrics",
+    icon: User,
+    href: "/profile",
     category: "layout",
     featured: true,
   },
@@ -103,6 +103,14 @@ const pages: PageLink[] = [
     featured: true,
   },
   {
+    title: "Documentation",
+    description: "How to create pages, layout structure, and which components to use where",
+    icon: BookOpen,
+    href: "/docs",
+    category: "layout",
+    featured: true,
+  },
+  {
     title: "Components",
     description: "Browse all UI components, blocks, layouts, and patterns in the design system",
     icon: Package,
@@ -133,6 +141,27 @@ const pages: PageLink[] = [
     href: "/edge-cases",
     category: "layout",
     featured: true,
+  },
+  {
+    title: "Setup Wizard",
+    description: "Multi-step form wizard with validation, progress indicator, and review step",
+    icon: ChevronRight,
+    href: "/wizard",
+    category: "layout",
+  },
+  {
+    title: "Search",
+    description: "Search results page with type filters, debounced input, and URL-synced state",
+    icon: Sparkles,
+    href: "/search",
+    category: "data",
+  },
+  {
+    title: "Forbidden (403)",
+    description: "Access denied error page shown when a user lacks permission",
+    icon: Lock,
+    href: "/forbidden",
+    category: "auth",
   },
 ]
 

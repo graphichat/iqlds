@@ -16,14 +16,31 @@ export { PasswordResetPage } from "./PasswordResetPage"
 export { NotFoundPage } from "./NotFoundPage"
 export { ServerErrorPage } from "./ServerErrorPage"
 export { MaintenancePage } from "./MaintenancePage"
+export { ForbiddenPage } from "./ForbiddenPage"
 
 // Landing & Home Pages
 export { LandingPage } from "./LandingPage"
 export { DashboardHomePage } from "./DashboardHomePage"
 
+// Documentation
+export { DocumentationPage } from "./DocumentationPage"
+
+// Feature Pages
+export { SearchPage } from "./SearchPage"
+export { ProfilePage } from "./ProfilePage"
+export { WizardPage } from "./WizardPage"
+export { SettingsPage } from "./SettingsPage"
+export { CalendarPage } from "./CalendarPage"
+export { ChartsPage } from "./ChartsPage"
+export { FormsPage } from "./FormsPage"
+export { CardsPage } from "./CardsPage"
+export { TraysPage } from "./TraysPage"
+
 // Demo Pages (may not be in template branch)
 export { ComponentsPage } from "./ComponentsPage"
 export { LayoutsPage } from "./LayoutsPage"
+export { ThemesPage } from "./ThemesPage"
+export { EdgeCasesDemoPage } from "./EdgeCasesDemoPage"
 export { PageWithTable, PageWithTableExample } from "./PageWithTable"
 
 

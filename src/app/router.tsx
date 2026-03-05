@@ -20,10 +20,15 @@ const CardsPage = lazy(() => import("@/pages/templates/CardsPage").then(m => ({ 
 const SettingsPage = lazy(() => import("@/pages/templates/SettingsPage").then(m => ({ default: m.SettingsPage })))
 const TraysPage = lazy(() => import("@/pages/templates/TraysPage").then(m => ({ default: m.TraysPage })))
 const ComponentsPage = lazy(() => import("@/pages/templates/ComponentsPage").then(m => ({ default: m.ComponentsPage })))
+const DocumentationPage = lazy(() => import("@/pages/templates/DocumentationPage").then(m => ({ default: m.DocumentationPage })))
 const LayoutsPage = lazy(() => import("@/pages/templates/LayoutsPage").then(m => ({ default: m.LayoutsPage })))
 const ThemesPage = lazy(() => import("@/pages/templates/ThemesPage").then(m => ({ default: m.ThemesPage })))
 const EdgeCasesDemoPage = lazy(() => import("@/pages/templates/EdgeCasesDemoPage").then(m => ({ default: m.EdgeCasesDemoPage })))
 const CalendarPage = lazy(() => import("@/pages/templates/CalendarPage").then(m => ({ default: m.CalendarPage })))
+const SearchPage = lazy(() => import("@/pages/templates/SearchPage").then(m => ({ default: m.SearchPage })))
+const ProfilePage = lazy(() => import("@/pages/templates/ProfilePage").then(m => ({ default: m.ProfilePage })))
+const WizardPage = lazy(() => import("@/pages/templates/WizardPage").then(m => ({ default: m.WizardPage })))
+const ForbiddenPage = lazy(() => import("@/pages/templates/ForbiddenPage").then(m => ({ default: m.ForbiddenPage })))
 
 /**
  * Suspense wrapper for lazy-loaded pages
@@ -57,11 +62,20 @@ export const router = createBrowserRouter([
       { path: "/settings", element: <LazyPage><SettingsPage /></LazyPage> },
       { path: "/trays", element: <LazyPage><TraysPage /></LazyPage> },
       { path: "/components", element: <LazyPage><ComponentsPage /></LazyPage> },
+      { path: "/docs", element: <LazyPage><DocumentationPage /></LazyPage> },
       { path: "/layouts", element: <LazyPage><LayoutsPage /></LazyPage> },
       { path: "/themes", element: <LazyPage><ThemesPage /></LazyPage> },
       { path: "/edge-cases", element: <LazyPage><EdgeCasesDemoPage /></LazyPage> },
-      { path: "/calendar", element: <LazyPage><CalendarPage /></LazyPage> },
+      { path: "/calendar",  element: <LazyPage><CalendarPage /></LazyPage> },
+      { path: "/search",    element: <LazyPage><SearchPage /></LazyPage> },
+      { path: "/profile",   element: <LazyPage><ProfilePage /></LazyPage> },
+      { path: "/wizard",    element: <LazyPage><WizardPage /></LazyPage> },
     ],
+  },
+  {
+    path: "/forbidden",
+    element: <LazyPage><ForbiddenPage /></LazyPage>,
+    errorElement: <RouteErrorBoundary />,
   },
   {
     path: "/login",

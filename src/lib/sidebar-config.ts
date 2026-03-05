@@ -1,11 +1,26 @@
 import type { LucideIcon } from "lucide-react"
-import { Home, BarChart3, File, Settings, TrendingUp, FileText, CreditCard, Grid3x3, AlertTriangle, Calendar } from "lucide-react"
+import {
+  Home,
+  BarChart3,
+  File,
+  Settings,
+  TrendingUp,
+  FileText,
+  CreditCard,
+  Grid3x3,
+  AlertTriangle,
+  Calendar,
+  BookOpen,
+  Layout,
+  Search,
+  User,
+  Shield,
+  Bell,
+  Palette,
+} from "lucide-react"
 
 /**
  * Sidebar Navigation Item Type
- * 
- * Defines the structure for sidebar navigation items with optional
- * role-based access control and badges.
  */
 export interface SidebarItem {
   /** Display label for the menu item */
@@ -20,14 +35,12 @@ export interface SidebarItem {
   roles?: string[]
   /** Optional flag to mark item as disabled */
   disabled?: boolean
-  /** Optional child items for nested navigation */
+  /** Optional child items for nested/collapsible navigation */
   children?: SidebarItem[]
 }
 
 /**
  * Sidebar Group Type
- * 
- * Groups sidebar items under a common label.
  */
 export interface SidebarGroup {
   /** Group label displayed above items */
@@ -39,89 +52,106 @@ export interface SidebarGroup {
 }
 
 /**
- * Main navigation items for the sidebar
+ * Grouped sidebar navigation — consumed by GlobalSidebar
  */
-export const SIDEBAR_ITEMS: SidebarItem[] = [
+export const SIDEBAR_GROUPS: SidebarGroup[] = [
   {
-    label: "Home",
-    icon: Home,
-    href: "/",
+    label: "Main",
+    items: [
+      { label: "Home", icon: Home, href: "/" },
+      { label: "Dashboard", icon: BarChart3, href: "/dashboard" },
+      { label: "Search", icon: Search, href: "/search" },
+    ],
   },
   {
-    label: "Dashboard",
-    icon: BarChart3,
-    href: "/dashboard",
+    label: "Data & Content",
+    items: [
+      { label: "Analytics", icon: TrendingUp, href: "/charts" },
+      { label: "Table", icon: File, href: "/table" },
+      { label: "Cards", icon: CreditCard, href: "/cards" },
+      { label: "Calendar", icon: Calendar, href: "/calendar" },
+    ],
   },
   {
-    label: "Edge Cases",
-    icon: AlertTriangle,
-    href: "/edge-cases",
+    label: "Forms & Layouts",
+    items: [
+      { label: "Forms", icon: FileText, href: "/forms" },
+      { label: "Layouts", icon: Layout, href: "/layouts" },
+      { label: "Trays", icon: Grid3x3, href: "/trays" },
+    ],
   },
   {
-    label: "Analytics",
-    icon: TrendingUp,
-    href: "/charts",
+    label: "Design System",
+    items: [
+      {
+        label: "Components",
+        icon: Palette,
+        href: "/components",
+        children: [
+          { label: "UI Components", icon: Palette, href: "/components" },
+          { label: "Themes", icon: Palette, href: "/themes" },
+          { label: "Edge Cases", icon: AlertTriangle, href: "/edge-cases" },
+        ],
+      },
+      { label: "Documentation", icon: BookOpen, href: "/docs" },
+    ],
   },
   {
-    label: "Forms",
-    icon: FileText,
-    href: "/forms",
-  },
-  {
-    label: "Cards",
-    icon: CreditCard,
-    href: "/cards",
-  },
-  {
-    label: "Table",
-    icon: File,
-    href: "/table",
-  },
-  {
-    label: "Trays",
-    icon: Grid3x3,
-    href: "/trays",
-  },
-  {
-    label: "Calendar",
-    icon: Calendar,
-    href: "/calendar",
-  },
-  {
-    label: "Settings",
-    icon: Settings,
-    href: "/settings",
+    label: "Account",
+    items: [
+      { label: "Profile", icon: User, href: "/profile" },
+      {
+        label: "Settings",
+        icon: Settings,
+        href: "/settings",
+        children: [
+          { label: "General", icon: Settings, href: "/settings" },
+          { label: "Security", icon: Shield, href: "/settings/security" },
+          { label: "Notifications", icon: Bell, href: "/settings/notifications" },
+        ],
+      },
+    ],
   },
 ]
 
 /**
- * Helper function to filter sidebar items by user role
+ * Flat list of all sidebar items (used for breadcrumb lookups, etc.)
+ */
+export const SIDEBAR_ITEMS: SidebarItem[] = SIDEBAR_GROUPS.flatMap((g) =>
+  g.items.flatMap((item) => [item, ...(item.children ?? [])])
+)
+
+/**
+ * Helper: filter sidebar groups by user role
+ */
+export function filterSidebarGroupsByRole(
+  groups: SidebarGroup[],
+  userRole?: string
+): SidebarGroup[] {
+  if (!userRole) return groups
+
+  return groups
+    .filter((group) => {
+      if (!group.roles || group.roles.length === 0) return true
+      return group.roles.includes(userRole)
+    })
+    .map((group) => ({
+      ...group,
+      items: group.items.filter((item) => {
+        if (!item.roles || item.roles.length === 0) return true
+        return item.roles.includes(userRole)
+      }),
+    }))
+    .filter((group) => group.items.length > 0)
+}
+
+/**
+ * Helper: filter sidebar items by user role (kept for backwards compatibility)
  */
 export function filterSidebarItemsByRole(items: SidebarItem[], userRole?: string): SidebarItem[] {
   if (!userRole) return items
-  
-  return items.filter(item => {
+  return items.filter((item) => {
     if (!item.roles || item.roles.length === 0) return true
     return item.roles.includes(userRole)
   })
 }
-
-/**
- * Helper function to filter sidebar groups by user role
- */
-export function filterSidebarGroupsByRole(groups: SidebarGroup[], userRole?: string): SidebarGroup[] {
-  if (!userRole) return groups
-  
-  return groups
-    .filter(group => {
-      if (!group.roles || group.roles.length === 0) return true
-      return group.roles.includes(userRole)
-    })
-    .map(group => ({
-      ...group,
-      items: filterSidebarItemsByRole(group.items, userRole),
-    }))
-    .filter(group => group.items.length > 0)
-}
-
-
