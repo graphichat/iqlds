@@ -10,24 +10,26 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { TrendingUp, TrendingDown } from "lucide-react"
 import { ICON_STROKE_WIDTH } from "@/lib/constants"
+import { cn } from "@/lib/utils"
 
 export interface MetricCardProps {
   title: string
   value: string
   change: string
-  trend: "up" | "down"
-  icon?: React.ComponentType<{ className?: string }>
+  trend: "up" | "down" | "neutral"
+  icon?: React.ComponentType<{ className?: string; strokeWidth?: number }>
   description?: string
   variant?: "default" | "compact"
   className?: string
 }
 
 /**
- * Metric Card Block
- * 
- * A reusable metric card component for displaying key performance indicators
- * with trend indicators and optional descriptions.
- * 
+ * MetricCard Block
+ *
+ * Displays a KPI metric with trend indicator and optional description.
+ * Uses semantic design tokens rather than hardcoded colors so it stays
+ * consistent across light/dark themes.
+ *
  * @example
  * ```tsx
  * <MetricCard
@@ -50,23 +52,34 @@ export function MetricCard({
   variant = "default",
   className,
 }: MetricCardProps) {
+  // Semantic color classes that work in both light and dark mode
+  const trendColorClass =
+    trend === "up"
+      ? "text-emerald-600 dark:text-emerald-400"
+      : trend === "down"
+      ? "text-destructive"
+      : "text-muted-foreground"
+
+  const TrendIcon = trend === "down" ? TrendingDown : TrendingUp
+
   if (variant === "compact") {
     return (
       <Card className={className}>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">{title}</CardTitle>
-          {Icon && <Icon className="h-4 w-4 text-muted-foreground" />}
+          {Icon && (
+            <Icon
+              strokeWidth={ICON_STROKE_WIDTH}
+              className="size-4 text-muted-foreground"
+            />
+          )}
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{value}</div>
-          <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
-            {trend === "up" ? (
-              <TrendingUp className="h-3 w-3 text-green-500" />
-            ) : (
-              <TrendingDown className="h-3 w-3 text-red-500" />
-            )}
-            <span>{change}</span>
-            <span>from last month</span>
+          <div className={cn("flex items-center gap-1 text-xs mt-1", trendColorClass)}>
+            <TrendIcon strokeWidth={ICON_STROKE_WIDTH} className="size-3" />
+            <span className="font-medium">{change}</span>
+            <span className="text-muted-foreground">from last month</span>
           </div>
           {description && (
             <p className="text-xs text-muted-foreground mt-2">{description}</p>
@@ -84,29 +97,23 @@ export function MetricCard({
           {value}
         </CardTitle>
         <div className="flex items-center gap-2">
-          <Badge variant="outline" className="gap-1">
-            {trend === "up" ? (
-              <TrendingUp strokeWidth={ICON_STROKE_WIDTH} className="h-3 w-3" />
-            ) : (
-              <TrendingDown strokeWidth={ICON_STROKE_WIDTH} className="h-3 w-3" />
-            )}
+          <Badge
+            variant="outline"
+            className={cn("gap-1 font-medium", trendColorClass)}
+          >
+            <TrendIcon strokeWidth={ICON_STROKE_WIDTH} className="size-3" />
             {change}
           </Badge>
         </div>
       </CardHeader>
       <CardFooter className="flex-col items-start gap-1.5 text-sm">
-        <div className="flex gap-2 font-medium">
-          {trend === "up" ? (
-            <>
-              Trending up this month{" "}
-              <TrendingUp strokeWidth={ICON_STROKE_WIDTH} className="size-4" />
-            </>
-          ) : (
-            <>
-              Down this period{" "}
-              <TrendingDown strokeWidth={ICON_STROKE_WIDTH} className="size-4" />
-            </>
-          )}
+        <div className={cn("flex items-center gap-1.5 font-medium", trendColorClass)}>
+          <TrendIcon strokeWidth={ICON_STROKE_WIDTH} className="size-4" />
+          {trend === "up"
+            ? "Trending up this month"
+            : trend === "down"
+            ? "Down this period"
+            : "No change"}
         </div>
         {description && (
           <div className="text-muted-foreground">{description}</div>
@@ -115,4 +122,3 @@ export function MetricCard({
     </Card>
   )
 }
-
