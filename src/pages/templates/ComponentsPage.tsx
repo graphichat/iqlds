@@ -131,6 +131,9 @@ function getComponentDirectory(component: RegistryItem): { directory: string; im
   if (filePath.includes("/components/patterns/")) {
     return { directory: "patterns", importPath: `@/components/patterns/${component.name}` }
   }
+  if (filePath.includes("/components/tray-card")) {
+    return { directory: "components", importPath: `@/components/${component.name}` }
+  }
   if (filePath.includes("/pages/templates/")) {
     const pageName = component.name.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join("")
     return { directory: "pages", importPath: `@/pages/templates/${pageName}` }
@@ -199,6 +202,9 @@ function ComponentPreview({ component }: { component: RegistryItem }) {
           Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
         } else if (directory === "patterns") {
           const module = await import(`../../components/patterns/${component.name}.tsx`)
+          Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
+        } else if (directory === "components") {
+          const module = await import(`../../components/${component.name}.tsx`)
           Component = module[componentName] || module.default || Object.values(module)[0] as React.ComponentType<any>
         }
 
@@ -309,6 +315,34 @@ function ComponentPreviewRenderer({ component: Component, componentName, compone
           value: "$45,231",
           change: "+20.1%",
           trend: "up" as const,
+        }
+      }
+      if (componentName === "tray-card") {
+        const columns = ["A", "B", "C", "D"]
+        const wells = []
+        for (let row = 1; row <= 4; row++) {
+          for (const col of columns) {
+            let status: "empty" | "unassigned" | "unassigned-urgent" | "request-sent" | "assigned" = "empty"
+            if (row === 1 && (col === "A" || col === "B")) status = "unassigned"
+            if (row === 1 && col === "C") status = "request-sent"
+            wells.push({
+              id: `preview-${col}${row}`,
+              row,
+              col,
+              status,
+            })
+          }
+        }
+        return {
+          tray: {
+            id: "preview-tray",
+            name: "SAMPLE_TRAY",
+            columns,
+            rows: 4,
+            wells,
+          },
+          selectedWells: new Set<string>(),
+          onWellSelect: () => {},
         }
       }
     }

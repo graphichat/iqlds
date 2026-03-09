@@ -823,6 +823,22 @@
       ]
     },
     {
+      "name": "tray-card",
+      "type": "registry:block",
+      "title": "Tray Card",
+      "description": "Card component for displaying a tray grid with wells; supports well status (empty, unassigned, request-sent, etc.) and selection",
+      "files": [
+        {
+          "path": "src/components/tray-card.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "@/components/ui/card",
+        "@/components/ui/badge"
+      ]
+    },
+    {
       "name": "app-shell",
       "type": "registry:block",
       "title": "App Shell",
