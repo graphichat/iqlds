@@ -13,6 +13,7 @@ import {
 } from "lucide-react"
 import { ICON_STROKE_WIDTH } from "@/lib/constants"
 import { MetricCard } from "@/components/blocks/metric-card"
+import { ChatWindow } from "@/components/blocks/chat-window"
 
 const ACTIVITY_FEED = [
   { id: 1, action: "Created a new project", target: "Website Redesign", time: "2 hours ago", icon: FileText },
@@ -78,6 +79,7 @@ const DEFAULT_USER = {
  * ```
  */
 export function ProfilePage({ user = DEFAULT_USER }: ProfilePageProps) {
+  const [chatOpen, setChatOpen] = React.useState(false)
   const initials = user.name
     .split(" ")
     .map((n) => n[0])
@@ -91,7 +93,13 @@ export function ProfilePage({ user = DEFAULT_USER }: ProfilePageProps) {
         title="Profile"
         actions={
           <div className="flex items-center gap-2">
-            <Button variant="outline" className="gap-2">
+            <Button
+              variant="outline"
+              className="gap-2"
+              onClick={() => setChatOpen(true)}
+              aria-expanded={chatOpen}
+              aria-haspopup="dialog"
+            >
               <MessageSquare strokeWidth={ICON_STROKE_WIDTH} className="size-4" />
               Message
             </Button>
@@ -259,6 +267,12 @@ export function ProfilePage({ user = DEFAULT_USER }: ProfilePageProps) {
           </Tabs>
         </div>
       </div>
+
+      <ChatWindow
+        open={chatOpen}
+        onOpenChange={setChatOpen}
+        recipient={{ name: user.name, avatar: user.avatar }}
+      />
     </PageShell>
   )
 }
