@@ -7,7 +7,6 @@ import {
   PasswordResetPage, 
   NotFoundPage,
   LandingPage,
-  DashboardHomePage,
 } from "@/pages/templates"
 import { RouteErrorBoundary } from "@/components/blocks/route-error-boundary"
 

@@ -48,9 +48,9 @@ export function StarterPage() {
         title="Welcome to Your Project" 
         actions={
           <Button asChild>
-            <a href="https://ui.shadcn.com" target="_blank" rel="noopener noreferrer">
+            <a href="https://iqlds.vercel.app/" target="_blank" rel="noopener noreferrer">
               <ExternalLink strokeWidth={ICON_STROKE_WIDTH} className="mr-2 h-4 w-4" />
-              shadcn/ui Docs
+              Pulse Design Docs
             </a>
           </Button>
         }
